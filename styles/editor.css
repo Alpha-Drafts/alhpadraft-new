@@ -1,0 +1,227 @@
+@layer components {
+  .tiptap {
+    :first-child {
+      margin-top: 0;
+    }
+
+    /* Citation highlight styles */
+    .citation-issue-high {
+      background-color: rgba(239, 68, 68, 0.2);
+      border-bottom: 2px dotted rgb(239, 68, 68);
+      border-radius: 2px;
+      padding: 1px 2px;
+      transition: background-color 0.2s ease;
+      cursor: help;
+      position: relative;
+    }
+
+    .citation-issue-medium {
+      background-color: rgba(245, 158, 11, 0.2);
+      border-bottom: 2px dotted rgb(245, 158, 11);
+      border-radius: 2px;
+      padding: 1px 2px;
+      transition: background-color 0.2s ease;
+      cursor: help;
+      position: relative;
+    }
+
+    .citation-issue-low {
+      background-color: rgba(59, 130, 246, 0.2);
+      border-bottom: 2px dotted rgb(59, 130, 246);
+      border-radius: 2px;
+      padding: 1px 2px;
+      transition: background-color 0.2s ease;
+      cursor: help;
+      position: relative;
+    }
+
+    .citation-issue-default {
+      background-color: rgba(107, 114, 128, 0.2);
+      border-bottom: 2px dotted rgb(107, 114, 128);
+      border-radius: 2px;
+      padding: 1px 2px;
+      transition: background-color 0.2s ease;
+      cursor: help;
+      position: relative;
+    }
+
+    /* Plagiarism highlight (Winston) */
+    .plagiarism-issue-high {
+      background-color: rgba(190, 18, 60, 0.25);
+      border-bottom: 2px solid rgb(190, 18, 60);
+      border-radius: 2px;
+      padding: 1px 2px;
+      transition: background-color 0.2s ease;
+      cursor: help;
+      position: relative;
+    }
+
+    /* Alignment highlight */
+    .alignment-issue-high {
+      background-color: rgba(217, 119, 6, 0.25);
+      border-bottom: 2px solid rgb(217, 119, 6);
+      border-radius: 2px;
+      padding: 1px 2px;
+      transition: background-color 0.2s ease;
+      cursor: help;
+      position: relative;
+    }
+
+    .alignment-issue-medium {
+      background-color: rgba(245, 158, 11, 0.2);
+      border-bottom: 2px dotted rgb(245, 158, 11);
+      border-radius: 2px;
+      padding: 1px 2px;
+      transition: background-color 0.2s ease;
+      cursor: help;
+      position: relative;
+    }
+
+    .alignment-issue-low {
+      background-color: rgba(251, 191, 36, 0.2);
+      border-bottom: 2px dotted rgb(251, 191, 36);
+      border-radius: 2px;
+      padding: 1px 2px;
+      transition: background-color 0.2s ease;
+      cursor: help;
+      position: relative;
+    }
+
+    /* Edited mark — covers the full flagged span the user has touched
+       since the last check. Original highlights on untouched text are
+       unchanged. Hover to see the original flagged text. */
+    .edited-mark {
+      background-color: rgba(107, 114, 128, 0.35);
+      border-bottom: 2px solid rgba(75, 85, 99, 0.8);
+      border-radius: 2px;
+      padding: 1px 2px;
+      cursor: help;
+    }
+  }
+
+  .tiptap-editor {
+    @apply text-gray-800;
+  }
+
+  .tiptap-editor .ProseMirror {
+    @apply min-h-[400px] px-1 py-2 outline-none;
+  }
+
+  .tiptap-editor .ProseMirror > * {
+    @apply mb-4;
+  }
+
+  .tiptap-editor .ProseMirror p {
+    @apply leading-relaxed;
+  }
+
+  /* List styles */
+  .tiptap-editor .ProseMirror ul {
+    @apply my-4 list-disc pl-6;
+  }
+
+  .tiptap-editor .ProseMirror ol {
+    @apply my-4 list-decimal pl-6;
+  }
+
+  .tiptap-editor .ProseMirror li {
+    @apply my-1;
+  }
+
+  .tiptap-editor .ProseMirror li p {
+    @apply my-1;
+  }
+
+  /* Heading styles */
+  .tiptap-editor .ProseMirror h1 {
+    @apply mt-8 mb-4 text-3xl font-bold;
+  }
+
+  .tiptap-editor .ProseMirror h2 {
+    @apply mt-6 mb-3 text-2xl font-bold;
+  }
+
+  .tiptap-editor .ProseMirror h3 {
+    @apply mt-5 mb-2 text-xl font-semibold;
+  }
+
+  .tiptap-editor .ProseMirror h4 {
+    @apply mt-4 mb-2 text-lg font-semibold;
+  }
+
+  .tiptap-editor .ProseMirror h5 {
+    @apply mt-4 mb-2 text-base font-semibold;
+  }
+
+  .tiptap-editor .ProseMirror h6 {
+    @apply mt-4 mb-2 text-sm font-semibold;
+  }
+
+  /* Inline formatting */
+  .tiptap-editor .ProseMirror strong {
+    @apply font-bold;
+  }
+
+  .tiptap-editor .ProseMirror em {
+    @apply italic;
+  }
+
+  .tiptap-editor .ProseMirror s {
+    @apply line-through;
+  }
+
+  /* Code and preformatted text styles */
+  .tiptap-editor .ProseMirror code {
+    @apply rounded bg-gray-100 px-1.5 py-0.5 font-mono text-sm text-pink-600;
+  }
+
+  .tiptap-editor .ProseMirror pre {
+    @apply my-4 overflow-x-auto rounded-md bg-gray-900 p-4 text-gray-100;
+  }
+
+  .tiptap-editor .ProseMirror pre code {
+    @apply block bg-transparent p-0 text-sm text-inherit;
+  }
+
+  /* Blockquote */
+  .tiptap-editor .ProseMirror blockquote {
+    @apply my-4 border-l-4 border-gray-300 pl-4 text-gray-700 italic;
+  }
+
+  /* Horizontal rule */
+  .tiptap-editor .ProseMirror hr {
+    @apply my-6 border-t border-gray-300;
+  }
+
+  /* When the editor is focused */
+  .tiptap-editor .ProseMirror-focused {
+    @apply outline-none;
+  }
+
+  /* Placeholder for empty editor */
+  .tiptap-editor .ProseMirror p.is-editor-empty:first-child::before {
+    @apply pointer-events-none float-left h-0 text-gray-400;
+    content: attr(data-placeholder);
+  }
+
+  /* Upload form editor — compact variant */
+  .upload-editor {
+    @apply h-auto;
+  }
+
+  .upload-editor > div {
+    @apply h-auto;
+  }
+
+  .upload-editor .tiptap {
+    @apply min-h-[120px] p-5 text-sm leading-relaxed outline-none;
+  }
+
+  .upload-editor .ProseMirror {
+    @apply min-h-[120px] p-5 text-sm leading-relaxed outline-none;
+  }
+
+  .upload-editor .ProseMirror > * {
+    @apply mb-2;
+  }
+}

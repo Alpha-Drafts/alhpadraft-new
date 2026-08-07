@@ -1,0 +1,56 @@
+{
+  "hosting": [
+    {
+      "target": "production",
+      "source": ".",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**",
+        "functions/**"
+      ],
+      "frameworksBackend": {
+        "region": "us-central1"
+      }
+    },
+    {
+      "target": "staging",
+      "source": ".",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**",
+        "functions/**"
+      ],
+      "frameworksBackend": {
+        "region": "us-central1"
+      }
+    },
+    {
+      "target": "development",
+      "source": ".",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**",
+        "functions/**"
+      ],
+      "frameworksBackend": {
+        "region": "us-central1"
+      }
+    },
+    {
+      "target": "docauditor",
+      "source": ".",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**",
+        "functions/**"
+      ],
+      "frameworksBackend": {
+        "region": "us-central1"
+      }
+    }
+  ]
+}

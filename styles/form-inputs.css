@@ -1,0 +1,49 @@
+/* @Description 
+ * This file contains the styles for form inputs and authentication pages.
+ * It uses Tailwind CSS and custom styles to create a consistent look and feel.
+ */
+
+/* Base Form Styles */
+@layer base {
+  label {
+    @apply text-body-medium-14 mb-1 block text-sm text-[#101928];
+  }
+
+  input:not([type="checkbox"], [type="radio"]),
+  input[type="date"],
+  textarea,
+  select,
+  .formMultiSelectInput > div,
+  .formDivAsInput {
+    @apply focus:border-primary-500 focus:ring-primary-500 block w-full !rounded-md !border-[#D0D5DD] px-3 py-2 disabled:pointer-events-none disabled:opacity-50 sm:!text-sm;
+  }
+
+  input[type="date"] {
+    @apply py-2.5;
+  }
+
+  select {
+    @apply !text-sm [&:has(option:checked:disabled)]:text-[#98A2B3];
+  }
+
+  input:not([type="checkbox"], [type="radio"])::placeholder,
+  textarea::placeholder,
+  select::placeholder,
+  .formMultiSelectInput > div::placeholder,
+  .formDivAsInput::placeholder {
+    @apply !text-sm !text-[#98A2B3];
+  }
+
+  input[type="checkbox"],
+  input[type="radio"] {
+    @apply text-primary-600 focus:ring-primary-500 dark:checked:border-primary-500 dark:checked:bg-primary-500 mt-0.5 shrink-0 rounded-sm border-gray-200 dark:border-neutral-700 dark:bg-neutral-800 dark:focus:ring-offset-gray-800;
+  }
+
+  input[type="checkbox"] {
+    @apply rounded-xs;
+  }
+
+  input[type="radio"] {
+    @apply rounded-full;
+  }
+}

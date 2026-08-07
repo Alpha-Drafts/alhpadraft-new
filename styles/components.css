@@ -1,0 +1,28 @@
+@layer components {
+  /* override cookie consent styles */
+  #cc-main {
+    /** Change button primary color to black **/
+    --cc-btn-primary-bg: var(--color-primary-600);
+    --cc-btn-primary-border-color: var(--color-primary-600);
+    --cc-btn-primary-hover-bg: var(--color-primary-700);
+    --cc-btn-primary-hover-border-color: var(--color-primary-700);
+
+    /** Also make toggles the same color as the button **/
+    --cc-toggle-on-bg: var(--cc-btn-primary-bg);
+
+    /** Make the buttons a bit rounder **/
+    --cc-btn-border-radius: 10px;
+  }
+
+  .error-message {
+    @apply mb-4 rounded-lg bg-red-100 p-4 text-center text-red-700;
+  }
+
+  .error-message-plain {
+    @apply my-1 text-center text-sm text-red-700;
+  }
+
+  .loader {
+    @apply h-4 w-4 animate-spin;
+  }
+}
