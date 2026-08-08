@@ -39,6 +39,20 @@ const nextConfig: NextConfig = {
 
     return config;
   },
+  async rewrites() {
+    const backendUrl = process.env.BACKEND_URL;
+    if (!backendUrl) return [];
+    return [
+      {
+        source: "/v1/:path*",
+        destination: `${backendUrl}/v1/:path*`,
+      },
+      {
+        source: "/v2/:path*",
+        destination: `${backendUrl}/v2/:path*`,
+      },
+    ];
+  },
 };
 
 export default withBundleAnalyzer(nextConfig);
