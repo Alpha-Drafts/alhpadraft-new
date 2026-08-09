@@ -77,6 +77,12 @@ apiClient.interceptors.response.use(
       | (InternalAxiosRequestConfig & { _retry?: boolean })
       | undefined;
 
+    console.error("API request failed:", {
+      method: originalRequest?.method?.toUpperCase(),
+      url: `${originalRequest?.baseURL ?? ""}${originalRequest?.url ?? ""}`,
+      status: error?.response?.status,
+    });
+
     // Session expired: refresh once and retry the original request
     if (
       error?.response?.status === 401 &&

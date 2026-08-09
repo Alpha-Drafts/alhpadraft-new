@@ -40,8 +40,12 @@ const nextConfig: NextConfig = {
     return config;
   },
   async rewrites() {
-    const backendUrl = process.env.BACKEND_URL;
-    if (!backendUrl) return [];
+    const rawBackendUrl = process.env.BACKEND_URL;
+    if (!rawBackendUrl) return [];
+    const backendUrl = rawBackendUrl
+      .trim()
+      .replace(/\/+$/, "")
+      .replace(/\/api$/, "");
     return [
       {
         source: "/v1/:path*",
