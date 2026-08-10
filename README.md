@@ -21,6 +21,14 @@ yarn dev
 
 To view the project, go to `http://localhost:3000` in your browser.
 
+## Running Without a Backend (Mock Mode)
+
+To preview the full app — including the dashboard, projects, settings, and
+editor — without a backend, follow the guide in [MOCK_MODE.md](./MOCK_MODE.md).
+It provides a mock user and sample data via a local `.env.local` flag
+(`NEXT_PUBLIC_MOCK_AUTH=true`). The flag is gitignored and compiled out of
+production builds.
+
 ## Commit Message Format
 
 ```bash

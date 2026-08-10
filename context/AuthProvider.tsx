@@ -15,6 +15,7 @@ import React, {
 } from "react";
 import { apiClient } from "@/utils/api";
 import { API_BASE_URL } from "@/constants";
+import { isMockMode, MOCK_USER } from "@/utils/mock";
 
 export interface SessionUser {
   uid: string;
@@ -57,10 +58,17 @@ export const useAuth = () => useContext(AuthContext);
 
 // Auth Provider component to wrap the app and provide user/auth state
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<SessionUser | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<SessionUser | null>(
+    isMockMode ? MOCK_USER : null,
+  );
+  const [loading, setLoading] = useState(!isMockMode);
 
   const refreshSession = useCallback(async (): Promise<SessionUser | null> => {
+    if (isMockMode) {
+      setUser(MOCK_USER);
+      return MOCK_USER;
+    }
+
     try {
       const res = await apiClient.get<{
         status: string;

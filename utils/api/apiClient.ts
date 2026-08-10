@@ -20,6 +20,7 @@ import axios, {
 import { API_BASE_URL } from "@/constants";
 import { getCsrfToken } from "@/utils/auth/csrf";
 import { formatError } from "@/utils";
+import { isMockMode, mockRequest } from "@/utils/mock";
 import { toast } from "react-toastify";
 
 // Create axios instance for API requests
@@ -57,6 +58,14 @@ const refreshSession = async (): Promise<boolean> => {
 // The session itself is carried by cookies — no token logic here.
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
+    if (isMockMode) {
+      config.adapter = async mockAdapterConfig => {
+        await new Promise(resolve => setTimeout(resolve, 150));
+        return mockRequest(mockAdapterConfig);
+      };
+      return config;
+    }
+
     if (UNSAFE_METHODS.has((config.method ?? "get").toUpperCase())) {
       const csrf = getCsrfToken();
       if (csrf && !config.headers["X-CSRF-Token"]) {
