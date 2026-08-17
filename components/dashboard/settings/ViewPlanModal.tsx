@@ -19,23 +19,26 @@ const ViewPlanModal = ({
       onClick={onClose}
     >
       <div
-        className="landscape-horizontal:max-h-[90vh] landscape-horizontal:w-[95vw] landscape-horizontal:max-w-[1200px] relative h-[85vh] w-full max-w-[95vw] overflow-hidden rounded-xl bg-white"
+        className="landscape-horizontal:max-h-[90vh] landscape-horizontal:w-[95vw] landscape-horizontal:max-w-[1200px] relative h-[85vh] w-full max-w-[95vw] overflow-hidden bg-[var(--color-surface-container)]"
+        style={{
+          borderRadius: "var(--radius-modal)",
+          boxShadow: "var(--elevation-3)",
+        }}
         onClick={e => e.stopPropagation()}
       >
-        {/* Modal content */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 rounded-full bg-white/90 p-2 shadow-lg transition-all hover:bg-white"
+          className="absolute top-4 right-4 z-10 rounded-full bg-[var(--color-surface-container)] p-2 transition-[background,box-shadow] duration-150 hover:bg-[var(--color-surface-background)]"
+          style={{ boxShadow: "var(--elevation-1)" }}
           aria-label="Close"
         >
-          <CircleX className="h-6 w-6 text-gray-700" />
+          <CircleX className="h-6 w-6 text-[var(--color-text-secondary)]" />
         </button>
 
         <div className="h-full">
           <Pricing
             onPlanAssigned={() => {
-              // refetchSubscription();
               sessionStorage.setItem("plan_selected", "true");
             }}
             onCancel={() => {
