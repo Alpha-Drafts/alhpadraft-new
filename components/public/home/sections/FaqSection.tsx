@@ -37,23 +37,31 @@ const FaqItem = ({ q, a }: { q: string; a: string }) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white transition-all duration-300 hover:border-blue-200">
+    <div
+      className={`rounded-2xl border transition-all duration-300 ${
+        open
+          ? "border-blue-200 bg-white shadow-md shadow-blue-100/50 ring-1 ring-blue-100"
+          : "border-slate-200 bg-white hover:border-blue-200 hover:shadow-sm"
+      }`}
+    >
       <button
         type="button"
         onClick={() => setOpen(prev => !prev)}
-        className="flex w-full items-center justify-between p-4 text-left"
+        className="flex w-full items-center justify-between p-5 text-left"
       >
-        <p className="text-sm font-semibold text-slate-900">{q}</p>
+        <p className="text-sm font-bold text-slate-900 pr-4">{q}</p>
         <ChevronDown
-          className={`h-4 w-4 shrink-0 text-slate-400 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
+          className={`h-5 w-5 shrink-0 text-blue-500 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
         />
       </button>
       <div
-        className={`grid overflow-hidden transition-all duration-300 ${open ? "grid-rows-[1fr] pb-4" : "grid-rows-[0fr]"}`}
+        className={`grid overflow-hidden transition-all duration-300 ${open ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
       >
-        <p className="min-h-0 px-4 text-xs leading-relaxed text-slate-600">
-          {a}
-        </p>
+        <div className="min-h-0">
+          <p className="px-5 pb-5 text-sm leading-relaxed text-slate-600">
+            {a}
+          </p>
+        </div>
       </div>
     </div>
   );
@@ -63,15 +71,15 @@ const FaqSection = () => {
   const { openAuthModal } = useAuthModal();
 
   return (
-    <section className="px-4 py-16 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-6xl rounded-3xl border border-slate-200 bg-white p-8 shadow-lg shadow-slate-200/50">
+    <section className="px-4 py-20 sm:px-6 lg:py-28 lg:px-8">
+      <div className="mx-auto max-w-7xl rounded-[2rem] border border-slate-200 bg-white p-8 shadow-xl shadow-slate-200/60 md:p-10 lg:p-12">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <ScrollReveal>
             <div>
-              <p className="text-xs font-semibold tracking-[0.2em] text-slate-400 uppercase">
+              <p className="text-xs font-bold tracking-[0.25em] text-slate-400 uppercase">
                 Common Questions
               </p>
-              <h2 className="mt-3 text-2xl font-semibold tracking-tight text-slate-900">
+              <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-900 md:text-3xl">
                 Straight answers, no fine print.
               </h2>
             </div>
@@ -80,12 +88,12 @@ const FaqSection = () => {
             <Button
               text="Get Started Free"
               onClick={() => openAuthModal("signup")}
-              className="bg-slate-900 px-6 py-3 text-white shadow-lg transition-all duration-300 hover:scale-[1.02] hover:bg-slate-800"
+              className="bg-slate-900 px-8 py-3.5 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.03] hover:bg-slate-800"
             />
           </ScrollReveal>
         </div>
         <StaggerChildren
-          className="mt-8 grid gap-4 md:grid-cols-2"
+          className="mt-10 grid gap-4 md:grid-cols-2"
           staggerDelay={0.08}
         >
           {faqs.map(faq => (

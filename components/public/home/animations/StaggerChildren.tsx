@@ -13,11 +13,11 @@ interface StaggerChildrenProps {
 export function StaggerChildren({
   children,
   className = "",
-  staggerDelay = 0.1,
+  staggerDelay = 0.12,
   once = true,
 }: StaggerChildrenProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once, amount: 0.2 });
+  const isInView = useInView(ref, { once, amount: 0.15 });
 
   return (
     <motion.div
@@ -26,11 +26,7 @@ export function StaggerChildren({
       animate={isInView ? "visible" : "hidden"}
       variants={{
         hidden: {},
-        visible: {
-          transition: {
-            staggerChildren: staggerDelay,
-          },
-        },
+        visible: { transition: { staggerChildren: staggerDelay } },
       }}
       className={className}
     >
@@ -46,10 +42,10 @@ interface StaggerItemProps {
 }
 
 const directionMap = {
-  up: { y: 30, x: 0 },
-  down: { y: -30, x: 0 },
-  left: { x: 30, y: 0 },
-  right: { x: -30, y: 0 },
+  up: { y: 40, x: 0 },
+  down: { y: -40, x: 0 },
+  left: { x: 40, y: 0 },
+  right: { x: -40, y: 0 },
 };
 
 export function StaggerItem({
@@ -62,14 +58,15 @@ export function StaggerItem({
   return (
     <motion.div
       variants={{
-        hidden: { opacity: 0, ...offset },
+        hidden: { opacity: 0, ...offset, filter: "blur(6px)" },
         visible: {
           opacity: 1,
           x: 0,
           y: 0,
+          filter: "blur(0px)",
           transition: {
-            duration: 0.5,
-            ease: [0.25, 0.4, 0.25, 1],
+            duration: 0.6,
+            ease: [0.25, 0.1, 0.25, 1],
           },
         },
       }}

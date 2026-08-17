@@ -66,14 +66,18 @@ const NavBar = () => {
       />
 
       <div
-        className={`sticky top-0 left-0 z-50 w-full transition-all duration-300 ${
+        className={`sticky top-0 left-0 z-50 w-full transition-all duration-500 ${
           scrolled
-            ? "border-b border-slate-200/60 bg-white/80 shadow-sm backdrop-blur-xl"
-            : "border-b border-transparent bg-white/60 backdrop-blur-md"
+            ? "border-b border-slate-200/50 bg-white/70 shadow-lg shadow-slate-900/5 backdrop-blur-2xl"
+            : "border-b border-transparent bg-white/40 backdrop-blur-xl"
         }`}
       >
-        <div className="container mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
-          {/* Logo */}
+        {/* Subtle bottom glow line when scrolled */}
+        {scrolled && (
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
+        )}
+
+        <div className="container mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4">
           <Link href={publicRoutes?.home} className="flex items-center">
             <Image
               src={site.logo}
@@ -84,14 +88,13 @@ const NavBar = () => {
             />
           </Link>
 
-          {/* Desktop Nav */}
           <div className="hidden items-center space-x-8 md:flex">
             <ul className="flex space-x-8">
               {navLinks.map(link => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-sm font-medium text-slate-600 transition-colors duration-200 hover:text-slate-900"
+                    className="text-sm font-semibold text-slate-600 transition-colors duration-200 hover:text-slate-900"
                   >
                     {link.label}
                   </Link>
@@ -100,7 +103,7 @@ const NavBar = () => {
             </ul>
 
             {currentUser ? (
-              <div className="flex items-center space-x-1">
+              <div className="flex items-center space-x-2">
                 <Button
                   text="Dashboard"
                   onClick={() => router.push("/dashboard")}
@@ -123,7 +126,6 @@ const NavBar = () => {
             )}
           </div>
 
-          {/* Mobile Toggle */}
           <button
             className="p-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 md:hidden"
             onClick={toggleMobile}
@@ -138,15 +140,14 @@ const NavBar = () => {
           </button>
         </div>
 
-        {/* Mobile Menu */}
         {mobileOpen && (
-          <nav className="border-t border-slate-100 bg-white/95 backdrop-blur-xl md:hidden">
-            <div className="flex flex-col space-y-4 px-4 py-4">
+          <nav className="border-t border-slate-100 bg-white/95 backdrop-blur-2xl md:hidden">
+            <div className="flex flex-col space-y-4 px-4 py-5">
               {navLinks.map(link => (
                 <Link
                   key={link.label}
                   href={link.href}
-                  className="text-sm font-medium text-slate-600 transition-colors hover:text-slate-900"
+                  className="text-sm font-semibold text-slate-600 transition-colors hover:text-slate-900"
                   onClick={() => setMobileOpen(false)}
                 >
                   {link.label}

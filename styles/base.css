@@ -1,16 +1,13 @@
 @layer base {
-  /* Preline: Adds pointer cursor to buttons */
   button:not(:disabled),
   [role="button"]:not(:disabled) {
     cursor: pointer;
   }
 
-  /* to ensure that when you click on an id link, the header will not cover the beginning of the content the id is pointing to */
   [id] {
     scroll-margin-top: 5rem;
   }
 
-  /* Smooth scroll for the entire page */
   @media (prefers-reduced-motion: no-preference) {
     html {
       scroll-behavior: smooth;
@@ -18,14 +15,19 @@
   }
 
   body {
-    font-family:
-      var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
     @apply bg-slate-50 text-slate-900;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    text-rendering: optimizeLegibility;
+  }
+
+  img, video {
+    image-rendering: auto;
   }
 }
