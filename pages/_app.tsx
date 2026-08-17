@@ -9,26 +9,12 @@ import { ToastContainer } from "react-toastify";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "@/components/others/ErrorBoundary";
 import { AppProviders } from "@/context";
-import { Space_Grotesk, Fraunces, DM_Sans } from "next/font/google";
+import { Inter } from "next/font/google";
 
-const spaceGrotesk = Space_Grotesk({
+const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-space-grotesk",
-  display: "swap",
-});
-
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  weight: ["600", "700"],
-  variable: "--font-fraunces",
-  display: "swap",
-});
-
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-dm-sans",
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -53,9 +39,7 @@ export default function App({ Component, pageProps }: AppPropsWithLayout) {
     Component.getLayout ?? ((_page: ReactElement) => <>{_page}</>);
 
   return (
-    <div
-      className={`${spaceGrotesk.variable} ${fraunces.variable} ${dmSans.variable}`}
-    >
+    <div className={inter.variable}>
       <AppProviders>
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <ToastContainer />
