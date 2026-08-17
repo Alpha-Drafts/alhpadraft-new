@@ -10,29 +10,22 @@
     scroll-margin-top: 5rem;
   }
 
-  /* to smoothly animate the scroll from one place to another place */
+  /* Smooth scroll for the entire page */
   @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   body {
     font-family:
-      var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
-    @apply bg-white text-gray-900 dark:bg-neutral-800 dark:text-white;
+      var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    @apply bg-slate-50 text-slate-900;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: var(--font-fraunces), ui-serif, Georgia, serif;
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   }
-
-  /* h1 {
-    font-size: var(--text-2xl);
-  }
-  h2 {
-    font-size: var(--text-xl);
-  } */
 }

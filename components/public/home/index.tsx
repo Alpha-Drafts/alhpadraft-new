@@ -1,10 +1,9 @@
-import React from "react";
-import NewLanding from "./NewLanding";
+import LandingOrchestrator from "./LandingOrchestrator";
 
 const HomePageWrapper = () => {
   return (
-    <main className="relative grid gap-y-6 lg:gap-y-10">
-      <NewLanding />
+    <main className="relative">
+      <LandingOrchestrator />
     </main>
   );
 };

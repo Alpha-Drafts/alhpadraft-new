@@ -11,12 +11,13 @@ import { publicRoutes } from "@/constants";
 import site from "@/site.metadata";
 
 const Footer = () => {
-  const title = "text-base font-semibold text-black";
-  const linkClass = "text-sm text-gray-500 hover:text-gray-900 transition";
+  const title = "text-sm font-semibold text-slate-900";
+  const linkClass =
+    "text-sm text-slate-500 transition-colors duration-200 hover:text-blue-600";
 
   const currentYear = new Date().getFullYear();
   return (
-    <div>
+    <div className="border-t border-slate-100 bg-slate-50">
       <footer className="container mx-auto w-full max-w-6xl px-4 py-12">
         <div className="grid grid-cols-1 gap-[28px] sm:grid-cols-2 md:grid-cols-4">
           <div>
@@ -32,7 +33,7 @@ const Footer = () => {
                 className="object-contain"
               />
             </Link>
-            <p className="mt-2 text-sm text-gray-500">
+            <p className="mt-2 text-sm leading-relaxed text-slate-500">
               Check your work for originality, source matches, and requirement
               coverage before you submit.
             </p>
@@ -95,10 +96,9 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom: Copyright & Socials */}
-        <div className="mt-[42px] flex flex-col items-center justify-between border-t border-gray-200 pt-6 md:flex-row">
-          <p className="text-sm text-gray-500">
-            © {currentYear} Alpha Drafts. All rights reserved.
+        <div className="mt-[42px] flex flex-col items-center justify-between border-t border-slate-200 pt-6 md:flex-row">
+          <p className="text-sm text-slate-500">
+            &copy; {currentYear} Alpha Drafts. All rights reserved.
           </p>
           <div className="mt-4 flex space-x-4 md:mt-0">
             <Link
@@ -107,7 +107,7 @@ const Footer = () => {
               rel="noopener noreferrer"
               aria-label="Facebook"
             >
-              <FacebookIcon className="h-6 w-6 text-[#767676] transition hover:text-[#3A0CA3]" />
+              <FacebookIcon className="h-5 w-5 text-slate-400 transition-colors duration-200 hover:text-blue-600" />
             </Link>
             <Link
               href={site?.social_handles?.twitter}
@@ -115,7 +115,7 @@ const Footer = () => {
               rel="noopener noreferrer"
               aria-label="Twitter"
             >
-              <TwitterIcon className="h-6 w-6 text-[#767676] transition hover:text-[#3A0CA3]" />
+              <TwitterIcon className="h-5 w-5 text-slate-400 transition-colors duration-200 hover:text-blue-600" />
             </Link>
             <Link
               href={site?.social_handles?.linkedin}
@@ -123,7 +123,7 @@ const Footer = () => {
               rel="noopener noreferrer"
               aria-label="LinkedIn"
             >
-              <LinkedInIcon className="h-6 w-6 text-[#767676] transition hover:text-[#3A0CA3]" />
+              <LinkedInIcon className="h-5 w-5 text-slate-400 transition-colors duration-200 hover:text-blue-600" />
             </Link>
             <Link
               href={site?.social_handles?.instagram}
@@ -131,7 +131,7 @@ const Footer = () => {
               rel="noopener noreferrer"
               aria-label="Instagram"
             >
-              <InstagramIcon className="h-6 w-6 text-[#767676] transition hover:text-[#3A0CA3]" />
+              <InstagramIcon className="h-5 w-5 text-slate-400 transition-colors duration-200 hover:text-blue-600" />
             </Link>
           </div>
         </div>
