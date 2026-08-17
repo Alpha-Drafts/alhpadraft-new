@@ -27,14 +27,21 @@ export const ProjectCard: React.FC<{
       <Link
         href={redirectUrl}
         onClick={handleClick}
-        className="block rounded-2xl border border-slate-200 bg-gradient-to-br from-white via-slate-50 to-slate-100 p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-slate-300 hover:shadow-lg"
+        className="block border border-[var(--color-border-subtle)] bg-[var(--color-surface-container)] p-6 transition-[var(--transition-standard)] hover:-translate-y-0.5 hover:border-[var(--color-border-medium)] hover:shadow-[var(--elevation-1)]"
+        style={{ borderRadius: "var(--radius-card)" }}
       >
-        <h3 className="pr-6 text-base font-semibold text-slate-900">
+        <h3
+          className="pr-6 font-semibold text-[var(--color-text-primary)]"
+          style={{ fontSize: "1rem", lineHeight: "24px" }}
+        >
           {project?.name}
         </h3>
-        <div className="mt-3 h-1 w-12 rounded-full bg-gradient-to-r from-violet-500 to-sky-500 opacity-70 transition-opacity group-hover:opacity-100" />
+        <div className="mt-3 h-1 w-12 rounded-full bg-[var(--color-primary)] opacity-70 transition-opacity group-hover:opacity-100" />
         {lastUpdated && (
-          <span className="mt-1.5 block text-[10px] tracking-wide text-slate-400 uppercase">
+          <span
+            className="mt-2 block uppercase tracking-[0.05em] text-[var(--color-text-tertiary)]"
+            style={{ fontSize: "0.75rem", lineHeight: "16px", fontWeight: 600 }}
+          >
             Updated {lastUpdated}
           </span>
         )}
@@ -48,7 +55,7 @@ export const ProjectCard: React.FC<{
             e.stopPropagation();
             onDelete(project);
           }}
-          className="absolute top-3 right-3 rounded-md p-1 text-slate-300 opacity-0 transition-all group-hover:opacity-100 hover:bg-red-50 hover:text-red-500"
+          className="absolute top-3 right-3 rounded-md p-1 text-[var(--color-text-tertiary)] opacity-0 transition-[var(--transition-fast)] group-hover:opacity-100 hover:bg-[var(--color-error-container)] hover:text-[var(--color-error)]"
         >
           <Trash2 className="h-4 w-4" />
         </button>

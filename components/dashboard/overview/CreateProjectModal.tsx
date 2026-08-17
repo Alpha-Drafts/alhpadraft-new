@@ -217,12 +217,12 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({
           <div className="mb-6">
             <div className="flex items-center">
               <Image src={site.icon} alt={site.title} width={40} height={40} />
-              <h2 className="text-body-semibold-20 text-black">
+              <h2 className="text-body-semibold-20 text-[var(--color-text-primary)]">
                 Start New Project
               </h2>
             </div>
 
-            <p className="text-body-regular-12 mt-1 text-gray-500">
+            <p className="text-body-regular-12 mt-1 text-[var(--color-text-secondary)]">
               Set up a new writing project with AI-powered assistance. Fill in
               the details below to get started.
             </p>

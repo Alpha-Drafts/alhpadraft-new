@@ -603,20 +603,24 @@ const VerificationStart = () => {
   return (
     <>
       <div
-        className="mt-6 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+        className="mt-6 border border-[var(--color-border-subtle)] bg-[var(--color-surface-container)] p-5 shadow-[var(--elevation-0)]"
+        style={{ borderRadius: "var(--radius-card)" }}
         data-tour="verification-checks"
       >
-        <h3 className="text-base font-semibold text-slate-900">
+        <h3
+          className="font-semibold text-[var(--color-text-primary)]"
+          style={{ fontSize: "1rem", lineHeight: "24px" }}
+        >
           Verification Checks
         </h3>
-        <p className="mt-1 text-xs text-slate-500">
+        <p className="mt-1 text-[var(--color-text-secondary)]" style={{ fontSize: "0.875rem", lineHeight: "20px" }}>
           Choose which risk signals you want flagged before submission.
         </p>
         <div className="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3">
-          <label className="flex items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3">
+          <label className="flex items-start gap-3 border border-[var(--color-border-subtle)] bg-[var(--color-surface-background)] p-3" style={{ borderRadius: "var(--radius-card)" }}>
             <input
               type="checkbox"
-              className="mt-1 size-4 rounded border-slate-300 text-violet-600 focus:ring-violet-400"
+              className="mt-1 size-4 rounded border-[var(--color-border-medium)] text-[var(--color-primary)] focus:ring-[var(--color-primary)]"
               checked={checks.aiDetection}
               onChange={e =>
                 setChecks(prev => ({
@@ -627,26 +631,27 @@ const VerificationStart = () => {
             />
             <div className="flex-1">
               <div className="flex items-center justify-between">
-                <p className="text-sm font-semibold text-slate-800">
+                <p className="text-sm font-semibold text-[var(--color-text-primary)]">
                   AI Detection
                 </p>
               </div>
-              <p className="text-xs text-slate-500">
+              <p className="text-[var(--color-text-secondary)]" style={{ fontSize: "0.75rem", lineHeight: "16px" }}>
                 Flags likely AI-generated passages.
               </p>
             </div>
           </label>
 
           <div
-            className={`flex items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 ${
+            className={`flex items-start gap-3 border border-[var(--color-border-subtle)] bg-[var(--color-surface-background)] p-3 ${
               isFreePlan ? "cursor-pointer opacity-50 hover:opacity-70" : ""
             }`}
+            style={{ borderRadius: "var(--radius-card)" }}
             onClick={isFreePlan ? () => setShowPlanModal(true) : undefined}
           >
             <input
               type="checkbox"
               aria-label="Plagiarism Search"
-              className="mt-1 size-4 rounded border-slate-300 text-violet-600 focus:ring-violet-400 disabled:opacity-50"
+              className="mt-1 size-4 rounded border-[var(--color-border-medium)] text-[var(--color-primary)] focus:ring-[var(--color-primary)] disabled:opacity-50"
               checked={checks.plagiarismSearch}
               disabled={isFreePlan}
               onChange={e =>
@@ -658,12 +663,12 @@ const VerificationStart = () => {
             />
             <div className="flex-1">
               <div className="flex items-center justify-between">
-                <p className="text-sm font-semibold text-slate-800">
+                <p className="text-sm font-semibold text-[var(--color-text-primary)]">
                   Plagiarism Search
                 </p>
-                {isFreePlan && <Lock className="h-3.5 w-3.5 text-slate-400" />}
+                {isFreePlan && <Lock className="h-3.5 w-3.5 text-[var(--color-text-tertiary)]" />}
               </div>
-              <p className="text-xs text-slate-500">
+              <p className="text-[var(--color-text-secondary)]" style={{ fontSize: "0.75rem", lineHeight: "16px" }}>
                 {isFreePlan
                   ? "Upgrade to unlock"
                   : "Detects overlaps with published sources."}
@@ -672,15 +677,16 @@ const VerificationStart = () => {
           </div>
 
           <div
-            className={`flex items-start gap-3 rounded-xl border border-slate-200 bg-slate-50 p-3 ${
+            className={`flex items-start gap-3 border border-[var(--color-border-subtle)] bg-[var(--color-surface-background)] p-3 ${
               isFreePlan ? "cursor-pointer opacity-50 hover:opacity-70" : ""
             }`}
+            style={{ borderRadius: "var(--radius-card)" }}
             onClick={isFreePlan ? () => setShowPlanModal(true) : undefined}
           >
             <input
               type="checkbox"
               aria-label="Objective Alignment"
-              className="mt-1 size-4 rounded border-slate-300 text-violet-600 focus:ring-violet-400 disabled:opacity-50"
+              className="mt-1 size-4 rounded border-[var(--color-border-medium)] text-[var(--color-primary)] focus:ring-[var(--color-primary)] disabled:opacity-50"
               checked={checks.objectiveAlignment}
               disabled={isFreePlan}
               onChange={e =>
@@ -692,12 +698,12 @@ const VerificationStart = () => {
             />
             <div className="flex-1">
               <div className="flex items-center justify-between">
-                <p className="text-sm font-semibold text-slate-800">
+                <p className="text-sm font-semibold text-[var(--color-text-primary)]">
                   Objective Alignment
                 </p>
-                {isFreePlan && <Lock className="h-3.5 w-3.5 text-slate-400" />}
+                {isFreePlan && <Lock className="h-3.5 w-3.5 text-[var(--color-text-tertiary)]" />}
               </div>
-              <p className="text-xs text-slate-500">
+              <p className="text-[var(--color-text-secondary)]" style={{ fontSize: "0.75rem", lineHeight: "16px" }}>
                 {isFreePlan
                   ? "Upgrade to unlock"
                   : "Highlights gaps versus requirements."}
@@ -708,40 +714,51 @@ const VerificationStart = () => {
       </div>
 
       <section
-        className="mt-6 rounded-3xl border border-slate-200 bg-gradient-to-br from-white via-slate-50 to-slate-100 p-3 shadow-sm sm:p-6 md:p-8"
+        className="mt-6 border border-[var(--color-border-subtle)] bg-[var(--color-surface-container)] p-3 shadow-[var(--elevation-0)] sm:p-6 md:p-8"
+        style={{ borderRadius: "var(--radius-card-elevated)" }}
         data-tour="work-upload"
       >
         <div className="mt-6 space-y-6">
-          <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+          <div
+            className="border border-[var(--color-border-subtle)] bg-[var(--color-surface-container)] p-5 shadow-[var(--elevation-0)]"
+            style={{ borderRadius: "var(--radius-card)" }}
+          >
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-base font-semibold text-slate-900">
+                <h3
+                  className="font-semibold text-[var(--color-text-primary)]"
+                  style={{ fontSize: "1rem", lineHeight: "24px" }}
+                >
                   Final Work
                 </h3>
-                <p className="text-xs text-slate-500">
+                <p className="text-[var(--color-text-secondary)]" style={{ fontSize: "0.75rem", lineHeight: "16px" }}>
                   Upload a file or paste your full draft.
                 </p>
               </div>
-              <div className="flex gap-2 rounded-full bg-slate-100 p-1 text-xs font-semibold text-slate-600">
+              <div className="flex gap-2 p-1 text-xs font-semibold text-[var(--color-text-secondary)]" style={{ borderRadius: "var(--radius-pill)", backgroundColor: "var(--color-surface-background)" }}>
                 <button
                   type="button"
                   onClick={() => setWorkMode("upload")}
-                  className={`rounded-full px-3 py-1 transition ${
-                    workMode === "upload"
-                      ? "bg-white text-slate-900 shadow-sm"
-                      : "text-slate-500"
-                  }`}
+                  className="px-3 py-1 transition-[var(--transition-fast)]"
+                  style={{
+                    borderRadius: "var(--radius-pill)",
+                    backgroundColor: workMode === "upload" ? "var(--color-surface-container)" : "transparent",
+                    color: workMode === "upload" ? "var(--color-text-primary)" : "var(--color-text-tertiary)",
+                    boxShadow: workMode === "upload" ? "var(--elevation-0)" : "none",
+                  }}
                 >
                   Upload
                 </button>
                 <button
                   type="button"
                   onClick={() => setWorkMode("paste")}
-                  className={`rounded-full px-3 py-1 transition ${
-                    workMode === "paste"
-                      ? "bg-white text-slate-900 shadow-sm"
-                      : "text-slate-500"
-                  }`}
+                  className="px-3 py-1 transition-[var(--transition-fast)]"
+                  style={{
+                    borderRadius: "var(--radius-pill)",
+                    backgroundColor: workMode === "paste" ? "var(--color-surface-container)" : "transparent",
+                    color: workMode === "paste" ? "var(--color-text-primary)" : "var(--color-text-tertiary)",
+                    boxShadow: workMode === "paste" ? "var(--elevation-0)" : "none",
+                  }}
                 >
                   Paste
                 </button>
@@ -750,16 +767,17 @@ const VerificationStart = () => {
 
             {workMode === "upload" ? (
               <div
-                className="mt-4 flex min-h-[210px] cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center transition hover:border-violet-400 hover:bg-violet-50"
+                className="mt-4 flex min-h-[210px] cursor-pointer flex-col items-center justify-center border border-dashed border-[var(--color-border-medium)] bg-[var(--color-surface-background)] p-6 text-center transition-[var(--transition-standard)] hover:border-[var(--color-primary)] hover:bg-[var(--color-primary-container)]"
+                style={{ borderRadius: "var(--radius-card)" }}
                 onDrop={e => handleDrop(e, "work")}
                 onDragOver={e => e.preventDefault()}
                 onClick={() => document.getElementById("work-file")?.click()}
               >
-                <Upload className="h-6 w-6 text-violet-600" />
-                <p className="mt-3 text-sm font-semibold text-slate-700">
+                <Upload className="h-6 w-6 text-[var(--color-primary)]" />
+                <p className="mt-3 text-sm font-semibold text-[var(--color-text-primary)]">
                   Drop your file here or browse
                 </p>
-                <p className="mt-1 text-xs text-slate-500">
+                <p className="mt-1 text-[var(--color-text-tertiary)]" style={{ fontSize: "0.75rem", lineHeight: "16px" }}>
                   DOCX/Word only (max 10MB)
                 </p>
                 <input
@@ -782,13 +800,16 @@ const VerificationStart = () => {
               </div>
             ) : (
               <div className="mt-4">
-                <div className="tiptap-editor upload-editor w-full rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-200 focus-within:border-violet-400 focus-within:ring-4 focus-within:ring-violet-200/60">
+                <div
+                  className="tiptap-editor upload-editor w-full border border-[var(--color-border-subtle)] bg-[var(--color-surface-container)] transition-[var(--transition-standard)] focus-within:border-[var(--color-border-focus)] focus-within:ring-4 focus-within:ring-[var(--color-primary-container)]"
+                  style={{ borderRadius: "var(--radius-card)" }}
+                >
                   <EditorContent editor={workEditor} />
                 </div>
                 <div className="mt-2 flex items-center justify-between">
                   <Button
                     variant="plain"
-                    className="text-xs text-violet-700 hover:bg-violet-50"
+                    className="text-xs text-[var(--color-primary)] hover:bg-[var(--color-primary-container)]"
                     icon={<Clipboard size={14} />}
                     onClick={async () => {
                       if (!workEditor) return;
@@ -816,7 +837,7 @@ const VerificationStart = () => {
                   >
                     Paste from clipboard
                   </Button>
-                  <span className="text-xs text-slate-500">
+                  <span className="text-[var(--color-text-tertiary)]" style={{ fontSize: "0.75rem", lineHeight: "16px" }}>
                     {workWordCount} words · {workCharCount} chars
                   </span>
                 </div>
@@ -824,7 +845,10 @@ const VerificationStart = () => {
             )}
 
             {workFile && (
-              <div className="mt-4 flex items-center justify-between rounded-xl border border-violet-200 bg-violet-50 p-3 text-sm text-violet-800">
+              <div
+                className="mt-4 flex items-center justify-between border border-[var(--color-primary-container)] bg-[var(--color-primary-container)] p-3 text-sm text-[var(--color-on-primary-container)]"
+                style={{ borderRadius: "var(--radius-card)" }}
+              >
                 <div className="flex items-center gap-2">
                   <File className="h-4 w-4" />
                   <span className="truncate">{workFile.name}</span>
@@ -832,7 +856,7 @@ const VerificationStart = () => {
                 <button
                   type="button"
                   onClick={() => setWorkFile(null)}
-                  className="text-xs font-semibold text-violet-700 hover:text-violet-900"
+                  className="text-xs font-semibold text-[var(--color-primary)] hover:text-[var(--color-primary-hover)]"
                 >
                   Remove
                 </button>
@@ -840,44 +864,57 @@ const VerificationStart = () => {
             )}
 
             {workFileError && (
-              <div className="mt-3 flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 p-3 text-xs font-medium text-red-700">
-                <AlertTriangle className="h-4 w-4 shrink-0 text-red-600" />
+              <div
+                className="mt-3 flex items-center gap-2 border border-[var(--color-error-container)] bg-[var(--color-error-container)] p-3 text-xs font-medium text-[var(--color-on-error-container)]"
+                style={{ borderRadius: "var(--radius-button)" }}
+              >
+                <AlertTriangle className="h-4 w-4 shrink-0 text-[var(--color-error)]" />
                 <span>{workFileError}</span>
               </div>
             )}
           </div>
 
           {objectiveAlignmentEnabled && (
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+            <div
+              className="border border-[var(--color-border-subtle)] bg-[var(--color-surface-container)] p-5 shadow-[var(--elevation-0)]"
+              style={{ borderRadius: "var(--radius-card)" }}
+            >
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-base font-semibold text-slate-900">
+                  <h3
+                    className="font-semibold text-[var(--color-text-primary)]"
+                    style={{ fontSize: "1rem", lineHeight: "24px" }}
+                  >
                     Assignment Objectives
                   </h3>
-                  <p className="text-xs text-slate-500">
+                  <p className="text-[var(--color-text-secondary)]" style={{ fontSize: "0.75rem", lineHeight: "16px" }}>
                     Optional, required for alignment checks.
                   </p>
                 </div>
-                <div className="flex gap-2 rounded-full bg-slate-100 p-1 text-xs font-semibold text-slate-600">
+                <div className="flex gap-2 p-1 text-xs font-semibold text-[var(--color-text-secondary)]" style={{ borderRadius: "var(--radius-pill)", backgroundColor: "var(--color-surface-background)" }}>
                   <button
                     type="button"
                     onClick={() => setInstructionsMode("upload")}
-                    className={`rounded-full px-3 py-1 transition ${
-                      instructionsMode === "upload"
-                        ? "bg-white text-slate-900 shadow-sm"
-                        : "text-slate-500"
-                    }`}
+                    className="px-3 py-1 transition-[var(--transition-fast)]"
+                    style={{
+                      borderRadius: "var(--radius-pill)",
+                      backgroundColor: instructionsMode === "upload" ? "var(--color-surface-container)" : "transparent",
+                      color: instructionsMode === "upload" ? "var(--color-text-primary)" : "var(--color-text-tertiary)",
+                      boxShadow: instructionsMode === "upload" ? "var(--elevation-0)" : "none",
+                    }}
                   >
                     Upload
                   </button>
                   <button
                     type="button"
                     onClick={() => setInstructionsMode("paste")}
-                    className={`rounded-full px-3 py-1 transition ${
-                      instructionsMode === "paste"
-                        ? "bg-white text-slate-900 shadow-sm"
-                        : "text-slate-500"
-                    }`}
+                    className="px-3 py-1 transition-[var(--transition-fast)]"
+                    style={{
+                      borderRadius: "var(--radius-pill)",
+                      backgroundColor: instructionsMode === "paste" ? "var(--color-surface-container)" : "transparent",
+                      color: instructionsMode === "paste" ? "var(--color-text-primary)" : "var(--color-text-tertiary)",
+                      boxShadow: instructionsMode === "paste" ? "var(--elevation-0)" : "none",
+                    }}
                   >
                     Paste
                   </button>
@@ -886,18 +923,19 @@ const VerificationStart = () => {
 
               {instructionsMode === "upload" ? (
                 <div
-                  className="mt-4 flex min-h-[210px] cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-6 text-center transition hover:border-amber-400 hover:bg-amber-50"
+                  className="mt-4 flex min-h-[210px] cursor-pointer flex-col items-center justify-center border border-dashed border-[var(--color-border-medium)] bg-[var(--color-surface-background)] p-6 text-center transition-[var(--transition-standard)] hover:border-[var(--color-warning)] hover:bg-[var(--color-warning-container)]"
+                  style={{ borderRadius: "var(--radius-card)" }}
                   onDrop={e => handleDrop(e, "instructions")}
                   onDragOver={e => e.preventDefault()}
                   onClick={() =>
                     document.getElementById("instructions-file")?.click()
                   }
                 >
-                  <Upload className="h-6 w-6 text-amber-600" />
-                  <p className="mt-3 text-sm font-semibold text-slate-700">
+                  <Upload className="h-6 w-6 text-[var(--color-warning)]" />
+                  <p className="mt-3 text-sm font-semibold text-[var(--color-text-primary)]">
                     Drop objectives or prompt file
                   </p>
-                  <p className="mt-1 text-xs text-slate-500">
+                  <p className="mt-1 text-[var(--color-text-tertiary)]" style={{ fontSize: "0.75rem", lineHeight: "16px" }}>
                     DOCX/Word Only (max 10MB)
                   </p>
                   <input
@@ -920,13 +958,16 @@ const VerificationStart = () => {
                 </div>
               ) : (
                 <div className="mt-4">
-                  <div className="tiptap-editor upload-editor w-full rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-200 focus-within:border-amber-400 focus-within:ring-4 focus-within:ring-amber-200/60">
+                  <div
+                    className="tiptap-editor upload-editor w-full border border-[var(--color-border-subtle)] bg-[var(--color-surface-container)] transition-[var(--transition-standard)] focus-within:border-[var(--color-border-focus)] focus-within:ring-4 focus-within:ring-[var(--color-primary-container)]"
+                    style={{ borderRadius: "var(--radius-card)" }}
+                  >
                     <EditorContent editor={instructionsEditor} />
                   </div>
                   <div className="mt-2 flex items-center justify-between">
                     <Button
                       variant="plain"
-                      className="text-xs text-amber-700 hover:bg-amber-50"
+                      className="text-xs text-[var(--color-primary)] hover:bg-[var(--color-primary-container)]"
                       icon={<Clipboard size={14} />}
                       onClick={async () => {
                         if (!instructionsEditor) return;
@@ -954,7 +995,7 @@ const VerificationStart = () => {
                     >
                       Paste from clipboard
                     </Button>
-                    <span className="text-xs text-slate-500">
+                    <span className="text-[var(--color-text-tertiary)]" style={{ fontSize: "0.75rem", lineHeight: "16px" }}>
                       {instructionWordCount} words · {instructionCharCount}{" "}
                       chars
                     </span>
@@ -963,7 +1004,10 @@ const VerificationStart = () => {
               )}
 
               {instructionsFile && (
-                <div className="mt-4 flex items-center justify-between rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
+                <div
+                  className="mt-4 flex items-center justify-between border border-[var(--color-warning-container)] bg-[var(--color-warning-container)] p-3 text-sm text-[var(--color-on-warning-container)]"
+                  style={{ borderRadius: "var(--radius-card)" }}
+                >
                   <div className="flex items-center gap-2">
                     <File className="h-4 w-4" />
                     <span className="truncate">{instructionsFile.name}</span>
@@ -971,7 +1015,7 @@ const VerificationStart = () => {
                   <button
                     type="button"
                     onClick={() => setInstructionsFile(null)}
-                    className="text-xs font-semibold text-amber-700 hover:text-amber-900"
+                    className="text-xs font-semibold text-[var(--color-warning)] hover:text-[var(--color-on-warning-container)]"
                   >
                     Remove
                   </button>
@@ -979,8 +1023,11 @@ const VerificationStart = () => {
               )}
 
               {instructionsFileError && (
-                <div className="mt-3 flex items-center gap-2 rounded-lg border border-red-200 bg-red-50 p-3 text-xs font-medium text-red-700">
-                  <AlertTriangle className="h-4 w-4 shrink-0 text-red-600" />
+                <div
+                  className="mt-3 flex items-center gap-2 border border-[var(--color-error-container)] bg-[var(--color-error-container)] p-3 text-xs font-medium text-[var(--color-on-error-container)]"
+                  style={{ borderRadius: "var(--radius-button)" }}
+                >
+                  <AlertTriangle className="h-4 w-4 shrink-0 text-[var(--color-error)]" />
                   <span>{instructionsFileError}</span>
                 </div>
               )}
@@ -988,14 +1035,14 @@ const VerificationStart = () => {
           )}
         </div>
 
-        <div className="mt-6 flex flex-col items-center gap-3 border-t border-slate-200 pt-4">
+        <div className="mt-6 flex flex-col items-center gap-3 border-t border-[var(--color-border-subtle)] pt-4">
           <Button
             onClick={handleSubmit}
             icon={<ShieldCheck className="h-4 w-4" />}
             iconPosition="right"
             disabled={processing}
             loading={processing}
-            className="w-full bg-gradient-to-r from-violet-600 to-violet-700 text-white shadow-md transition-all duration-200 hover:from-violet-700 hover:to-violet-800"
+            className="w-full bg-[var(--color-primary)] text-[var(--color-on-primary)] shadow-[var(--elevation-1)] transition-[var(--transition-standard)] hover:bg-[var(--color-primary-hover)] hover:shadow-[var(--elevation-2)]"
           >
             Run Verification
           </Button>
@@ -1025,8 +1072,8 @@ const VerificationStart = () => {
         message={errorModal.message}
         submitText="Close"
         onSubmit={() => setErrorModal({ ...errorModal, open: false })}
-        icon={<AlertTriangle className="h-8 w-8 text-red-500" />}
-        iconStyle="bg-red-100 border-red-50"
+        icon={<AlertTriangle className="h-8 w-8 text-[var(--color-error)]" />}
+        iconStyle="bg-[var(--color-error-container)] border-[var(--color-error-container)]"
       />
 
       <InsufficientCreditsModal

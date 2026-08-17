@@ -65,95 +65,32 @@ const NavBar = () => {
         initialForm={initialForm}
       />
 
-      <div
-        className={`sticky top-0 left-0 z-50 w-full transition-all duration-500 ${
-          scrolled
-            ? "border-b border-slate-200/50 bg-white/70 shadow-lg shadow-slate-900/5 backdrop-blur-2xl"
-            : "border-b border-transparent bg-white/40 backdrop-blur-xl"
-        }`}
+      <header
+        className={`nav-header ${scrolled ? "nav-header--scrolled" : ""}`}
       >
-        {/* Subtle bottom glow line when scrolled */}
-        {scrolled && (
-          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
-        )}
-
-        <div className="container mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
+          {/* Logo */}
           <Link href={publicRoutes?.home} className="flex items-center">
             <Image
               src={site.logo}
               alt={site.title}
               width={150}
               height={48}
-              className="object-contain"
+              className="h-8 w-auto object-contain sm:h-10"
             />
           </Link>
 
-          <div className="hidden items-center space-x-8 md:flex">
-            <ul className="flex space-x-8">
+          {/* Desktop Navigation */}
+          <div className="hidden items-center gap-2 md:flex">
+            <nav className="flex items-center gap-1">
               {navLinks.map(link => (
-                <li key={link.label}>
-                  <Link
-                    href={link.href}
-                    className="text-sm font-semibold text-slate-600 transition-colors duration-200 hover:text-slate-900"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-
-            {currentUser ? (
-              <div className="flex items-center space-x-2">
-                <Button
-                  text="Dashboard"
-                  onClick={() => router.push("/dashboard")}
-                  size="sm"
-                />
-                <Button
-                  text="Logout"
-                  variant="secondary"
-                  onClick={signOutUser}
-                  icon={<LogOut className="h-4 w-4" />}
-                  size="sm"
-                />
-              </div>
-            ) : (
-              <Button
-                text="Get Started"
-                onClick={() => openAuthModal("signup")}
-                size="sm"
-              />
-            )}
-          </div>
-
-          <button
-            className="p-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 md:hidden"
-            onClick={toggleMobile}
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileOpen}
-          >
-            {mobileOpen ? (
-              <XIcon className="h-6 w-6 text-slate-700" />
-            ) : (
-              <MenuIcon className="h-6 w-6 text-slate-700" />
-            )}
-          </button>
-        </div>
-
-        {mobileOpen && (
-          <nav className="border-t border-slate-100 bg-white/95 backdrop-blur-2xl md:hidden">
-            <div className="flex flex-col space-y-4 px-4 py-5">
-              {navLinks.map(link => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  className="text-sm font-semibold text-slate-600 transition-colors hover:text-slate-900"
-                  onClick={() => setMobileOpen(false)}
-                >
+                <Link key={link.label} href={link.href} className="nav-link">
                   {link.label}
                 </Link>
               ))}
+            </nav>
 
+            <div className="ml-2 flex items-center gap-2">
               {currentUser ? (
                 <>
                   <Button
@@ -163,8 +100,77 @@ const NavBar = () => {
                   />
                   <Button
                     text="Logout"
-                    variant="outline"
+                    variant="secondary"
                     onClick={signOutUser}
+                    icon={<LogOut className="h-4 w-4" />}
+                    size="sm"
+                  />
+                </>
+              ) : (
+                <Button
+                  text="Get Started"
+                  onClick={() => openAuthModal("signup")}
+                  size="sm"
+                />
+              )}
+            </div>
+          </div>
+
+          {/* Mobile Menu Toggle */}
+          <button
+            className="rounded-[var(--radius-button)] p-2 md:hidden"
+            onClick={toggleMobile}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+          >
+            {mobileOpen ? (
+              <XIcon className="h-6 w-6" style={{ color: "var(--color-text-primary)" }} />
+            ) : (
+              <MenuIcon className="h-6 w-6" style={{ color: "var(--color-text-primary)" }} />
+            )}
+          </button>
+        </div>
+
+        {/* Mobile Menu */}
+        <div
+          className={`overflow-hidden border-t transition-all duration-300 md:hidden ${
+            mobileOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+          }`}
+          style={{
+            borderColor: "var(--color-border-subtle)",
+            backgroundColor: "var(--color-surface-container)",
+          }}
+        >
+          <nav className="flex flex-col gap-1 px-4 py-4">
+            {navLinks.map(link => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="nav-link"
+                onClick={() => setMobileOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+
+            <div className="mt-2 flex flex-col gap-2 border-t pt-3" style={{ borderColor: "var(--color-border-subtle)" }}>
+              {currentUser ? (
+                <>
+                  <Button
+                    text="Dashboard"
+                    onClick={() => {
+                      setMobileOpen(false);
+                      router.push("/dashboard");
+                    }}
+                    size="sm"
+                  />
+                  <Button
+                    text="Logout"
+                    variant="secondary"
+                    onClick={() => {
+                      setMobileOpen(false);
+                      signOutUser();
+                    }}
                     icon={<LogOut className="h-4 w-4" />}
                     size="sm"
                   />
@@ -181,8 +187,8 @@ const NavBar = () => {
               )}
             </div>
           </nav>
-        )}
-      </div>
+        </div>
+      </header>
     </>
   );
 };

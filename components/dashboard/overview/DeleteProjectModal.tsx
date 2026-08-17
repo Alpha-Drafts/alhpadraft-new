@@ -28,24 +28,30 @@ const DeleteProjectModal: React.FC<DeleteProjectModalProps> = ({
       />
 
       {/* Modal */}
-      <div className="relative w-full max-w-md rounded-lg bg-white p-6 shadow-xl">
+      <div
+        className="relative w-full max-w-md border border-[var(--color-border-subtle)] bg-[var(--color-surface-container)] p-6 shadow-[var(--elevation-3)]"
+        style={{ borderRadius: "var(--radius-modal)" }}
+      >
         <div className="mb-4 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-red-100">
-            <Trash2 className="h-5 w-5 text-red-600" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--color-error-container)]">
+            <Trash2 className="h-5 w-5 text-[var(--color-error)]" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-gray-900">
+            <h3
+              className="font-semibold text-[var(--color-text-primary)]"
+              style={{ fontSize: "1.125rem", lineHeight: "24px" }}
+            >
               Delete Project
             </h3>
-            <p className="text-sm text-gray-500">
+            <p className="text-body-regular-14 text-[var(--color-text-secondary)]">
               This action cannot be undone.
             </p>
           </div>
         </div>
 
-        <p className="mb-6 text-sm text-gray-700">
+        <p className="text-body-regular-14 mb-6 text-[var(--color-text-primary)]">
           Are you sure you want to delete{" "}
-          <span className="font-semibold text-gray-900">{projectName}</span>?
+          <span className="font-semibold">{projectName}</span>?
           All content and check results will be permanently removed.
         </p>
 

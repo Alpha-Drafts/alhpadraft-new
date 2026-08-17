@@ -76,10 +76,16 @@ const RecentProjects = () => {
           {/* Header */}
           <div className="mt-20 mb-6 flex flex-col items-center justify-between md:flex-row">
             <div>
-              <h2 className="text-body-semibold-18 text-black">
+              <h2
+                className="font-semibold text-[var(--color-text-primary)]"
+                style={{ fontSize: "1.375rem", lineHeight: "28px", letterSpacing: "0" }}
+              >
                 Recent Projects
               </h2>
-              <p className="text-body-regular-12 text-gray-500">
+              <p
+                className="mt-0.5 uppercase tracking-[0.05em] text-[var(--color-text-tertiary)]"
+                style={{ fontSize: "0.75rem", lineHeight: "16px", fontWeight: 600 }}
+              >
                 Showing {projectHistory?.length || 0} of{" "}
                 {projectData?.totalCount || 0} projects
               </p>

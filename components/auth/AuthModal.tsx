@@ -35,7 +35,6 @@ const AuthModal = ({
 }) => {
   const [currentForm, setCurrentForm] = useState<AuthFormType>(initialForm);
 
-  // Reset form when modal opens
   useEffect(() => {
     if (isOpen) {
       setCurrentForm(initialForm);
@@ -76,25 +75,47 @@ const AuthModal = ({
       hideCloseButton
       wrapperClassName="sm:max-w-5xl"
     >
-      <div className="relative flex w-full overflow-hidden rounded-3xl bg-white shadow-2xl">
+      <div
+        className="relative flex w-full overflow-hidden"
+        style={{
+          borderRadius: "var(--radius-modal)",
+          backgroundColor: "var(--color-surface-container)",
+          boxShadow: "var(--elevation-3)",
+        }}
+      >
         {/* Close button */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 text-slate-400 backdrop-blur transition-colors hover:bg-slate-100 hover:text-slate-600"
+          className="absolute top-4 right-4 z-20 flex h-8 w-8 items-center justify-center rounded-[var(--radius-pill)] backdrop-blur transition-colors"
+          style={{
+            backgroundColor: "rgba(255,255,255,0.8)",
+            color: "var(--color-text-tertiary)",
+          }}
           aria-label="Close"
         >
           <X className="h-4 w-4" />
         </button>
 
         {/* Left brand panel — hidden on mobile */}
-        <div className="relative hidden w-[45%] shrink-0 overflow-hidden bg-gradient-to-br from-violet-800 via-violet-900 to-slate-900 lg:block">
+        <div
+          className="relative hidden w-[45%] shrink-0 overflow-hidden lg:block"
+          style={{
+            background: "linear-gradient(135deg, var(--color-surface-dark-container) 0%, var(--color-surface-dark) 100%)",
+          }}
+        >
           {/* Decorative blobs */}
-          <div className="pointer-events-none absolute -top-20 -left-20 h-64 w-64 rounded-full bg-violet-500/20 blur-3xl" />
-          <div className="pointer-events-none absolute -right-16 bottom-20 h-56 w-56 rounded-full bg-cyan-400/10 blur-3xl" />
+          <div
+            className="pointer-events-none absolute -top-20 -left-20 h-64 w-64 rounded-full blur-3xl"
+            style={{ backgroundColor: "rgba(26, 115, 232, 0.15)" }}
+          />
+          <div
+            className="pointer-events-none absolute -right-16 bottom-20 h-56 w-56 rounded-full blur-3xl"
+            style={{ backgroundColor: "rgba(26, 115, 232, 0.08)" }}
+          />
 
           <div className="relative flex h-full flex-col p-10">
-            {/* Logo — pinned top-left */}
+            {/* Logo */}
             <div>
               <Image
                 alt={`${site.title} logo`}
@@ -105,28 +126,41 @@ const AuthModal = ({
               />
             </div>
 
-            {/* Main content — vertically centered */}
+            {/* Main content */}
             <div className="flex flex-1 flex-col justify-center space-y-8">
               <div>
-                <h2 className="font-['Space_Grotesk'] text-2xl leading-snug font-semibold text-white">
+                <h2
+                  className="text-2xl font-semibold leading-snug"
+                  style={{ color: "var(--color-text-on-dark)" }}
+                >
                   {headingText}
                 </h2>
-                <p className="mt-3 font-['DM_Sans'] text-sm leading-relaxed text-violet-100/80">
+                <p
+                  className="mt-3 text-sm leading-relaxed"
+                  style={{ color: "var(--color-text-on-dark-muted)" }}
+                >
                   Run AI detection, plagiarism search, and alignment checks —
                   all in one place.
                 </p>
               </div>
 
-              <div className="space-y-3">
+              <div className="flex flex-col gap-3">
                 {brandFeatures.map(feature => (
                   <div
                     key={feature.text}
-                    className="flex items-start gap-3 rounded-xl bg-white/[0.07] px-4 py-3 backdrop-blur"
+                    className="flex items-start gap-3 rounded-[var(--radius-card)] px-4 py-3 backdrop-blur"
+                    style={{ backgroundColor: "rgba(255,255,255,0.07)" }}
                   >
-                    <span className="mt-0.5 text-violet-300">
+                    <span
+                      className="mt-0.5"
+                      style={{ color: "var(--color-primary)" }}
+                    >
                       {feature.icon}
                     </span>
-                    <span className="text-sm leading-snug text-violet-50/90">
+                    <span
+                      className="text-sm leading-snug"
+                      style={{ color: "var(--color-text-on-dark-muted)" }}
+                    >
                       {feature.text}
                     </span>
                   </div>

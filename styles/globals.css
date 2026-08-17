@@ -86,6 +86,82 @@
 }
 
 /* ============================================
+   M3 GLOBAL FOCUS-VISIBLE RING
+   ============================================ */
+
+*:focus-visible {
+  outline: 2px solid var(--color-border-focus);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   M3 NAVIGATION UTILITY CLASSES
+   ============================================ */
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-button);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  transition: var(--transition-fast);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav-link:hover {
+  color: var(--color-text-primary);
+  background-color: rgba(26, 115, 232, 0.06);
+}
+
+.nav-link--active {
+  color: var(--color-primary);
+  background-color: var(--color-primary-container);
+  font-weight: 600;
+}
+
+.nav-link--danger {
+  color: var(--color-error);
+}
+
+.nav-link--danger:hover {
+  background-color: var(--color-error-container);
+  color: var(--color-on-error-container);
+}
+
+.nav-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: var(--color-surface-container);
+  border-bottom: 1px solid var(--color-border-subtle);
+  box-shadow: var(--elevation-0);
+  transition: var(--transition-standard);
+}
+
+.nav-header--scrolled {
+  box-shadow: var(--elevation-2);
+  border-bottom-color: transparent;
+}
+
+.nav-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+  color: var(--color-on-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* ============================================
    GRADIENT TEXT
    ============================================ */
 .text-gradient-blue {

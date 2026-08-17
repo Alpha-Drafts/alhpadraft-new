@@ -10,10 +10,10 @@ const sizeClasses: Record<NonNullable<ButtonProps["size"]>, string> = {
 };
 
 const roundedClasses: Record<NonNullable<ButtonProps["rounded"]>, string> = {
-  sm: "rounded",
-  md: "rounded-lg",
-  lg: "rounded-xl",
-  full: "rounded-full aspect-square",
+  sm: "rounded-[6px]",
+  md: "rounded-[var(--radius-button)]",
+  lg: "rounded-[var(--radius-card)]",
+  full: "rounded-[var(--radius-pill)] aspect-square",
 };
 
 const baseClasses =
@@ -21,16 +21,80 @@ const baseClasses =
 
 const variantClasses: Record<NonNullable<ButtonProps["variant"]>, string> = {
   primary:
-    "border-none text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 shadow-[0px_4px_6px_-4px_#0000001A,0px_10px_15px_-3px_#0000001A]",
+    "border-none text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2 shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.1),0px_10px_15px_-3px_rgba(0,0,0,0.1)]",
   secondary:
-    "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2",
+    "border focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2",
   outline:
-    "border border-blue-600 text-blue-600 hover:border-blue-700 hover:text-blue-700 hover:bg-blue-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2",
+    "border focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2",
   plain:
-    "border border-transparent text-slate-700 hover:bg-slate-100 hover:text-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2",
+    "border border-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2",
   danger:
-    "border border-transparent bg-red-600 text-white hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2",
-  link: "border border-transparent !p-0 text-blue-600 hover:text-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500",
+    "border border-transparent text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-error)] focus-visible:ring-offset-2",
+  link: "border border-transparent !p-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)]",
+};
+
+const variantStyles: Record<
+  NonNullable<ButtonProps["variant"]>,
+  React.CSSProperties
+> = {
+  primary: {
+    background:
+      "linear-gradient(109.37deg, var(--color-primary) 0%, var(--color-primary-hover) 50%, var(--color-primary-active) 100%)",
+  },
+  secondary: {
+    borderColor: "var(--color-border-medium)",
+    backgroundColor: "var(--color-surface-container)",
+    color: "var(--color-text-primary)",
+  },
+  outline: {
+    borderColor: "var(--color-primary)",
+    backgroundColor: "transparent",
+    color: "var(--color-primary)",
+  },
+  plain: {
+    borderColor: "transparent",
+    backgroundColor: "transparent",
+    color: "var(--color-text-primary)",
+  },
+  danger: {
+    borderColor: "transparent",
+    backgroundColor: "var(--color-error)",
+    color: "var(--color-on-primary)",
+  },
+  link: {
+    borderColor: "transparent",
+    backgroundColor: "transparent",
+    color: "var(--color-primary)",
+    padding: 0,
+  },
+};
+
+const variantHoverStyles: Record<
+  NonNullable<ButtonProps["variant"]>,
+  React.CSSProperties | undefined
+> = {
+  primary: {
+    backgroundColor: "var(--color-primary-hover)",
+  },
+  secondary: {
+    backgroundColor: "var(--color-primary-container)",
+    borderColor: "var(--color-primary)",
+  },
+  outline: {
+    backgroundColor: "var(--color-primary-container)",
+    borderColor: "var(--color-primary-hover)",
+    color: "var(--color-primary-hover)",
+  },
+  plain: {
+    backgroundColor: "rgba(26, 115, 232, 0.06)",
+    color: "var(--color-primary-hover)",
+  },
+  danger: {
+    backgroundColor: "var(--color-primary-active)",
+  },
+  link: {
+    color: "var(--color-primary-hover)",
+  },
 };
 
 export function Button({
@@ -75,13 +139,25 @@ export function Button({
     className,
   );
 
-  const customStyle =
-    variant === "primary"
-      ? {
-          background:
-            "linear-gradient(109.37deg, #1A73E8 0%, #1557B0 50%, #10438C 100%)",
-        }
-      : {};
+  const mergedStyle: React.CSSProperties = {
+    ...variantStyles[variant],
+  };
+
+  const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
+    const hover = variantHoverStyles[variant];
+    if (hover) Object.assign(e.currentTarget.style, hover);
+  };
+
+  const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    const hover = variantHoverStyles[variant];
+    if (hover) {
+      Object.keys(hover).forEach(key => {
+        const k = key as keyof React.CSSProperties;
+        // @ts-expect-error reset to base style
+        e.currentTarget.style[k] = mergedStyle[k] || "";
+      });
+    }
+  };
 
   if (link) {
     return (
@@ -89,8 +165,10 @@ export function Button({
         href={link}
         id={id}
         className={buttonClass}
-        style={customStyle}
+        style={mergedStyle}
         title={title}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         {...props}
       >
         {content}
@@ -105,8 +183,10 @@ export function Button({
       onClick={onClick}
       disabled={disabled}
       className={buttonClass}
-      style={customStyle}
+      style={mergedStyle}
       title={title}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
       {...props}
     >
       {content}

@@ -4,7 +4,10 @@ import React, { ReactNode } from "react";
 
 const PublicLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="grid min-h-screen bg-slate-50">
+    <div
+      className="grid min-h-screen"
+      style={{ backgroundColor: "var(--color-surface-background)" }}
+    >
       <NavBar />
       {children}
       <Footer />
