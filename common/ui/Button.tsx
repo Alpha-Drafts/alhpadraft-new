@@ -83,7 +83,7 @@ export function Button({
         href={link}
         id={id}
         className={buttonClass}
-        style={externalStyle}
+        style={externalStyle as React.CSSProperties}
         title={title}
       {...restProps}
     >
@@ -99,7 +99,7 @@ export function Button({
       onClick={onClick}
       disabled={disabled}
       className={buttonClass}
-      style={externalStyle}
+      style={externalStyle as React.CSSProperties}
       title={title}
       {...restProps}
     >
