@@ -32,7 +32,7 @@ const ResetPasswordForm = ({
       }, 1000);
     } else if (showModal && countdown === 0) {
       // Redirect to home page with login modal open
-      router.push("/?auth=login");
+      router.push("/signin");
     }
 
     return () => {
@@ -105,7 +105,7 @@ const ResetPasswordForm = ({
         title="Password Updated"
         message={`Your password has been successfully updated. You will be redirected to the login page in ${countdown} seconds.`}
         cancelText="Go to Login Now"
-        onCancel={() => router.push("/?auth=login")}
+        onCancel={() => router.push("/signin")}
         closeOnOverlayClick={false}
       />
 

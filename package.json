@@ -11,7 +11,9 @@
     "lint": "next lint . --fix",
     "check-types": "tsc --noEmit --pretty",
     "prepare": "husky",
-    "analyze": "cross-env ANALYZE=true next build"
+    "analyze": "cross-env ANALYZE=true next build",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui"
   },
   "dependencies": {
     "@packback/html-to-docx": "^1.4.0",
@@ -56,6 +58,7 @@
     "@commitlint/config-conventional": "^19.8.1",
     "@eslint/eslintrc": "^3",
     "@next/bundle-analyzer": "^15.3.4",
+    "@playwright/test": "^1.62.1",
     "@tailwindcss/postcss": "^4",
     "@types/jquery": "^3.5.32",
     "@types/lodash": "^4.17.19",

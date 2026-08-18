@@ -75,47 +75,25 @@ const AuthModal = ({
       hideCloseButton
       wrapperClassName="sm:max-w-5xl"
     >
-      <div
-        className="relative flex w-full overflow-hidden"
-        style={{
-          borderRadius: "var(--radius-modal)",
-          backgroundColor: "var(--color-surface-container)",
-          boxShadow: "var(--elevation-3)",
-        }}
-      >
+      <div className="relative flex w-full overflow-hidden rounded-[28px] bg-white shadow-[0px_16px_32px_rgba(15,23,42,0.16)]">
         {/* Close button */}
         <button
           type="button"
           onClick={onClose}
-          className="absolute top-4 right-4 z-20 flex h-8 w-8 items-center justify-center rounded-[var(--radius-pill)] backdrop-blur transition-colors"
-          style={{
-            backgroundColor: "rgba(255,255,255,0.8)",
-            color: "var(--color-text-tertiary)",
-          }}
+          className="absolute top-4 right-4 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-white/80 text-slate-400 backdrop-blur transition-colors hover:bg-slate-100 hover:text-slate-600"
           aria-label="Close"
         >
           <X className="h-4 w-4" />
         </button>
 
         {/* Left brand panel — hidden on mobile */}
-        <div
-          className="relative hidden w-[45%] shrink-0 overflow-hidden lg:block"
-          style={{
-            background: "linear-gradient(135deg, var(--color-surface-dark-container) 0%, var(--color-surface-dark) 100%)",
-          }}
-        >
+        <div className="relative hidden w-[45%] shrink-0 overflow-hidden bg-slate-900 lg:block">
           {/* Decorative blobs */}
-          <div
-            className="pointer-events-none absolute -top-20 -left-20 h-64 w-64 rounded-full blur-3xl"
-            style={{ backgroundColor: "rgba(26, 115, 232, 0.15)" }}
-          />
-          <div
-            className="pointer-events-none absolute -right-16 bottom-20 h-56 w-56 rounded-full blur-3xl"
-            style={{ backgroundColor: "rgba(26, 115, 232, 0.08)" }}
-          />
+          <div className="pointer-events-none absolute -top-20 -left-20 h-64 w-64 rounded-full bg-primary-500/15 blur-3xl" />
+          <div className="pointer-events-none absolute -right-16 bottom-20 h-56 w-56 rounded-full bg-primary-400/10 blur-3xl" />
 
           <div className="relative flex h-full flex-col p-10">
-            {/* Logo */}
+            {/* Logo — pinned top-left */}
             <div>
               <Image
                 alt={`${site.title} logo`}
@@ -126,41 +104,28 @@ const AuthModal = ({
               />
             </div>
 
-            {/* Main content */}
+            {/* Main content — vertically centered */}
             <div className="flex flex-1 flex-col justify-center space-y-8">
               <div>
-                <h2
-                  className="text-2xl font-semibold leading-snug"
-                  style={{ color: "var(--color-text-on-dark)" }}
-                >
+                <h2 className="text-2xl leading-snug font-semibold text-white" style={{ fontFamily: "Inter, sans-serif" }}>
                   {headingText}
                 </h2>
-                <p
-                  className="mt-3 text-sm leading-relaxed"
-                  style={{ color: "var(--color-text-on-dark-muted)" }}
-                >
+                <p className="mt-3 text-sm leading-relaxed text-slate-300" style={{ fontFamily: "Inter, sans-serif" }}>
                   Run AI detection, plagiarism search, and alignment checks —
                   all in one place.
                 </p>
               </div>
 
-              <div className="flex flex-col gap-3">
+              <div className="space-y-3">
                 {brandFeatures.map(feature => (
                   <div
                     key={feature.text}
-                    className="flex items-start gap-3 rounded-[var(--radius-card)] px-4 py-3 backdrop-blur"
-                    style={{ backgroundColor: "rgba(255,255,255,0.07)" }}
+                    className="flex items-start gap-3 rounded-2xl bg-white/[0.06] px-4 py-3 backdrop-blur"
                   >
-                    <span
-                      className="mt-0.5"
-                      style={{ color: "var(--color-primary)" }}
-                    >
+                    <span className="mt-0.5 text-primary-400">
                       {feature.icon}
                     </span>
-                    <span
-                      className="text-sm leading-snug"
-                      style={{ color: "var(--color-text-on-dark-muted)" }}
-                    >
+                    <span className="text-sm leading-snug text-slate-200/90" style={{ fontFamily: "Inter, sans-serif" }}>
                       {feature.text}
                     </span>
                   </div>

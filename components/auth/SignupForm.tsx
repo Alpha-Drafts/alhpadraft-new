@@ -7,7 +7,11 @@ import { Eye, EyeOff, Loader2, Zap, User, Mail, Lock } from "lucide-react";
 import { MessageModal } from "@/common";
 import axios from "axios";
 
-const SignupForm = ({ onSwitchToLogin }: { onSwitchToLogin: () => void }) => {
+const SignupForm = ({
+  onSwitchToLogin,
+}: {
+  onSwitchToLogin?: () => void;
+}) => {
   const router = useRouter();
   const { redirect } = router.query;
   const queryRedirectUrl = Array.isArray(redirect) ? redirect[0] : redirect;
@@ -148,21 +152,21 @@ const SignupForm = ({ onSwitchToLogin }: { onSwitchToLogin: () => void }) => {
         closeOnOverlayClick={false}
       />
 
-      <div className="space-y-5">
+      <div className="space-y-6">
         {/* Header */}
         <div>
-          <h1 className="font-['Space_Grotesk'] text-2xl font-semibold text-slate-900">
+          <h1 className="text-2xl font-semibold text-slate-900" style={{ fontFamily: "Inter, sans-serif" }}>
             Create your account
           </h1>
-          <p className="mt-1.5 font-['DM_Sans'] text-sm text-slate-500">
+          <p className="mt-1.5 text-sm text-slate-500" style={{ fontFamily: "Inter, sans-serif" }}>
             Free to start — no credit card required.
           </p>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-3.5">
+        <form onSubmit={handleSubmit} className="space-y-4">
           {/* Name + Email side by side on larger screens */}
-          <div className="grid gap-3.5 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label
                 htmlFor="name"
@@ -179,7 +183,7 @@ const SignupForm = ({ onSwitchToLogin }: { onSwitchToLogin: () => void }) => {
                   placeholder="Jane Doe"
                   value={name}
                   onChange={e => setName(e.target.value)}
-                  className="block w-full rounded-xl border border-slate-200 bg-slate-50/50 py-2.5 pr-3 pl-9 text-sm text-slate-900 transition-colors placeholder:text-slate-400 focus:border-violet-500 focus:bg-white focus:ring-2 focus:ring-violet-500/20 focus:outline-none"
+                  className="block w-full rounded-[10px] border border-slate-200 bg-white py-2.5 pr-3 pl-9 text-sm text-slate-900 transition-all placeholder:text-slate-400 hover:border-slate-300 focus:border-primary-500 focus:bg-white focus:ring-2 focus:ring-primary-500/20 focus:outline-none"
                   required
                 />
               </div>
@@ -201,7 +205,7 @@ const SignupForm = ({ onSwitchToLogin }: { onSwitchToLogin: () => void }) => {
                   placeholder="jane@university.edu"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  className="block w-full rounded-xl border border-slate-200 bg-slate-50/50 py-2.5 pr-3 pl-9 text-sm text-slate-900 transition-colors placeholder:text-slate-400 focus:border-violet-500 focus:bg-white focus:ring-2 focus:ring-violet-500/20 focus:outline-none"
+                  className="block w-full rounded-[10px] border border-slate-200 bg-white py-2.5 pr-3 pl-9 text-sm text-slate-900 transition-all placeholder:text-slate-400 hover:border-slate-300 focus:border-primary-500 focus:bg-white focus:ring-2 focus:ring-primary-500/20 focus:outline-none"
                   required
                 />
               </div>
@@ -209,7 +213,7 @@ const SignupForm = ({ onSwitchToLogin }: { onSwitchToLogin: () => void }) => {
           </div>
 
           {/* Password + Confirm side by side */}
-          <div className="grid gap-3.5 sm:grid-cols-2">
+          <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <label
                 htmlFor="password"
@@ -226,7 +230,7 @@ const SignupForm = ({ onSwitchToLogin }: { onSwitchToLogin: () => void }) => {
                   placeholder="Min. 8 characters"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  className="block w-full rounded-xl border border-slate-200 bg-slate-50/50 py-2.5 pr-10 pl-9 text-sm text-slate-900 transition-colors placeholder:text-slate-400 focus:border-violet-500 focus:bg-white focus:ring-2 focus:ring-violet-500/20 focus:outline-none"
+                  className="block w-full rounded-[10px] border border-slate-200 bg-white py-2.5 pr-10 pl-9 text-sm text-slate-900 transition-all placeholder:text-slate-400 hover:border-slate-300 focus:border-primary-500 focus:bg-white focus:ring-2 focus:ring-primary-500/20 focus:outline-none"
                   required
                 />
                 <button
@@ -260,7 +264,7 @@ const SignupForm = ({ onSwitchToLogin }: { onSwitchToLogin: () => void }) => {
                   placeholder="Re-enter password"
                   value={confirmPassword}
                   onChange={e => setConfirmPassword(e.target.value)}
-                  className="block w-full rounded-xl border border-slate-200 bg-slate-50/50 py-2.5 pr-10 pl-9 text-sm text-slate-900 transition-colors placeholder:text-slate-400 focus:border-violet-500 focus:bg-white focus:ring-2 focus:ring-violet-500/20 focus:outline-none"
+                  className="block w-full rounded-[10px] border border-slate-200 bg-white py-2.5 pr-10 pl-9 text-sm text-slate-900 transition-all placeholder:text-slate-400 hover:border-slate-300 focus:border-primary-500 focus:bg-white focus:ring-2 focus:ring-primary-500/20 focus:outline-none"
                   required
                 />
                 <button
@@ -281,18 +285,18 @@ const SignupForm = ({ onSwitchToLogin }: { onSwitchToLogin: () => void }) => {
             </div>
           </div>
 
-          <div className="flex items-center gap-3 pl-2">
+          <div className="flex items-center gap-3 pl-1">
             <input
               type="checkbox"
               id="mailing-list"
               checked={acceptedMailing}
               disabled={isDisabled}
               onChange={e => setAcceptedMailing(e.target.checked)}
-              className="h-5 w-5 cursor-pointer rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              className="h-4 w-4 cursor-pointer rounded border-slate-300 text-primary-600 focus:ring-primary-500"
             />
             <label
               htmlFor="mailing-list"
-              className="cursor-pointer text-sm font-medium text-gray-700 select-none"
+              className="cursor-pointer text-sm text-slate-600 select-none"
             >
               Join our mailing list for the latest updates.
             </label>
@@ -303,7 +307,7 @@ const SignupForm = ({ onSwitchToLogin }: { onSwitchToLogin: () => void }) => {
             By signing up, you agree to our{" "}
             <Link
               href={publicRoutes?.terms}
-              className="text-violet-600 hover:underline"
+              className="text-primary-500 font-medium hover:underline"
             >
               Terms and Conditions
             </Link>
@@ -314,7 +318,7 @@ const SignupForm = ({ onSwitchToLogin }: { onSwitchToLogin: () => void }) => {
             <div
               id="signup-error"
               role="alert"
-              className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-center text-sm text-red-600"
+              className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-center text-sm text-red-600"
             >
               {error}
             </div>
@@ -324,7 +328,7 @@ const SignupForm = ({ onSwitchToLogin }: { onSwitchToLogin: () => void }) => {
           <button
             type="submit"
             disabled={isDisabled}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-violet-700 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-500/20 transition-all duration-200 hover:scale-[1.01] hover:shadow-xl hover:shadow-violet-500/25 focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 focus:outline-none disabled:opacity-50 disabled:hover:scale-100"
+            className="flex w-full items-center justify-center gap-2 rounded-[10px] bg-primary-500 py-3 text-sm font-semibold text-white shadow-[0px_4px_12px_rgba(26,115,232,0.25)] transition-all duration-200 hover:bg-primary-600 hover:shadow-[0px_8px_24px_rgba(26,115,232,0.3)] hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none"
           >
             {isProcessing || isSubmitting ? (
               <>
@@ -338,16 +342,18 @@ const SignupForm = ({ onSwitchToLogin }: { onSwitchToLogin: () => void }) => {
         </form>
 
         {/* Switch to login */}
-        <p className="text-center text-sm text-slate-500">
-          Already have an account?{" "}
-          <button
-            type="button"
-            onClick={onSwitchToLogin}
-            className="font-medium text-violet-600 transition-colors hover:text-violet-700 hover:underline"
-          >
-            Sign in
-          </button>
-        </p>
+        {onSwitchToLogin && (
+          <p className="text-center text-sm text-slate-500">
+            Already have an account?{" "}
+            <button
+              type="button"
+              onClick={onSwitchToLogin}
+              className="font-medium text-primary-500 transition-colors hover:text-primary-600 hover:underline"
+            >
+              Sign in
+            </button>
+          </p>
+        )}
       </div>
     </>
   );
