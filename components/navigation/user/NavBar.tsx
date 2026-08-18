@@ -196,11 +196,14 @@ const NavBar = ({
                       ))}
                     </nav>
 
-                    {/* Credit Balance Badge */}
+                    {/* Credit Balance Badge — Glass pill */}
                     <div
                       className="flex items-center gap-1.5 rounded-[var(--radius-pill)] px-3 py-1.5"
                       style={{
-                        backgroundColor: "var(--color-primary-container)",
+                        background: "rgba(224, 242, 254, 0.7)",
+                        backdropFilter: "blur(8px)",
+                        WebkitBackdropFilter: "blur(8px)",
+                        border: "1px solid rgba(224, 242, 254, 0.6)",
                         color: "var(--color-on-primary-container)",
                       }}
                       data-tour="credit-balance"
@@ -211,14 +214,16 @@ const NavBar = ({
                       </span>
                     </div>
 
-                    {/* Account Menu */}
+                    {/* Account Menu — Glass trigger button */}
                     <div className="relative" ref={accountMenuRef}>
                       <button
                         onClick={() => setIsAccountMenuOpen(prev => !prev)}
-                        className="flex items-center gap-3 rounded-[var(--radius-pill)] border px-4 py-2 transition-all duration-200 hover:-translate-y-0.5"
+                        className="flex items-center gap-3 rounded-[var(--radius-pill)] border px-4 py-2 transition-[var(--transition-premium)] hover:-translate-y-0.5 hover:shadow-[var(--elevation-1)]"
                         style={{
-                          borderColor: "var(--color-border-subtle)",
-                          backgroundColor: "var(--color-surface-container)",
+                          borderColor: "var(--glass-border)",
+                          background: "var(--glass-bg)",
+                          backdropFilter: "blur(8px)",
+                          WebkitBackdropFilter: "blur(8px)",
                         }}
                         aria-label="Account menu"
                       >
@@ -250,13 +255,7 @@ const NavBar = ({
 
                       {isAccountMenuOpen && (
                         <div
-                          className="absolute right-0 top-full z-50 mt-3 w-56 p-3"
-                          style={{
-                            borderRadius: "var(--radius-card)",
-                            border: "1px solid var(--color-border-subtle)",
-                            backgroundColor: "var(--color-surface-container)",
-                            boxShadow: "var(--elevation-3)",
-                          }}
+                          className="popover-premium absolute right-0 top-full z-50 mt-3 w-56"
                         >
                           <div className="flex flex-col gap-1">
                             <Link
@@ -391,8 +390,10 @@ const NavBar = ({
                       <div
                         className="flex items-center justify-between rounded-[var(--radius-card)] px-4 py-3"
                         style={{
-                          border: "1px solid var(--color-primary-container)",
-                          backgroundColor: "var(--color-primary-container)",
+                          border: "1px solid rgba(224, 242, 254, 0.6)",
+                          background: "rgba(224, 242, 254, 0.5)",
+                          backdropFilter: "blur(8px)",
+                          WebkitBackdropFilter: "blur(8px)",
                         }}
                       >
                         <div className="flex items-center gap-2">

@@ -21,80 +21,16 @@ const baseClasses =
 
 const variantClasses: Record<NonNullable<ButtonProps["variant"]>, string> = {
   primary:
-    "border-none text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2 shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.1),0px_10px_15px_-3px_rgba(0,0,0,0.1)]",
+    "border-none text-white bg-[linear-gradient(109.37deg,var(--color-primary)_0%,var(--color-primary-hover)_50%,var(--color-primary-active)_100%)] hover:bg-[linear-gradient(109.37deg,var(--color-primary-hover)_0%,var(--color-primary-active)_50%,var(--color-primary-active)_100%)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2 shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.1),0px_10px_15px_-3px_rgba(0,0,0,0.1)]",
   secondary:
-    "border focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2",
+    "border border-[var(--color-border-medium)] bg-[var(--color-surface-container)] text-[var(--color-text-primary)] hover:bg-[var(--color-primary-container)] hover:border-[var(--color-primary)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2",
   outline:
-    "border focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2",
+    "border border-[var(--color-primary)] bg-transparent text-[var(--color-primary)] hover:bg-[var(--color-primary-container)] hover:border-[var(--color-primary-hover)] hover:text-[var(--color-primary-hover)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2",
   plain:
-    "border border-transparent focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2",
+    "border border-transparent bg-transparent text-[var(--color-text-primary)] hover:bg-[rgba(26,115,232,0.06)] hover:text-[var(--color-primary-hover)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2",
   danger:
-    "border border-transparent text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-error)] focus-visible:ring-offset-2",
-  link: "border border-transparent !p-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)]",
-};
-
-const variantStyles: Record<
-  NonNullable<ButtonProps["variant"]>,
-  React.CSSProperties
-> = {
-  primary: {
-    background:
-      "linear-gradient(109.37deg, var(--color-primary) 0%, var(--color-primary-hover) 50%, var(--color-primary-active) 100%)",
-  },
-  secondary: {
-    borderColor: "var(--color-border-medium)",
-    backgroundColor: "var(--color-surface-container)",
-    color: "var(--color-text-primary)",
-  },
-  outline: {
-    borderColor: "var(--color-primary)",
-    backgroundColor: "transparent",
-    color: "var(--color-primary)",
-  },
-  plain: {
-    borderColor: "transparent",
-    backgroundColor: "transparent",
-    color: "var(--color-text-primary)",
-  },
-  danger: {
-    borderColor: "transparent",
-    backgroundColor: "var(--color-error)",
-    color: "var(--color-on-primary)",
-  },
-  link: {
-    borderColor: "transparent",
-    backgroundColor: "transparent",
-    color: "var(--color-primary)",
-    padding: 0,
-  },
-};
-
-const variantHoverStyles: Record<
-  NonNullable<ButtonProps["variant"]>,
-  React.CSSProperties | undefined
-> = {
-  primary: {
-    backgroundColor: "var(--color-primary-hover)",
-  },
-  secondary: {
-    backgroundColor: "var(--color-primary-container)",
-    borderColor: "var(--color-primary)",
-  },
-  outline: {
-    backgroundColor: "var(--color-primary-container)",
-    borderColor: "var(--color-primary-hover)",
-    color: "var(--color-primary-hover)",
-  },
-  plain: {
-    backgroundColor: "rgba(26, 115, 232, 0.06)",
-    color: "var(--color-primary-hover)",
-  },
-  danger: {
-    backgroundColor: "var(--color-primary-active)",
-  },
-  link: {
-    color: "var(--color-primary-hover)",
-  },
+    "border border-transparent bg-[var(--color-error)] text-[var(--color-on-primary)] hover:bg-[#B91C1C] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-error)] focus-visible:ring-offset-2",
+  link: "border border-transparent bg-transparent text-[var(--color-primary)] !p-0 hover:text-[var(--color-primary-hover)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)]",
 };
 
 export function Button({
@@ -139,25 +75,7 @@ export function Button({
     className,
   );
 
-  const mergedStyle: React.CSSProperties = {
-    ...variantStyles[variant],
-  };
-
-  const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
-    const hover = variantHoverStyles[variant];
-    if (hover) Object.assign(e.currentTarget.style, hover);
-  };
-
-  const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
-    const hover = variantHoverStyles[variant];
-    if (hover) {
-      Object.keys(hover).forEach(key => {
-        const k = key as keyof React.CSSProperties;
-        // @ts-expect-error reset to base style
-        e.currentTarget.style[k] = mergedStyle[k] || "";
-      });
-    }
-  };
+  const { style: externalStyle, ...restProps } = props;
 
   if (link) {
     return (
@@ -165,14 +83,12 @@ export function Button({
         href={link}
         id={id}
         className={buttonClass}
-        style={mergedStyle}
+        style={externalStyle}
         title={title}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        {...props}
-      >
-        {content}
-      </Link>
+      {...restProps}
+    >
+      {content}
+    </Link>
     );
   }
 
@@ -183,11 +99,9 @@ export function Button({
       onClick={onClick}
       disabled={disabled}
       className={buttonClass}
-      style={mergedStyle}
+      style={externalStyle}
       title={title}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      {...props}
+      {...restProps}
     >
       {content}
     </button>

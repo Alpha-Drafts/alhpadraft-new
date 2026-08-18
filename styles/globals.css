@@ -66,11 +66,28 @@
   --color-error-container: #FEE2E2;
   --color-on-error-container: #7F1D1D;
 
-  /* ── Elevation Shadows ── */
+  /* ── M3elevation Shadows (3D Depth) ── */
   --elevation-0: none;
-  --elevation-1: 0px 4px 12px rgba(15, 23, 42, 0.06);
-  --elevation-2: 0px 8px 24px rgba(15, 23, 42, 0.10);
-  --elevation-3: 0px 16px 32px rgba(15, 23, 42, 0.16);
+  --elevation-1: 0px 1px 3px rgba(15, 23, 42, 0.04), 0px 4px 12px rgba(15, 23, 42, 0.06);
+  --elevation-2: 0px 2px 6px rgba(15, 23, 42, 0.06), 0px 8px 24px rgba(15, 23, 42, 0.10);
+  --elevation-3: 0px 4px 12px rgba(15, 23, 42, 0.08), 0px 16px 32px rgba(15, 23, 42, 0.16);
+  --elevation-4: 0px 8px 24px rgba(15, 23, 42, 0.12), 0px 24px 48px rgba(15, 23, 42, 0.20);
+
+  /* ── Glassmorphism Tokens ── */
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-bg-heavy: rgba(255, 255, 255, 0.85);
+  --glass-bg-light: rgba(255, 255, 255, 0.45);
+  --glass-border: rgba(255, 255, 255, 0.5);
+  --glass-blur: 16px;
+  --glass-blur-heavy: 24px;
+  --glass-blur-light: 8px;
+
+  /* ── 3D Depth Tokens ── */
+  --depth-rotate-x: 2deg;
+  --depth-rotate-y: 1deg;
+  --depth-perspective: 1200px;
+  --depth-transform-tilt: perspective(var(--depth-perspective)) rotateX(var(--depth-rotate-x)) rotateY(var(--depth-rotate-y));
+  --depth-transform-reset: perspective(var(--depth-perspective)) rotateX(0deg) rotateY(0deg);
 
   /* ── M3 Radius Tokens ── */
   --radius-pill: 999px;
@@ -83,6 +100,14 @@
   /* ── M3 Transitions ── */
   --transition-standard: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-fast: all 0.15s ease-in-out;
+  --transition-premium: all 0.4s cubic-bezier(0.25, 0.4, 0.25, 1);
+  --transition-spring: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ── Gradient Tokens ── */
+  --gradient-hero: linear-gradient(135deg, #1A73E8 0%, #1557B0 40%, #0F172A 100%);
+  --gradient-hero-subtle: linear-gradient(135deg, rgba(26, 115, 232, 0.08) 0%, rgba(21, 87, 176, 0.04) 50%, transparent 100%);
+  --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+  --gradient-primary-mesh: radial-gradient(at 20% 80%, rgba(26, 115, 232, 0.15) 0%, transparent 50%), radial-gradient(at 80% 20%, rgba(74, 142, 240, 0.1) 0%, transparent 50%), radial-gradient(at 50% 50%, rgba(96, 165, 250, 0.05) 0%, transparent 50%);
 }
 
 /* ============================================
@@ -136,15 +161,18 @@
   position: sticky;
   top: 0;
   z-index: 50;
-  background-color: var(--color-surface-container);
-  border-bottom: 1px solid var(--color-border-subtle);
-  box-shadow: var(--elevation-0);
-  transition: var(--transition-standard);
+  background: var(--glass-bg-heavy);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04), 0 4px 12px rgba(15, 23, 42, 0.03);
+  transition: var(--transition-premium);
 }
 
 .nav-header--scrolled {
-  box-shadow: var(--elevation-2);
+  box-shadow: 0 2px 6px rgba(15, 23, 42, 0.06), 0 8px 24px rgba(15, 23, 42, 0.08);
   border-bottom-color: transparent;
+  background: rgba(255, 255, 255, 0.92);
 }
 
 .nav-avatar {
@@ -410,4 +438,344 @@
   background-size: 200% 100%;
   animation: glass-shimmer 4s ease-in-out infinite;
   pointer-events: none;
+}
+
+/* ============================================
+   GLASSMORPHISM UTILITY CLASSES
+   ============================================ */
+
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+}
+
+.glass-heavy {
+  background: var(--glass-bg-heavy);
+  backdrop-filter: blur(var(--glass-blur-heavy));
+  -webkit-backdrop-filter: blur(var(--glass-blur-heavy));
+  border: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.glass-light {
+  background: var(--glass-bg-light);
+  backdrop-filter: blur(var(--glass-blur-light));
+  -webkit-backdrop-filter: blur(var(--glass-blur-light));
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-dark {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid rgba(51, 65, 85, 0.4);
+}
+
+.glass-hero {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    0 1px 3px rgba(15, 23, 42, 0.04),
+    0 8px 32px rgba(15, 23, 42, 0.06);
+}
+
+/* ============================================
+   3D PERSPECTIVE & DEPTH CLASSES
+   ============================================ */
+
+.perspective-container {
+  perspective: var(--depth-perspective);
+  perspective-origin: center center;
+}
+
+.tilt-card {
+  transform: var(--depth-transform-tilt);
+  transition: var(--transition-premium);
+  will-change: transform;
+}
+
+.tilt-card:hover {
+  transform: perspective(var(--depth-perspective)) rotateX(0deg) rotateY(0deg) translateY(-6px) scale(1.01);
+  box-shadow:
+    0 0 0 1px rgba(26, 115, 232, 0.1),
+    0 4px 16px rgba(26, 115, 232, 0.08),
+    0 20px 60px rgba(15, 23, 42, 0.12);
+}
+
+.depth-card {
+  transform: translateZ(0);
+  transition: var(--transition-premium);
+}
+
+.depth-card:hover {
+  transform: translateZ(20px) translateY(-4px);
+  box-shadow: var(--elevation-3);
+}
+
+.float-3d {
+  animation: float-3d 8s ease-in-out infinite;
+  transform-style: preserve-3d;
+}
+
+@keyframes float-3d {
+  0%, 100% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
+  25% { transform: translateY(-12px) rotateX(1deg) rotateY(-1deg); }
+  50% { transform: translateY(-6px) rotateX(-0.5deg) rotateY(0.5deg); }
+  75% { transform: translateY(-16px) rotateX(0.5deg) rotateY(-0.5deg); }
+}
+
+/* ============================================
+   PREMIUM GRADIENT BORDER
+   ============================================ */
+
+.gradient-border {
+  position: relative;
+  background: var(--color-surface-container);
+  border-radius: var(--radius-card);
+}
+
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(26, 115, 232, 0.3), rgba(96, 165, 250, 0.1), rgba(226, 232, 240, 0.3));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.gradient-border:hover::before {
+  opacity: 1;
+}
+
+/* ============================================
+   SKELETON LOADER
+   ============================================ */
+
+@keyframes skeleton-pulse {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-background) 25%,
+    rgba(226, 232, 240, 0.5) 37%,
+    var(--color-surface-background) 63%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-pulse 1.8s ease-in-out infinite;
+  border-radius: var(--radius-button);
+}
+
+.skeleton-card {
+  background: linear-gradient(
+    90deg,
+    var(--color-surface-container) 25%,
+    rgba(226, 232, 240, 0.4) 37%,
+    var(--color-surface-container) 63%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-pulse 1.8s ease-in-out infinite;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.skeleton-line {
+  height: 12px;
+  border-radius: 6px;
+}
+
+.skeleton-circle {
+  border-radius: 50%;
+}
+
+/* ============================================
+   M3 SURFACE HIERARCHY CLASSES
+   ============================================ */
+
+.surface-base {
+  background: var(--color-surface-background);
+}
+
+.surface-container {
+  background: var(--color-surface-container);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-card);
+}
+
+.surface-elevated {
+  background: var(--color-surface-container-elevated);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-card-elevated);
+  box-shadow: var(--elevation-1);
+}
+
+.surface-glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-card-elevated);
+  box-shadow: var(--elevation-2);
+}
+
+/* ============================================
+   M3 BUTTON PREMIUM ENHANCEMENTS
+   ============================================ */
+
+.btn-primary-premium {
+  background: var(--gradient-hero);
+  color: var(--color-on-primary);
+  border: none;
+  border-radius: var(--radius-button);
+  box-shadow:
+    0 1px 3px rgba(26, 115, 232, 0.3),
+    0 4px 12px rgba(26, 115, 232, 0.15);
+  transition: var(--transition-premium);
+}
+
+.btn-primary-premium:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 2px 8px rgba(26, 115, 232, 0.4),
+    0 8px 24px rgba(26, 115, 232, 0.2);
+}
+
+.btn-primary-premium:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 3px rgba(26, 115, 232, 0.2);
+}
+
+/* ============================================
+   M3 BADGE / CHIP ENHANCEMENTS
+   ============================================ */
+
+.badge-success {
+  background: var(--color-success-container);
+  color: var(--color-on-success-container);
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.badge-warning {
+  background: var(--color-warning-container);
+  color: var(--color-on-warning-container);
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.badge-error {
+  background: var(--color-error-container);
+  color: var(--color-on-error-container);
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.badge-primary {
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+  border-radius: var(--radius-pill);
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+/* ============================================
+   M3 INPUT PREMIUM FOCUS
+   ============================================ */
+
+.input-premium {
+  border: 1.5px solid var(--color-border-subtle);
+  border-radius: var(--radius-input);
+  background: var(--color-surface-container);
+  padding: 10px 14px;
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+  transition: var(--transition-standard);
+}
+
+.input-premium:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.12);
+  outline: none;
+}
+
+.input-premium::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+/* ============================================
+   M3 CHECKBOX / TOGGLE PREMIUM
+   ============================================ */
+
+.toggle-pill {
+  display: inline-flex;
+  gap: 0.5rem;
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-background);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.toggle-pill-active {
+  background: var(--color-surface-container);
+  box-shadow: var(--elevation-1);
+  color: var(--color-text-primary);
+}
+
+.toggle-pill-inactive {
+  background: transparent;
+  color: var(--color-text-tertiary);
+}
+
+/* ============================================
+   M3 DROPDOWN / POPOVER PREMIUM
+   ============================================ */
+
+.popover-premium {
+  background: var(--glass-bg-heavy);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-card);
+  box-shadow: var(--elevation-3);
+  padding: 0.75rem;
+}
+
+/* ============================================
+   AMBIENT GLOW EFFECTS
+   ============================================ */
+
+.ambient-glow {
+  position: relative;
+}
+
+.ambient-glow::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle, rgba(26, 115, 232, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.ambient-glow-strong::after {
+  background: radial-gradient(circle, rgba(26, 115, 232, 0.1) 0%, transparent 60%);
 }

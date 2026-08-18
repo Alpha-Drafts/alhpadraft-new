@@ -5,7 +5,10 @@
 
 @layer components {
   .modal-overlay {
-    @apply fixed start-0 top-0 z-80 size-full overflow-x-hidden overflow-y-auto bg-black/50 backdrop-blur-sm transition-opacity duration-500;
+    @apply fixed start-0 top-0 z-80 size-full overflow-x-hidden overflow-y-auto transition-opacity duration-500;
+    background: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
   .modal-wrapper {
@@ -25,7 +28,13 @@
   }
 
   .modal-content_container {
-    @apply mx-auto max-h-[calc(100vh-2rem)] w-full max-w-lg overflow-y-auto rounded-xl bg-white p-4 shadow-lg sm:max-h-[calc(100vh-3rem)] sm:p-6;
+    @apply mx-auto max-h-[calc(100vh-2rem)] w-full max-w-lg overflow-y-auto p-4 sm:max-h-[calc(100vh-3rem)] sm:p-6;
+    border-radius: var(--radius-modal);
+    background: var(--glass-bg-heavy);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--elevation-4);
   }
 
   .modal-content_container-body {

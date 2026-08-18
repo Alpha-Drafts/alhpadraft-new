@@ -71,7 +71,15 @@ const UserLayout = ({
 
   return (
     <>
-      <div className="mx-auto min-h-svh">
+      <div className="mx-auto min-h-svh relative">
+        {/* Ambient gradient mesh background for depth */}
+        <div
+          className="pointer-events-none fixed inset-0 z-0"
+          style={{
+            background: "radial-gradient(ellipse at 20% 0%, rgba(26, 115, 232, 0.04) 0%, transparent 50%), radial-gradient(ellipse at 80% 100%, rgba(96, 165, 250, 0.03) 0%, transparent 50%)",
+          }}
+        />
+
         <NavBar
           isSettingPage={isSettingPage}
           isCitationPage={isCitationPage}
@@ -80,9 +88,9 @@ const UserLayout = ({
           onBackClick={onBackClick}
         />
 
-        {/* This is the main content area */}
+        {/* Main content area — elevated surface with depth */}
         <div
-          className="relative mx-auto w-full max-w-6xl overflow-hidden p-4 sm:p-7"
+          className="relative z-10 mx-auto w-full max-w-6xl overflow-hidden p-4 sm:p-7"
           id="content-area"
         >
           <EmailVerificationBanner />
