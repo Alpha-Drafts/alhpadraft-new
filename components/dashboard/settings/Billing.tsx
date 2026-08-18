@@ -16,7 +16,6 @@ import {
   useCurrentSubscription,
   useSubscriptionHistory,
   BILLING_ITEMS_PER_PAGE,
-  // useFetchHook,
   useCreditBalance,
   useCreditHistory,
   CREDIT_HISTORY_ITEMS_PER_PAGE,
@@ -30,11 +29,20 @@ import {
 } from "@/utils";
 import { CREDIT_RATES, FREE_PLAN_LIMITS, SUBSCRIPTION_PLAN } from "@/constants";
 import { useCredits } from "@/context";
-// import { MonthlyUsageProps } from "@/types";
 import BuyCreditsModal from "../modals/BuyCreditsModal";
 
+/* ─── Shared design-token class constants ─── */
+const CARD =
+  "rounded-[var(--radius-card)] border border-[var(--color-border-subtle)] bg-[var(--color-surface-container)] p-6 transition-[box-shadow] duration-200 ease-[cubic-bezier(0.4,0,0.2,1)]";
+
+const SKELETON_CARD =
+  "animate-pulse rounded-[var(--radius-card)] border border-[var(--color-border-subtle)] bg-[var(--color-surface-container)] p-6";
+const SECTION_LABEL = "text-body-medium-12 text-[var(--color-text-tertiary)]";
+
+const ERROR_CARD =
+  "rounded-[var(--radius-card)] border border-[var(--color-error)]/20 bg-[var(--color-surface-container)] p-6 text-center";
+
 const Billing = () => {
-  // const { token } = useClaims();
   const { balance, isLoading: creditsLoading } = useCredits();
   const { cancelSubscription, isLoading: isLoadingCancelSubscription } =
     useCancelSubscription();
@@ -65,16 +73,10 @@ const Billing = () => {
   const isPayPerCheck = normalizedPlan === "purchased";
   const isSubscription = normalizedPlan === "subscription";
 
-  // Usage Card — plan-aware
+  /* ═══════════════════════════════════════════
+     Usage Card — plan-aware
+     ═══════════════════════════════════════════ */
   const UsageCard = () => {
-    // // Free plan: fetch monthly usage for check limits
-    // const { data: monthlyUsage, isLoading: usageLoading } =
-    //   useFetchHook<MonthlyUsageProps>({
-    //     endpoint: `${API_BASE_URL}/v1/credits/status`,
-    //     enabled: !!token,
-    //   });
-
-    // Paid plans: fetch detailed credit balance
     const { data: creditData, isLoading: creditDataLoading } =
       useCreditBalance();
 
@@ -82,32 +84,26 @@ const Billing = () => {
 
     if (plansLoading || subLoading || isLoading) {
       return (
-        <div className="mx-auto max-w-2xl flex-1 animate-pulse rounded-[12.75px] border border-gray-200 p-6 shadow-sm">
-          <div className="mb-4 h-6 w-1/3 rounded bg-gray-200" />
-          <div className="mb-6 h-4 w-2/3 rounded bg-gray-200" />
+        <div className={SKELETON_CARD}>
+          <div className="mb-4 h-5 w-1/3 rounded bg-[var(--color-surface-background)]" />
+          <div className="mb-6 h-4 w-2/3 rounded bg-[var(--color-surface-background)]" />
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="mb-[21px]">
-              <div className="mb-2 h-4 w-full rounded bg-gray-200" />
-              <div className="h-2 w-full rounded-full bg-gray-200" />
+            <div key={i} className="mb-3.5">
+              <div className="mb-2 h-4 w-full rounded bg-[var(--color-surface-background)]" />
+              <div className="h-2 w-full rounded-full bg-[var(--color-surface-background)]" />
             </div>
           ))}
         </div>
       );
     }
 
-    // Free Plan Usage
+    /* ── Free Plan Usage ── */
     if (isFreePlan) {
       const addOneMonth = (date: Date): Date => {
         const result = new Date(date);
         const day = result.getDate();
-
         result.setMonth(result.getMonth() + 1);
-
-        // Handle cases where the next month has fewer days
-        if (result.getDate() < day) {
-          result.setDate(0); // go to last day of previous month
-        }
-
+        if (result.getDate() < day) result.setDate(0);
         return result;
       };
       const checksUsage = subscription;
@@ -118,67 +114,68 @@ const Billing = () => {
       const resetDate = checksUsage?.lastFreeCheckResetDate
         ? new Date(checksUsage.lastFreeCheckResetDate!)
         : new Date();
-      const resetDateString = (() => {
-        return addOneMonth(resetDate).toLocaleDateString(undefined, {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        });
-      })();
+      const resetDateString = addOneMonth(resetDate).toLocaleDateString(
+        undefined,
+        { year: "numeric", month: "long", day: "numeric" },
+      );
 
       return (
-        <div className="mx-auto max-w-2xl flex-1 rounded-[12.75px] border border-gray-200 p-6 shadow-sm">
-          <h4 className="text-body-medium-14 mb-1 text-black">
+        <div className={CARD}>
+          <h4 className="text-body-medium-14 mb-1 text-[var(--color-text-primary)]">
             Free Plan Usage
           </h4>
-          <p className="text-body-regular-12 mb-5 text-gray-500">
+          <p className="text-body-regular-12 mb-5 text-[var(--color-text-tertiary)]">
             Track your monthly free plan limits
           </p>
 
-          {/* Checks used */}
           <div className="mb-5">
-            <div className="text-body-medium-12 mb-1 flex justify-between text-black">
+            <div className="text-body-medium-12 mb-1.5 flex justify-between text-[var(--color-text-primary)]">
               <span>Checks Used</span>
               <span
                 className={
-                  checksUsed >= checksLimit ? "text-red-600" : "text-green-600"
+                  checksUsed >= checksLimit
+                    ? "text-[var(--color-error)]"
+                    : "text-[var(--color-success)]"
                 }
               >
                 {checksUsed} / {checksLimit}
               </span>
             </div>
-            <div className="relative h-2 w-full overflow-hidden rounded-full bg-gray-200">
+            <div className="relative h-2 w-full overflow-hidden rounded-full bg-[var(--color-surface-background)]">
               <div
-                className={`h-full rounded-full ${checksUsed >= checksLimit ? "bg-red-500" : "bg-blue-500"}`}
+                className={`h-full rounded-full transition-[width] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+                  checksUsed >= checksLimit
+                    ? "bg-[var(--color-error)]"
+                    : "bg-[var(--color-primary)]"
+                }`}
                 style={{ width: `${Math.min(checksPercent, 100)}%` }}
               />
             </div>
           </div>
 
-          {/* Plan limits */}
-          <div className="space-y-3 rounded-lg border border-gray-100 bg-gray-50 p-3">
-            <div className="text-body-regular-12 flex justify-between text-gray-600">
+          <div className="space-y-3 rounded-[var(--radius-card)] border border-[var(--color-border-subtle)] bg-[var(--color-surface-background)] p-3.5">
+            <div className="text-body-regular-12 flex justify-between text-[var(--color-text-secondary)]">
               <span>Max words per check</span>
-              <span className="font-medium text-gray-900">
+              <span className="font-medium text-[var(--color-text-primary)]">
                 {FREE_PLAN_LIMITS.maxWordsPerCheck.toLocaleString()}
               </span>
             </div>
-            <div className="text-body-regular-12 flex justify-between text-gray-600">
+            <div className="text-body-regular-12 flex justify-between text-[var(--color-text-secondary)]">
               <span>Available checks</span>
-              <span className="font-medium text-gray-900">
+              <span className="font-medium text-[var(--color-text-primary)]">
                 AI Detection only
               </span>
             </div>
           </div>
 
-          <div className="text-body-regular-12 mt-4 text-center text-gray-500">
+          <div className="text-body-regular-12 mt-4 text-center text-[var(--color-text-tertiary)]">
             Resets on {resetDateString}
           </div>
         </div>
       );
     }
 
-    // Pay-Per-Check / Subscription usage
+    /* ── Paid Plan Usage ── */
     const creditsUsed = creditData?.used ?? 0;
     const monthlyAllocation =
       creditData?.monthlyAllocation ??
@@ -189,61 +186,63 @@ const Billing = () => {
         : 0;
 
     return (
-      <div className="mx-auto max-w-2xl flex-1 rounded-[12.75px] border border-gray-200 p-6 shadow-sm">
-        <h4 className="text-body-medium-14 mb-1 text-black">
+      <div className={CARD}>
+        <h4 className="text-body-medium-14 mb-1 text-[var(--color-text-primary)]">
           {isSubscription ? "Monthly Credits" : "Credit Balance"}
         </h4>
-        <p className="text-body-regular-12 mb-5 text-gray-500">
+        <p className="text-body-regular-12 mb-5 text-[var(--color-text-tertiary)]">
           {isSubscription
             ? "Track your monthly credit allocation"
             : "Your available credits for running checks"}
         </p>
 
-        {/* Credit balance — prominent display */}
-        <div className="mb-5 rounded-lg border border-blue-100 bg-blue-50 p-4 text-center">
+        {/* Credit balance — prominent tonal display */}
+        <div className="mb-5 rounded-[var(--radius-card)] border border-[var(--color-primary)]/10 bg-[var(--color-primary-container)] p-4 text-center">
           <div className="flex items-center justify-center gap-2">
-            <Coins className="h-5 w-5 text-blue-500" />
-            <span className="text-2xl font-bold text-blue-600">
+            <Coins className="h-5 w-5 text-[var(--color-primary)]" />
+            <span className="text-body-bold-20 text-[var(--color-on-primary-container)]">
               {creditsLoading ? "..." : formatCredits(balance)}
             </span>
           </div>
-          <p className="text-body-regular-12 mt-1 text-blue-600/70">
+          <p className="text-body-regular-12 mt-1 text-[var(--color-on-primary-container)]/70">
             credits available
           </p>
         </div>
 
-        {/* Subscription: show allocation progress */}
+        {/* Subscription allocation progress */}
         {isSubscription && monthlyAllocation > 0 && (
           <div className="mb-5">
-            <div className="text-body-medium-12 mb-1 flex justify-between text-black">
+            <div className="text-body-medium-12 mb-1.5 flex justify-between text-[var(--color-text-primary)]">
               <span>Monthly Usage</span>
               <span
                 className={
                   creditsUsed >= monthlyAllocation
-                    ? "text-red-600"
-                    : "text-green-600"
+                    ? "text-[var(--color-error)]"
+                    : "text-[var(--color-success)]"
                 }
               >
                 {formatCredits(creditsUsed)} /{" "}
                 {formatCredits(monthlyAllocation)}
               </span>
             </div>
-
-            <div className="relative h-2 w-full overflow-hidden rounded-full bg-gray-200">
+            <div className="relative h-2 w-full overflow-hidden rounded-full bg-[var(--color-surface-background)]">
               <div
-                className={`h-full rounded-full ${creditsUsed >= monthlyAllocation ? "bg-red-500" : "bg-blue-500"}`}
+                className={`h-full rounded-full transition-[width] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+                  creditsUsed >= monthlyAllocation
+                    ? "bg-[var(--color-error)]"
+                    : "bg-[var(--color-primary)]"
+                }`}
                 style={{ width: `${Math.min(creditsPercent, 100)}%` }}
               />
             </div>
           </div>
         )}
 
-        {/* Credits used this period for Pay-Per-Check */}
         {isPayPerCheck && creditsUsed > 0 && (
           <div className="mb-5">
-            <div className="text-body-regular-12 flex justify-between text-gray-600">
+            <div className="text-body-regular-12 flex justify-between text-[var(--color-text-secondary)]">
               <span>Credits used this month</span>
-              <span className="font-medium text-gray-900">
+              <span className="font-medium text-[var(--color-text-primary)]">
                 {formatCredits(creditsUsed)}
               </span>
             </div>
@@ -261,25 +260,28 @@ const Billing = () => {
     );
   };
 
-  // Current Plan Card
+  /* ═══════════════════════════════════════════
+     Current Plan Card
+     ═══════════════════════════════════════════ */
   const CurrentPlanCard = () => {
     if (plansLoading || subLoading) {
       return (
-        <div className="animate-pulse rounded-[12.75px] border border-gray-200 p-[21px] shadow-sm lg:mx-0">
-          <div className="mb-4 h-6 w-1/3 rounded bg-gray-200" />
-          <div className="mb-6 h-4 w-2/3 rounded bg-gray-200" />
-          <div className="mb-2 h-4 w-full rounded bg-gray-200" />
-          <div className="h-4 w-1/2 rounded bg-gray-200" />
+        <div className={`${SKELETON_CARD}`}>
+          <div className="mb-4 h-5 w-1/3 rounded bg-[var(--color-surface-background)]" />
+          <div className="mb-6 h-4 w-2/3 rounded bg-[var(--color-surface-background)]" />
+          <div className="mb-2 h-4 w-full rounded bg-[var(--color-surface-background)]" />
+          <div className="h-4 w-1/2 rounded bg-[var(--color-surface-background)]" />
         </div>
       );
     }
+
     if (plansError || subError) {
       return (
-        <div className="rounded-[12.75px] border border-red-200 p-[21px] text-center shadow-sm lg:mx-0">
-          <h4 className="text-body-semibold-14 mb-[26.25px] flex items-center justify-center text-red-600">
+        <div className={ERROR_CARD}>
+          <h4 className="text-body-semibold-14 mb-6 flex items-center justify-center text-[var(--color-error)]">
             Current Plan
           </h4>
-          <p className="text-body-regular-12 text-red-500">
+          <p className="text-body-regular-12 text-[var(--color-error)]">
             {plansError?.message ||
               subError?.message ||
               "Failed to load plan data."}
@@ -287,17 +289,18 @@ const Billing = () => {
         </div>
       );
     }
+
     if (!isSubscription && !isPayPerCheck) {
       return (
-        <div className="rounded-[12.75px] border border-gray-200 p-[21px] text-center shadow-sm lg:mx-0">
-          <h4 className="text-body-semibold-14 mb-[26.25px] flex items-center justify-center text-black">
+        <div className={`${CARD} text-center`}>
+          <h4 className="text-body-semibold-14 mb-6 flex items-center justify-center text-[var(--color-text-primary)]">
             Current Plan
           </h4>
-          <p className="text-body-regular-12 text-gray-500">
+          <p className="text-body-regular-12 text-[var(--color-text-tertiary)]">
             You currently do not have an active plan. Please select a plan to
             access premium features.
           </p>
-          <div className="mt-[21px] flex justify-center">
+          <div className="mt-5 flex justify-center">
             <Button
               text="View Plans"
               size="sm"
@@ -309,11 +312,11 @@ const Billing = () => {
     }
 
     const planIcon = isFreePlan ? (
-      <ShieldCheck className="mr-1 h-[17.7px] w-[17.5px] text-gray-400" />
+      <ShieldCheck className="mr-1 h-[17.5px] w-[17.5px] text-[var(--color-text-tertiary)]" />
     ) : isSubscription ? (
-      <Crown className="mr-1 h-[17.7px] w-[17.5px] text-yellow-500" />
+      <Crown className="mr-1 h-[17.5px] w-[17.5px] text-yellow-500" />
     ) : (
-      <Zap className="mr-1 h-[17.7px] w-[17.5px] text-blue-500" />
+      <Zap className="mr-1 h-[17.5px] w-[17.5px] text-[var(--color-primary)]" />
     );
 
     const priceDisplay = isFreePlan
@@ -322,73 +325,78 @@ const Billing = () => {
         ? "Pay as you go"
         : `${formatPrices(currentPlan?.amount ?? 0, "USD")}/${currentPlan?.interval}`;
 
+    const StatusBadge = ({ active }: { active: boolean }) =>
+      active ? (
+        <span className="rounded-[var(--radius-pill)] bg-[var(--color-success-container)] px-3 py-0.5 text-body-semibold-10 uppercase tracking-wider text-[var(--color-on-success-container)]">
+          Active
+        </span>
+      ) : (
+        <span className="rounded-[var(--radius-pill)] bg-[var(--color-error-container)] px-3 py-0.5 text-body-semibold-10 uppercase tracking-wider text-[var(--color-on-error-container)]">
+          Cancelled
+        </span>
+      );
+
     if (isSubscription && currentPlan) {
       return (
-        <div className="rounded-[12.75px] border border-gray-200 p-[21px] shadow-sm lg:mx-0">
-          <div className="flex justify-between">
-            <h4 className="text-body-semibold-14 mb-[26.25px] flex items-center text-black">
+        <div className={CARD}>
+          <div className="flex items-center justify-between">
+            <h4 className="text-body-semibold-14 mb-6 flex items-center text-[var(--color-text-primary)]">
               {planIcon}
               Current Plan
             </h4>
           </div>
-          <div className="mb-[14px] flex justify-between gap-6">
+
+          <div className="mb-3.5 flex justify-between gap-6">
             <div>
               <div className="flex items-center gap-3">
-                <h3 className="text-body-bold-20 text-black">
+                <h3 className="text-body-bold-20 text-[var(--color-text-primary)]">
                   {currentPlan.name}
                 </h3>
-                {isSubscription ? (
-                  <>
-                    {subscription?.subscription?.status === "active" ? (
-                      <span className="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">
-                        Active
-                      </span>
-                    ) : (
-                      <span className="rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-700">
-                        Cancelled
-                      </span>
-                    )}
-                  </>
-                ) : null}
+                <StatusBadge
+                  active={
+                    subscription?.subscription?.status === "active"
+                  }
+                />
               </div>
-              <p className="text-body-regular-12 text-gray-500">
+              <p className="text-body-regular-12 mt-1 text-[var(--color-text-tertiary)]">
                 {currentPlan.description}
               </p>
             </div>
             <div className="shrink-0">
-              <span className="text-body-regular-12 from-primary-500 via-primary-600 to-primary-700 rounded-[6px] bg-gradient-to-r px-2 py-1 text-white">
+              <span className="text-body-semibold-10 rounded-[var(--radius-button)] bg-[var(--color-primary)] px-2.5 py-1 uppercase tracking-wider text-[var(--color-on-primary)]">
                 {priceDisplay}
               </span>
             </div>
           </div>
-          <ul className="text-body-regular-12 mb-[14px] space-y-2 text-gray-600">
+
+          <ul className="text-body-regular-12 mb-3.5 space-y-2 text-[var(--color-text-secondary)]">
             {currentPlan.benefits.map(item => (
               <li key={item.name} className="flex items-center">
-                <CheckCircle className="mr-1 h-[14px] w-[14px] text-green-500" />{" "}
+                <CheckCircle className="mr-1.5 h-3.5 w-3.5 text-[var(--color-success)]" />{" "}
                 {item.name}
               </li>
             ))}
           </ul>
 
-          {/* Credit Balance for paid plans */}
+          {/* Credit balance */}
           {!isFreePlan && (
-            <div className="mb-[14px] rounded-lg border border-gray-100 bg-gray-50 p-3">
+            <div className="mb-3.5 rounded-[var(--radius-card)] border border-[var(--color-border-subtle)] bg-[var(--color-surface-background)] p-3">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Coins className="h-4 w-4 text-blue-500" />
-                  <span className="text-body-medium-12 text-gray-700">
+                  <Coins className="h-4 w-4 text-[var(--color-primary)]" />
+                  <span className="text-body-medium-12 text-[var(--color-text-secondary)]">
                     Credit Balance
                   </span>
                 </div>
-                <span className="text-body-bold-14 text-blue-600">
+                <span className="text-body-bold-14 text-[var(--color-primary)]">
                   {creditsLoading ? "..." : formatCredits(balance)}
                 </span>
               </div>
             </div>
           )}
 
-          <div className="flex items-center justify-between space-x-2">
-            <div className="flex items-center space-x-2">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2">
               <Button
                 text={isFreePlan ? "Upgrade Plan" : "View Plans"}
                 size="sm"
@@ -424,26 +432,31 @@ const Billing = () => {
       );
     }
 
+    /* Pay-Per-Check plan card */
     return (
-      <div className="rounded-[12.75px] border border-gray-200 p-[21px] shadow-sm lg:mx-0">
-        <h4 className="text-body-semibold-14 mb-[26.25px] flex items-center text-black">
+      <div className={CARD}>
+        <h4 className="text-body-semibold-14 mb-6 flex items-center text-[var(--color-text-primary)]">
           {planIcon}
           Current Plan
         </h4>
-        <div className="mb-[14px] flex justify-between gap-6">
+
+        <div className="mb-3.5 flex justify-between gap-6">
           <div>
-            <h3 className="text-body-bold-20 text-black">{"Pay-Per-Check"}</h3>
-            <p className="text-body-regular-12 text-gray-500">
+            <h3 className="text-body-bold-20 text-[var(--color-text-primary)]">
+              Pay-Per-Check
+            </h3>
+            <p className="text-body-regular-12 mt-1 text-[var(--color-text-tertiary)]">
               Buy credits and use them anytime
             </p>
           </div>
           <div className="shrink-0">
-            <span className="text-body-regular-12 from-primary-500 via-primary-600 to-primary-700 rounded-[6px] bg-gradient-to-r px-2 py-1 text-white">
+            <span className="text-body-semibold-10 rounded-[var(--radius-button)] bg-[var(--color-primary)] px-2.5 py-1 uppercase tracking-wider text-[var(--color-on-primary)]">
               {priceDisplay}
             </span>
           </div>
         </div>
-        <ul className="text-body-regular-12 mb-[14px] space-y-2 text-gray-600">
+
+        <ul className="text-body-regular-12 mb-3.5 space-y-2 text-[var(--color-text-secondary)]">
           {[
             { name: "AI Detection", rate: CREDIT_RATES["ai"] },
             { name: "Plagiarism", rate: CREDIT_RATES["plagiarism"] },
@@ -454,30 +467,29 @@ const Billing = () => {
             },
           ].map(item => (
             <li key={item.name} className="flex items-center">
-              <CheckCircle className="mr-1 h-[14px] w-[14px] text-green-500" />{" "}
+              <CheckCircle className="mr-1.5 h-3.5 w-3.5 text-[var(--color-success)]" />{" "}
               {item.name}
             </li>
           ))}
         </ul>
 
-        {/* Credit Balance for paid plans */}
         {!isFreePlan && (
-          <div className="mb-[14px] rounded-lg border border-gray-100 bg-gray-50 p-3">
+          <div className="mb-3.5 rounded-[var(--radius-card)] border border-[var(--color-border-subtle)] bg-[var(--color-surface-background)] p-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Coins className="h-4 w-4 text-blue-500" />
-                <span className="text-body-medium-12 text-gray-700">
+                <Coins className="h-4 w-4 text-[var(--color-primary)]" />
+                <span className="text-body-medium-12 text-[var(--color-text-secondary)]">
                   Credit Balance
                 </span>
               </div>
-              <span className="text-body-bold-14 text-blue-600">
+              <span className="text-body-bold-14 text-[var(--color-primary)]">
                 {creditsLoading ? "..." : formatCredits(balance)}
               </span>
             </div>
           </div>
         )}
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-2">
           <Button
             text={isFreePlan ? "Upgrade Plan" : "View Plans"}
             size="sm"
@@ -496,12 +508,13 @@ const Billing = () => {
     );
   };
 
-  // Billing History Card — plan-aware
+  /* ═══════════════════════════════════════════
+     Billing History Card — plan-aware
+     ═══════════════════════════════════════════ */
   const BillingHistoryCard = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [usagePage, setUsagePage] = useState(1);
 
-    // Subscription history (for Subscription plan billing)
     const subHistorySkip = (currentPage - 1) * BILLING_ITEMS_PER_PAGE;
     const {
       data: subscriptionHistory,
@@ -513,8 +526,8 @@ const Billing = () => {
       take: BILLING_ITEMS_PER_PAGE,
     });
 
-    // Credit transaction history (for Pay-Per-Check and Subscription)
-    const creditHistorySkip = (currentPage - 1) * CREDIT_HISTORY_ITEMS_PER_PAGE;
+    const creditHistorySkip =
+      (currentPage - 1) * CREDIT_HISTORY_ITEMS_PER_PAGE;
     const {
       data: creditHistory,
       totalCount: creditTotalCount,
@@ -524,7 +537,8 @@ const Billing = () => {
       take: CREDIT_HISTORY_ITEMS_PER_PAGE,
     });
 
-    const usageHistorySkip = (usagePage - 1) * CREDIT_HISTORY_ITEMS_PER_PAGE;
+    const usageHistorySkip =
+      (usagePage - 1) * CREDIT_HISTORY_ITEMS_PER_PAGE;
     const {
       data: usageHistoryRaw,
       hasMore: usageHasMore,
@@ -539,7 +553,6 @@ const Billing = () => {
       item => item.type !== "usage",
     );
 
-    // Decide which data to show based on plan
     const showCreditHistory = isPayPerCheck || isSubscription;
 
     const isLoading =
@@ -571,26 +584,57 @@ const Billing = () => {
       if (usagePage > 1) setUsagePage(prev => prev - 1);
     };
 
+    const PaginationControls = ({
+      page,
+      total,
+      onPrev,
+      onNext,
+    }: {
+      page: number;
+      total: number;
+      onPrev: () => void;
+      onNext: () => void;
+    }) => (
+      <div className="mt-4 flex items-center justify-between">
+        <button
+          onClick={onPrev}
+          disabled={page === 1}
+          className="flex items-center gap-1.5 rounded-[var(--radius-button)] border border-[var(--color-border-subtle)] bg-[var(--color-surface-container)] px-3 py-1.5 text-body-regular-12 text-[var(--color-text-secondary)] transition-[background,border-color] duration-150 hover:border-[var(--color-border-medium)] hover:bg-[var(--color-surface-background)] disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          <ChevronLeft className="h-3.5 w-3.5" />
+        </button>
+        <span className="text-body-regular-12 text-[var(--color-text-tertiary)]">
+          Page {page} of {total}
+        </span>
+        <button
+          onClick={onNext}
+          disabled={page === total}
+          className="flex items-center gap-1.5 rounded-[var(--radius-button)] border border-[var(--color-border-subtle)] bg-[var(--color-surface-container)] px-3 py-1.5 text-body-regular-12 text-[var(--color-text-secondary)] transition-[background,border-color] duration-150 hover:border-[var(--color-border-medium)] hover:bg-[var(--color-surface-background)] disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          <ChevronRight className="h-3.5 w-3.5" />
+        </button>
+      </div>
+    );
+
     if (isLoading) {
       return (
-        <div className="animate-pulse rounded-[12.75px] border border-gray-200 bg-white p-6 shadow-sm">
-          <div className="mb-4 h-6 w-1/3 rounded bg-gray-200" />
-          <div className="mb-6 h-4 w-2/3 rounded bg-gray-200" />
+        <div className={`${SKELETON_CARD}`}>
+          <div className="mb-4 h-5 w-1/3 rounded bg-[var(--color-surface-background)]" />
+          <div className="mb-6 h-4 w-2/3 rounded bg-[var(--color-surface-background)]" />
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="mb-2 h-4 w-full rounded bg-gray-200" />
+            <div key={i} className="mb-2 h-4 w-full rounded bg-[var(--color-surface-background)]" />
           ))}
         </div>
       );
     }
 
-    // Free plan — no billing history
     if (isFreePlan) {
       return (
-        <div className="rounded-[12.75px] border border-gray-200 bg-white p-6 text-center shadow-sm">
-          <h4 className="text-body-medium-14 mb-3 text-black">
+        <div className={`${CARD} text-center`}>
+          <h4 className="text-body-medium-14 mb-3 text-[var(--color-text-primary)]">
             Billing History
           </h4>
-          <p className="text-body-regular-12 text-gray-500">
+          <p className="text-body-regular-12 text-[var(--color-text-tertiary)]">
             No billing history on the Free plan.
           </p>
           <Button
@@ -605,58 +649,59 @@ const Billing = () => {
 
     if (subHistoryError && !showCreditHistory) {
       return (
-        <div className="rounded-[12.75px] border border-red-200 bg-white p-6 text-center shadow-sm">
-          <h4 className="text-body-medium-14 mb-[21px] text-red-600">
+        <div className={ERROR_CARD}>
+          <h4 className="text-body-medium-14 mb-5 text-[var(--color-error)]">
             Billing History
           </h4>
-          <p className="text-body-regular-12 text-red-500">
+          <p className="text-body-regular-12 text-[var(--color-error)]">
             {subHistoryError?.message || "Failed to load billing history."}
           </p>
         </div>
       );
     }
 
-    // Pay-Per-Check: show credit transactions
+    /* ── Pay-Per-Check credit transactions ── */
     if (isPayPerCheck) {
       if (creditTotalCount === 0) {
         return (
-          <div className="rounded-[12.75px] border border-gray-200 bg-white p-6 text-center shadow-sm">
-            <h4 className="text-body-medium-14 mb-3 text-black">
+          <div className={`${CARD} text-center`}>
+            <h4 className="text-body-medium-14 mb-3 text-[var(--color-text-primary)]">
               Transaction History
             </h4>
-            <p className="text-body-regular-12 text-gray-500">
+            <p className="text-body-regular-12 text-[var(--color-text-tertiary)]">
               No credit transactions yet.
             </p>
           </div>
         );
       }
+
       return (
-        <div className="rounded-[12.75px] border border-gray-200 bg-white p-6 shadow-sm">
-          <div className="mb-[21px] flex items-center justify-between">
-            <h4 className="text-body-medium-14 text-black">
+        <div className={CARD}>
+          <div className="mb-5 flex items-center justify-between">
+            <h4 className="text-body-medium-14 text-[var(--color-text-primary)]">
               Transaction History
             </h4>
           </div>
           {transactionHistory.length === 0 ? (
-            <p className="text-body-regular-12 text-gray-500">
+            <p className="text-body-regular-12 text-[var(--color-text-tertiary)]">
               No credit transactions yet.
             </p>
           ) : (
-            <ul className="text-body-regular-12 space-y-3">
+            <ul className="text-body-regular-12 space-y-2.5">
               {transactionHistory.map(item => (
                 <li
                   key={item.id}
-                  className="flex items-center justify-between border-b border-gray-100 pb-2 last:border-0"
+                  className="flex items-center justify-between border-b border-[var(--color-border-subtle)] pb-2.5 last:border-0"
                 >
                   <div>
-                    <p className="text-body-medium-12 text-black">
+                    <p className="text-body-medium-12 text-[var(--color-text-primary)]">
                       {item.description}
                     </p>
-                    <p className="text-[10px] text-gray-400">
+                    <p className="text-body-regular-10 text-[var(--color-text-tertiary)]">
                       {new Date(item.createdAt).toLocaleDateString()}
                     </p>
                   </div>
-                  <span className="text-body-medium-12 text-green-600">
+                  <span className="text-body-medium-12 text-[var(--color-success)]">
                     +{formatCredits(Math.abs(item.amount))}
                   </span>
                 </li>
@@ -664,39 +709,28 @@ const Billing = () => {
             </ul>
           )}
           {totalPages > 1 && (
-            <div className="mt-4 flex items-center justify-between">
-              <Button
-                text="Previous"
-                onClick={goToPreviousPage}
-                disabled={currentPage === 1}
-                variant="secondary"
-                className="px-3 py-1 text-sm"
-              />
-              <span className="text-body-regular-12 text-gray-700">
-                Page {currentPage} of {totalPages}
-              </span>
-              <Button
-                text="Next"
-                onClick={goToNextPage}
-                disabled={currentPage === totalPages}
-                variant="secondary"
-                className="px-3 py-1 text-sm"
-              />
-            </div>
+            <PaginationControls
+              page={currentPage}
+              total={totalPages}
+              onPrev={goToPreviousPage}
+              onNext={goToNextPage}
+            />
           )}
           {usageHistory.length > 0 && (
-            <div className="mt-6 border-t border-gray-100 pt-4">
-              <p className="text-body-medium-12 mb-2 text-gray-500">
+            <div className="mt-5 border-t border-[var(--color-border-subtle)] pt-4">
+              <p className="text-body-medium-12 mb-2.5 text-[var(--color-text-tertiary)]">
                 Usage History
               </p>
               <ul className="text-body-regular-12 space-y-2">
                 {usageHistory.map(item => (
                   <li
                     key={item.id}
-                    className="flex items-center justify-between border-b border-b-[#eceaea] py-2"
+                    className="flex items-center justify-between border-b border-[var(--color-border-subtle)] py-2"
                   >
-                    <span className="text-black">{item.description}</span>
-                    <span className="text-body-medium-12 text-red-600">
+                    <span className="text-[var(--color-text-primary)]">
+                      {item.description}
+                    </span>
+                    <span className="text-body-medium-12 text-[var(--color-error)]">
                       -{formatCredits(Math.abs(item.amount))}
                     </span>
                   </li>
@@ -708,9 +742,9 @@ const Billing = () => {
                   onClick={goToPreviousUsagePage}
                   disabled={usagePage === 1}
                   variant="secondary"
-                  className="px-3 py-1 text-sm"
+                  size="sm"
                 />
-                <span className="text-body-regular-12 text-gray-700">
+                <span className="text-body-regular-12 text-[var(--color-text-tertiary)]">
                   Page {usagePage}
                 </span>
                 <Button
@@ -718,7 +752,7 @@ const Billing = () => {
                   onClick={goToNextUsagePage}
                   disabled={!usageHasMore}
                   variant="secondary"
-                  className="px-3 py-1 text-sm"
+                  size="sm"
                 />
               </div>
             </div>
@@ -727,17 +761,17 @@ const Billing = () => {
       );
     }
 
-    // Subscription: show subscription billing + credit transactions
+    /* ── Subscription billing + credit transactions ── */
     const hasSubHistory = subTotalCount > 0;
     const hasCreditHistory = creditTotalCount > 0;
 
     if (!hasSubHistory && !hasCreditHistory) {
       return (
-        <div className="rounded-[12.75px] border border-gray-200 bg-white p-6 text-center shadow-sm">
-          <h4 className="text-body-medium-14 mb-3 text-black">
+        <div className={`${CARD} text-center`}>
+          <h4 className="text-body-medium-14 mb-3 text-[var(--color-text-primary)]">
             Billing History
           </h4>
-          <p className="text-body-regular-12 text-gray-500">
+          <p className="text-body-regular-12 text-[var(--color-text-tertiary)]">
             No billing data to display yet.
           </p>
         </div>
@@ -745,56 +779,52 @@ const Billing = () => {
     }
 
     return (
-      <div className="rounded-[12.75px] border border-gray-200 bg-white p-6 shadow-sm">
-        <div className="mb-[21px] flex items-center justify-between">
-          <h4 className="text-body-medium-14 text-black">Billing History</h4>
+      <div className={CARD}>
+        <div className="mb-5 flex items-center justify-between">
+          <h4 className="text-body-medium-14 text-[var(--color-text-primary)]">
+            Billing History
+          </h4>
         </div>
 
-        {/* Subscription payments */}
         {hasSubHistory && (
           <div className="mb-4">
-            <p className="text-body-medium-12 mb-2 text-gray-500">
-              Subscription
-            </p>
-            <ul className="text-body-regular-14 space-y-2 text-black">
+            <p className={SECTION_LABEL}>Subscription</p>
+            <ul className="text-body-regular-14 mt-2 space-y-2 text-[var(--color-text-primary)]">
               {subscriptionHistory.map(item => (
                 <li
                   key={item.id}
-                  className="flex items-center justify-between gap-4 border-b border-b-[#eceaea] py-2"
+                  className="flex items-center justify-between gap-4 border-b border-[var(--color-border-subtle)] py-2.5"
                 >
                   <span className="min-w-0 truncate">{item.name}</span>
-                  <div className="flex shrink-0 items-center gap-3">
-                    <span>{formatPrices(item.amountUnit, "USD")}</span>
-                  </div>
+                  <span className="shrink-0">
+                    {formatPrices(item.amountUnit, "USD")}
+                  </span>
                 </li>
               ))}
             </ul>
           </div>
         )}
 
-        {/* Credit purchases */}
         {hasCreditHistory && (
           <div>
             {hasSubHistory && (
-              <p className="text-body-medium-12 mb-2 text-gray-500">
-                Credit Transactions
-              </p>
+              <p className={SECTION_LABEL}>Credit Transactions</p>
             )}
             {transactionHistory.length === 0 ? (
-              <p className="text-body-regular-12 text-gray-500">
+              <p className="text-body-regular-12 mt-2 text-[var(--color-text-tertiary)]">
                 No credit transactions yet.
               </p>
             ) : (
-              <ul className="text-body-regular-12 space-y-2">
+              <ul className="text-body-regular-12 mt-2 space-y-2">
                 {transactionHistory.map(item => (
                   <li
                     key={item.id}
-                    className="flex items-center justify-between gap-4 border-b border-b-[#eceaea] py-4"
+                    className="flex items-center justify-between gap-4 border-b border-[var(--color-border-subtle)] py-3"
                   >
-                    <span className="min-w-0 truncate text-black">
+                    <span className="min-w-0 truncate text-[var(--color-text-primary)]">
                       {item.description}
                     </span>
-                    <span className="text-body-medium-12 shrink-0 text-green-600">
+                    <span className="text-body-medium-12 shrink-0 text-[var(--color-success)]">
                       +{formatCredits(Math.abs(item.amount))}
                     </span>
                   </li>
@@ -803,65 +833,54 @@ const Billing = () => {
             )}
 
             {totalPages > 1 && (
-              <div className="mt-4 flex items-center justify-between">
-                <button
-                  onClick={goToPreviousPage}
-                  disabled={currentPage === 1}
-                  className="flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                </button>
-                <span className="text-body-regular-12 text-gray-700">
-                  Page {currentPage} of {totalPages}
-                </span>
-                <button
-                  onClick={goToNextPage}
-                  disabled={currentPage === totalPages}
-                  className="flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </button>
-              </div>
+              <PaginationControls
+                page={currentPage}
+                total={totalPages}
+                onPrev={goToPreviousPage}
+                onNext={goToNextPage}
+              />
             )}
           </div>
         )}
 
         {usageHistory.length > 0 && (
-          <div className="mt-6 border-t border-gray-100 pt-4">
-            <p className="text-body-medium-12 mb-2 text-gray-500">
+          <div className="mt-5 border-t border-[var(--color-border-subtle)] pt-4">
+            <p className="text-body-medium-12 mb-2.5 text-[var(--color-text-tertiary)]">
               Usage History
             </p>
             <ul className="text-body-regular-12 space-y-2">
               {usageHistory.map(item => (
                 <li
                   key={item.id}
-                  className="flex items-center justify-between border-b border-b-[#eceaea] py-2"
+                  className="flex items-center justify-between border-b border-[var(--color-border-subtle)] py-2"
                 >
-                  <span className="text-black">{item.description}</span>
-                  <span className="text-body-medium-12 text-red-600">
+                  <span className="text-[var(--color-text-primary)]">
+                    {item.description}
+                  </span>
+                  <span className="text-body-medium-12 text-[var(--color-error)]">
                     -{formatCredits(Math.abs(item.amount))}
                   </span>
                 </li>
               ))}
             </ul>
             <div className="mt-3 flex items-center justify-between">
-              <button
+              <Button
+                text="Previous"
                 onClick={goToPreviousUsagePage}
                 disabled={usagePage === 1}
-                className="flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </button>
-              <span className="text-body-regular-12 text-gray-700">
+                variant="secondary"
+                size="sm"
+              />
+              <span className="text-body-regular-12 text-[var(--color-text-tertiary)]">
                 Page {usagePage}
               </span>
-              <button
+              <Button
+                text="Next"
                 onClick={goToNextUsagePage}
                 disabled={!usageHasMore}
-                className="flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                <ChevronRight className="h-4 w-4" />
-              </button>
+                variant="secondary"
+                size="sm"
+              />
             </div>
           </div>
         )}
@@ -869,29 +888,26 @@ const Billing = () => {
     );
   };
 
+  /* ═══════════════════════════════════════════
+     Render
+     ═══════════════════════════════════════════ */
   return (
     <>
       <div className="flex w-full flex-col gap-6 lg:flex-row lg:items-start">
-        {/* Responsive grid for stacking and side-by-side layouts */}
         <div className="flex w-full flex-col gap-6 md:flex-row md:items-start lg:flex-1">
-          {/* Current Plan */}
           <div className="w-full space-y-6 md:w-1/2 lg:w-full">
             <CurrentPlanCard />
           </div>
-
-          {/* Usage — mobile/tablet */}
           <div className="w-full space-y-6 md:w-1/2 lg:hidden">
             <UsageCard />
           </div>
         </div>
 
         <div className="w-full space-y-6 lg:max-w-[300px]">
-          {/* Usage — desktop */}
-          <div className="hidden w-full space-y-6 lg:block">
+          <div className="hidden w-full lg:block">
             <UsageCard />
           </div>
-          {/* Billing History */}
-          <div className="w-full space-y-6 md:w-full md:max-w-full lg:w-auto lg:max-w-[300px]">
+          <div className="w-full">
             <BillingHistoryCard />
           </div>
         </div>
@@ -915,14 +931,13 @@ const Billing = () => {
         cancelText="No, Keep"
         onSubmit={async () => {
           const success = await cancelSubscription();
-
           if (success) {
             setShowCancelConfirm(false);
           }
         }}
         onCancel={() => setShowCancelConfirm(false)}
         icon={<AlertTriangle className="h-8 w-8" />}
-        iconStyle="bg-red-100 border-red-50"
+        iconStyle="bg-[var(--color-error-container)] border-[var(--color-error)]/10"
         isProcessing={isLoadingCancelSubscription}
       />
     </>

@@ -11,10 +11,20 @@ import { useGetUser } from "@/hooks/auth/useGetUser";
 import { AvatarUploader } from "./AvatarUploader";
 import { useCurrentSubscription } from "@/hooks";
 
-const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+const MAX_FILE_SIZE = 2 * 1024 * 1024;
+
+/* ─── Shared card class constants ─── */
+const CARD =
+  "rounded-[var(--radius-card)] border border-[var(--color-border-subtle)] bg-[var(--color-surface-container)] p-6 transition-[box-shadow] duration-200 ease-[cubic-bezier(0.4,0,0.2,1)]";
+
+const LABEL = "text-body-medium-14 block text-[var(--color-text-primary)]";
+const INPUT =
+  "text-body-regular-14 mt-1 block w-full rounded-[var(--radius-input)] border border-[var(--color-border-subtle)] bg-[var(--color-surface-background)] px-3 py-2.5 text-[var(--color-text-primary)] placeholder:text-[var(--color-text-tertiary)] transition-[border-color,box-shadow] duration-150 focus:outline-none focus:border-[var(--color-border-focus)] focus:ring-2 focus:ring-[var(--color-border-focus)]/20";
+const HELPER = "text-body-regular-12 mt-1 text-[var(--color-text-tertiary)]";
+const ERROR_TEXT = "text-body-regular-12 mt-1 text-[var(--color-error)]";
 
 /* ==========================
-   AccountStats (unchanged)
+   AccountStats
    ========================== */
 const AccountStats = () => {
   const {
@@ -30,13 +40,13 @@ const AccountStats = () => {
 
   if (statisticsLoading) {
     return (
-      <div className="mx-auto max-w-2xl flex-1 animate-pulse rounded-[12.75px] border border-gray-200 p-6 shadow-sm">
-        <div className="mb-4 h-6 w-1/3 rounded bg-gray-200" />
-        <div className="mb-6 h-4 w-2/3 rounded bg-gray-200" />
+      <div className={`${CARD} animate-pulse`}>
+        <div className="mb-4 h-5 w-1/3 rounded bg-[var(--color-surface-background)]" />
+        <div className="mb-6 h-4 w-2/3 rounded bg-[var(--color-surface-background)]" />
         {[...Array(3)].map((_, i) => (
-          <div key={i} className="mb-[21px]">
-            <div className="mb-2 h-4 w-full rounded bg-gray-200" />
-            <div className="h-2 w-full rounded-full bg-gray-200" />
+          <div key={i} className="mb-3.5">
+            <div className="mb-2 h-4 w-full rounded bg-[var(--color-surface-background)]" />
+            <div className="h-2 w-full rounded-full bg-[var(--color-surface-background)]" />
           </div>
         ))}
       </div>
@@ -45,11 +55,11 @@ const AccountStats = () => {
 
   if (statisticsError) {
     return (
-      <div className="rounded-[12.75px] border border-gray-200 p-[21px] shadow-sm">
-        <h4 className="text-body-medium-14 mb-[21px] text-black">
+      <div className={CARD}>
+        <h4 className="text-body-medium-14 mb-5 text-[var(--color-text-primary)]">
           Account Statistics
         </h4>
-        <p className="text-body-regular-12 mb-[21px] text-red-500">
+        <p className="text-body-regular-12 text-[var(--color-error)]">
           {statisticsError?.message || "Failed to load user statistics."}
         </p>
       </div>
@@ -57,12 +67,12 @@ const AccountStats = () => {
   }
 
   return (
-    <div className="rounded-[12.75px] border border-gray-200 p-[21px] shadow-sm">
-      <h4 className="text-body-medium-14 mb-[21px] text-black">
+    <div className={CARD}>
+      <h4 className="text-body-medium-14 mb-5 text-[var(--color-text-primary)]">
         Account Statistics
       </h4>
-      <dl className="text-body-regular-14 grid grid-cols-2 gap-y-[14px] text-black">
-        <dt>Member since</dt>
+      <dl className="text-body-regular-14 grid grid-cols-2 gap-y-3.5 text-[var(--color-text-primary)]">
+        <dt className="text-[var(--color-text-secondary)]">Member since</dt>
         <dd className="text-end">
           {statistics?.memberSince
             ? new Date(statistics.memberSince).toLocaleDateString("en-US", {
@@ -71,11 +81,11 @@ const AccountStats = () => {
               })
             : "N/A"}
         </dd>
-        <dt>Projects created</dt>
+        <dt className="text-[var(--color-text-secondary)]">Projects created</dt>
         <dd className="text-end">{statistics?.totalProjects}</dd>
         {isSubscription ? (
           <>
-            <dt>Renews</dt>
+            <dt className="text-[var(--color-text-secondary)]">Renews</dt>
             <dd className="text-end">
               {subscription?.subscriptionRenewalDate
                 ? new Date(
@@ -95,7 +105,7 @@ const AccountStats = () => {
 };
 
 /* ==========================
-   SecurityCard (uses global processing state)
+   SecurityCard
    ========================== */
 type SecurityCardProps = {
   isProcessing: boolean;
@@ -130,13 +140,12 @@ const SecurityCard: React.FC<SecurityCardProps> = ({
     }
 
     const passwordPattern = /^.{8,}$/;
-
     if (!passwordPattern.test(sanitisedPassword)) {
       setError("Password must be at least 8 characters long");
       return;
     }
 
-    if (isProcessing) return; // guard - shouldn't happen because button is disabled, but safe-guard
+    if (isProcessing) return;
 
     setIsProcessing(true);
     try {
@@ -161,30 +170,28 @@ const SecurityCard: React.FC<SecurityCardProps> = ({
   return (
     <form
       onSubmit={onSubmit}
-      className="rounded-[14px] border border-gray-200 p-[21px] shadow-sm"
+      className={CARD}
       aria-busy={isProcessing}
     >
-      <h4 className="text-body-medium-14 mb-[26.25px] text-black">Security</h4>
+      <h4 className="text-body-medium-14 mb-6 text-[var(--color-text-primary)]">
+        Security
+      </h4>
       <div className="space-y-4">
         <div>
-          <label className="text-body-medium-14 block text-black">
-            New Password
-          </label>
+          <label className={LABEL}>New Password</label>
           <div className="relative">
             <input
               type={showNewPassword ? "text" : "password"}
               value={newPassword}
               onChange={e => setNewPassword(e.target.value)}
               disabled={isProcessing}
-              className={`text-body-regular-14 focus:ring-primary-500 focus:border-primary-500 mt-1 w-full rounded-[6px] border px-3 py-2 text-black placeholder:text-gray-500 focus:outline-none ${
-                error ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`${INPUT} ${error ? "!border-[var(--color-error)]" : ""}`}
               placeholder="Enter new password"
             />
             <button
               type="button"
               disabled={isProcessing}
-              className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-500"
+              className="absolute top-1/2 right-3 -translate-y-1/2 text-[var(--color-text-tertiary)] hover:text-[var(--color-text-secondary)]"
               onClick={() => setShowNewPassword(!showNewPassword)}
             >
               {showNewPassword ? (
@@ -197,24 +204,20 @@ const SecurityCard: React.FC<SecurityCardProps> = ({
         </div>
 
         <div>
-          <label className="text-body-medium-14 block text-black">
-            Confirm Password
-          </label>
+          <label className={LABEL}>Confirm Password</label>
           <div className="relative">
             <input
               type={showConfirmPassword ? "text" : "password"}
               value={confirmPassword}
               onChange={e => setConfirmPassword(e.target.value)}
               disabled={isProcessing}
-              className={`text-body-regular-14 focus:ring-primary-500 focus:border-primary-500 mt-1 w-full rounded-[6px] border px-3 py-2 text-black placeholder:text-gray-500 focus:outline-none ${
-                error ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`${INPUT} ${error ? "!border-[var(--color-error)]" : ""}`}
               placeholder="Confirm new password"
             />
             <button
               type="button"
               disabled={isProcessing}
-              className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-500"
+              className="absolute top-1/2 right-3 -translate-y-1/2 text-[var(--color-text-tertiary)] hover:text-[var(--color-text-secondary)]"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             >
               {showConfirmPassword ? (
@@ -226,13 +229,13 @@ const SecurityCard: React.FC<SecurityCardProps> = ({
           </div>
         </div>
 
-        {error && <p className="text-body-regular-12 text-red-600">{error}</p>}
+        {error && <p className={ERROR_TEXT}>{error}</p>}
 
         <Button
           type="submit"
           text="Change Password"
           icon={<Lock className="mr-2 h-4 w-4" />}
-          className="px-4 py-2"
+          className="mt-2"
           disabled={isProcessing || !newPassword || !confirmPassword}
         />
       </div>
@@ -240,22 +243,26 @@ const SecurityCard: React.FC<SecurityCardProps> = ({
   );
 };
 
+/* ==========================
+   ReplayTourCard
+   ========================== */
 const ReplayTourCard: React.FC = () => {
   const router = useRouter();
 
   return (
-    <div className="rounded-[12.75px] border border-gray-200 p-[21px] shadow-sm">
-      <h4 className="text-body-medium-14 text-black">Product Tour</h4>
-      <p className="text-body-regular-14 mt-[5.25px] text-gray-500">
+    <div className={CARD}>
+      <h4 className="text-body-medium-14 text-[var(--color-text-primary)]">
+        Product Tour
+      </h4>
+      <p className="text-body-regular-14 mt-1 text-[var(--color-text-tertiary)]">
         Replay the guided walkthrough of the dashboard.
       </p>
       <Button
         text="Replay Tour"
         variant="secondary"
         icon={<RotateCcw className="mr-2 h-4 w-4" />}
-        className="mt-3 px-4 py-2"
+        className="mt-4"
         onClick={() => {
-          // Clear any existing tour completion flags
           const keys = Object.keys(localStorage);
           keys.forEach(key => {
             if (key.startsWith("docauditor_tour_completed_")) {
@@ -269,6 +276,9 @@ const ReplayTourCard: React.FC = () => {
   );
 };
 
+/* ==========================
+   Accounts
+   ========================== */
 const Accounts: React.FC = () => {
   const { data: user, refetch } = useGetUser();
 
@@ -280,10 +290,7 @@ const Accounts: React.FC = () => {
 
   const [isProcessing, setIsProcessing] = useState(false);
 
-  // Get the current avatar URL from user data
   const userAvatarUrl = user?.avatar;
-
-  // Determine what image to display
   const displayImageUrl = selectedImageUrl || userAvatarUrl;
 
   useEffect(() => {
@@ -291,12 +298,10 @@ const Accounts: React.FC = () => {
       setFullName(user?.name || "");
       setEmail(user?.email || "");
       setPhotoChanged(false);
-      // Don't reset selectedImageUrl here - let it persist until user actions
     }
   }, [user]);
 
   useEffect(() => {
-    // Clean up blob URLs when selectedImageUrl changes
     return () => {
       if (selectedImageUrl && selectedImageUrl.startsWith("blob:")) {
         URL.revokeObjectURL(selectedImageUrl);
@@ -336,7 +341,6 @@ const Accounts: React.FC = () => {
   const removeSelection = () => {
     if (isProcessing) return;
     setSelectedFile(null);
-    // Clean up blob URL if exists
     if (selectedImageUrl && selectedImageUrl.startsWith("blob:")) {
       URL.revokeObjectURL(selectedImageUrl);
     }
@@ -348,7 +352,6 @@ const Accounts: React.FC = () => {
   const validate = () => {
     const newErrors: { [key: string]: string } = {};
     if (!fullName.trim()) newErrors.fullName = "Full name is required";
-
     return newErrors;
   };
 
@@ -383,15 +386,13 @@ const Accounts: React.FC = () => {
         formData,
         {
           headers: {
-            "Content-Type": undefined, // Remove the default application/json to allow multipart/form-data
+            "Content-Type": undefined,
           },
         },
       );
 
-      // Refetch user data to get updated avatar
       await refetch();
 
-      // Clear selected image state after successful upload
       setPhotoChanged(false);
       setSelectedFile(null);
       if (selectedImageUrl && selectedImageUrl.startsWith("blob:")) {
@@ -414,18 +415,17 @@ const Accounts: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
-      <div className="mx-auto max-w-2xl flex-1 rounded-[12.75px] border border-gray-200 p-[21px] shadow-sm lg:mx-0">
-        {/* Header */}
+      {/* Profile card */}
+      <div className={`mx-auto w-full max-w-2xl flex-1 lg:mx-0 ${CARD}`}>
         <div className="mb-6">
-          <h2 className="text-body-medium-14 text-black">
+          <h2 className="text-body-semibold-14 text-[var(--color-text-primary)]">
             Profile Information
           </h2>
-          <p className="text-body-regular-14 mt-[5.25px] text-gray-500">
+          <p className="text-body-regular-14 mt-1 text-[var(--color-text-tertiary)]">
             Update your personal details and profile information.
           </p>
         </div>
 
-        {/* Change Photo */}
         <AvatarUploader
           displayImageUrl={displayImageUrl || ""}
           selectedFile={selectedFile}
@@ -446,60 +446,47 @@ const Accounts: React.FC = () => {
 
         <form
           onSubmit={onSubmit}
-          className="space-y-6"
+          className="space-y-5"
           aria-busy={isProcessing}
         >
           <div>
-            <label className="text-body-medium-14 block text-black">
-              Full Name
-            </label>
+            <label className={LABEL}>Full Name</label>
             <input
               type="text"
               value={fullName}
               onChange={e => setFullName(e.target.value)}
               disabled={isProcessing}
-              className={`text-body-regular-14 focus:ring-primary-500 focus:border-primary-500 mt-1 block w-full rounded-[6px] border bg-gray-50 px-3 py-2 focus:outline-none ${
-                errors.fullName ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`${INPUT} ${errors.fullName ? "!border-[var(--color-error)]" : ""}`}
             />
             {errors.fullName && (
-              <p className="mt-1 text-xs text-red-600">{errors.fullName}</p>
+              <p className={ERROR_TEXT}>{errors.fullName}</p>
             )}
           </div>
 
           <div>
-            <label className="text-body-medium-14 block text-black">
-              Email Address
-            </label>
+            <label className={LABEL}>Email Address</label>
             <input
               type="email"
               value={email}
               readOnly
               disabled
-              className={`text-body-regular-14 focus:ring-primary-500 focus:border-primary-500 mt-1 block w-full rounded-[6px] border bg-gray-50 px-3 py-2 focus:outline-none ${
-                errors.email ? "border-red-500" : "border-gray-300"
-              }`}
+              className={`${INPUT} opacity-60`}
             />
-            {errors.email && (
-              <p className="mt-1 text-xs text-red-600">{errors.email}</p>
-            )}
-            <p className="mt-1 text-sm text-gray-500">
-              Email cannot be changed here.
-            </p>
+            <p className={HELPER}>Email cannot be changed here.</p>
           </div>
 
-          <div>
+          <div className="pt-1">
             <Button
               type="submit"
               text="Save Changes"
               icon={<FileText className="mr-2 h-4 w-4" />}
-              className="px-4 py-2"
               disabled={isProcessing || !fullName}
             />
           </div>
         </form>
       </div>
 
+      {/* Sidebar cards */}
       <div className="mx-auto w-full max-w-md space-y-6 lg:mx-0">
         <AccountStats />
         <SecurityCard

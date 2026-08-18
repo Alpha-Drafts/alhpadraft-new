@@ -22,59 +22,52 @@ export const AvatarUploader: React.FC<AvatarProps> = ({
   const hasImage = Boolean(displayImageUrl);
 
   return (
-    <div className="mb-6 flex items-center space-x-4">
-      {/* Avatar Preview */}
-      <div className="relative h-[70px] w-[70px] overflow-hidden rounded-full bg-gray-100">
+    <div className="mb-6 flex items-center gap-4">
+      {/* Avatar ring */}
+      <div className="relative h-[72px] w-[72px] overflow-hidden rounded-full border-2 border-[var(--color-border-subtle)] bg-[var(--color-surface-background)]">
         {hasImage ? (
-          isBlob ? (
-            // Local preview
-            <img
-              src={displayImageUrl!}
-              alt="Profile preview"
-              className="h-full w-full object-cover"
-            />
-          ) : (
-            <img
-              src={displayImageUrl!}
-              alt="Profile"
-              className="h-full w-full object-cover"
-            />
-          )
+          <img
+            src={displayImageUrl!}
+            alt={isBlob ? "Profile preview" : "Profile"}
+            className="h-full w-full object-cover"
+          />
         ) : (
-          // Fallback (no avatar)
           <div className="flex h-full w-full items-center justify-center">
-            <User className="h-6 w-6 text-gray-400" />
+            <User className="h-6 w-6 text-[var(--color-text-tertiary)]" />
           </div>
         )}
 
-        {/* Remove button for selected file */}
         {selectedFile && (
           <button
             type="button"
             onClick={onRemove}
-            className="absolute top-1 right-1 rounded-full bg-white p-1 hover:bg-gray-100"
+            className="absolute top-0.5 right-0.5 rounded-full bg-[var(--color-surface-container)] p-0.5 shadow-[var(--elevation-1)] hover:bg-[var(--color-surface-background)]"
             disabled={isProcessing}
             aria-label="Remove profile photo selection"
           >
-            <X className="h-4 w-4 text-gray-600" />
+            <X className="h-3.5 w-3.5 text-[var(--color-text-secondary)]" />
           </button>
         )}
       </div>
 
-      {/* Change Photo Action */}
+      {/* Actions */}
       <div>
         <button
           type="button"
           onClick={onClickChange}
-          className="text-body-medium-14 flex items-center text-black hover:text-gray-900"
+          className="text-body-medium-14 flex items-center text-[var(--color-primary)] transition-[color] duration-150 hover:text-[var(--color-primary-hover)]"
           disabled={isProcessing}
         >
-          <Camera className="mr-1 h-4 w-4" /> Change Photo
+          <Camera className="mr-1.5 h-4 w-4" /> Change Photo
         </button>
-        <p className="text-body-regular-14 mt-1 text-gray-500">
-          JPG, PNG or GIF. Max size 2MB.
+        <p className="text-body-regular-12 mt-1 text-[var(--color-text-tertiary)]">
+          JPG, PNG or GIF. Max 2MB.
         </p>
-        {error && <p className="text-body-regular-12 text-red-600">{error}</p>}
+        {error && (
+          <p className="text-body-regular-12 mt-1 text-[var(--color-error)]">
+            {error}
+          </p>
+        )}
       </div>
     </div>
   );

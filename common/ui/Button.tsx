@@ -10,10 +10,10 @@ const sizeClasses: Record<NonNullable<ButtonProps["size"]>, string> = {
 };
 
 const roundedClasses: Record<NonNullable<ButtonProps["rounded"]>, string> = {
-  sm: "rounded",
-  md: "rounded-lg",
-  lg: "rounded-xl",
-  full: "rounded-full aspect-square",
+  sm: "rounded-[6px]",
+  md: "rounded-[var(--radius-button)]",
+  lg: "rounded-[var(--radius-card)]",
+  full: "rounded-[var(--radius-pill)] aspect-square",
 };
 
 const baseClasses =
@@ -21,16 +21,16 @@ const baseClasses =
 
 const variantClasses: Record<NonNullable<ButtonProps["variant"]>, string> = {
   primary:
-    "border-none text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 shadow-[0px_4px_6px_-4px_#0000001A,0px_10px_15px_-3px_#0000001A]",
+    "border-none text-white bg-[linear-gradient(109.37deg,var(--color-primary)_0%,var(--color-primary-hover)_50%,var(--color-primary-active)_100%)] hover:bg-[linear-gradient(109.37deg,var(--color-primary-hover)_0%,var(--color-primary-active)_50%,var(--color-primary-active)_100%)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2 shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.1),0px_10px_15px_-3px_rgba(0,0,0,0.1)]",
   secondary:
-    "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2",
+    "border border-[var(--color-border-medium)] bg-[var(--color-surface-container)] text-[var(--color-text-primary)] hover:bg-[var(--color-primary-container)] hover:border-[var(--color-primary)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2",
   outline:
-    "border border-blue-600 text-blue-600 hover:border-blue-700 hover:text-blue-700 hover:bg-blue-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2",
+    "border border-[var(--color-primary)] bg-transparent text-[var(--color-primary)] hover:bg-[var(--color-primary-container)] hover:border-[var(--color-primary-hover)] hover:text-[var(--color-primary-hover)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2",
   plain:
-    "border border-transparent text-slate-700 hover:bg-slate-100 hover:text-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2",
+    "border border-transparent bg-transparent text-[var(--color-text-primary)] hover:bg-[rgba(26,115,232,0.06)] hover:text-[var(--color-primary-hover)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2",
   danger:
-    "border border-transparent bg-red-600 text-white hover:bg-red-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2",
-  link: "border border-transparent !p-0 text-blue-600 hover:text-blue-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500",
+    "border border-transparent bg-[var(--color-error)] text-[var(--color-on-primary)] hover:bg-[#B91C1C] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-error)] focus-visible:ring-offset-2",
+  link: "border border-transparent bg-transparent text-[var(--color-primary)] !p-0 hover:text-[var(--color-primary-hover)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)]",
 };
 
 export function Button({
@@ -75,13 +75,7 @@ export function Button({
     className,
   );
 
-  const customStyle =
-    variant === "primary"
-      ? {
-          background:
-            "linear-gradient(109.37deg, #1A73E8 0%, #1557B0 50%, #10438C 100%)",
-        }
-      : {};
+  const { style: externalStyle, ...restProps } = props;
 
   if (link) {
     return (
@@ -89,12 +83,12 @@ export function Button({
         href={link}
         id={id}
         className={buttonClass}
-        style={customStyle}
+        style={externalStyle as React.CSSProperties}
         title={title}
-        {...props}
-      >
-        {content}
-      </Link>
+      {...restProps}
+    >
+      {content}
+    </Link>
     );
   }
 
@@ -105,9 +99,9 @@ export function Button({
       onClick={onClick}
       disabled={disabled}
       className={buttonClass}
-      style={customStyle}
+      style={externalStyle as React.CSSProperties}
       title={title}
-      {...props}
+      {...restProps}
     >
       {content}
     </button>
