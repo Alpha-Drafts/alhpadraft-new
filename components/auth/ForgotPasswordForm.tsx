@@ -37,8 +37,6 @@ const ForgotPasswordForm = ({
     }
 
     try {
-      // Backend endpoint: POST /v1/auth/forgot-password (to be added on the
-      // decoupled backend — firebase-decopling has no password-reset flow yet).
       const response = await apiClient.post(
         `${API_BASE_URL}/v1/auth/forgot-password`,
         {
@@ -70,13 +68,13 @@ const ForgotPasswordForm = ({
         onCancel={handleModalClose}
       />
 
-      <div className="space-y-5">
+      <div className="space-y-6">
         {/* Header */}
         <div>
-          <h1 className="font-['Space_Grotesk'] text-2xl font-semibold text-slate-900">
+          <h1 className="text-2xl font-semibold text-slate-900" style={{ fontFamily: "Inter, sans-serif" }}>
             Reset your password
           </h1>
-          <p className="mt-1.5 font-['DM_Sans'] text-sm text-slate-500">
+          <p className="mt-1.5 text-sm text-slate-500" style={{ fontFamily: "Inter, sans-serif" }}>
             Enter your email and we&apos;ll send you a reset link.
           </p>
         </div>
@@ -100,7 +98,7 @@ const ForgotPasswordForm = ({
                 placeholder="jane@university.edu"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                className="block w-full rounded-xl border border-slate-200 bg-slate-50/50 py-2.5 pr-3 pl-9 text-sm text-slate-900 transition-colors placeholder:text-slate-400 focus:border-violet-500 focus:bg-white focus:ring-2 focus:ring-violet-500/20 focus:outline-none"
+                className="block w-full rounded-[10px] border border-slate-200 bg-white py-2.5 pr-3 pl-9 text-sm text-slate-900 transition-all placeholder:text-slate-400 hover:border-slate-300 focus:border-primary-500 focus:bg-white focus:ring-2 focus:ring-primary-500/20 focus:outline-none"
                 required
               />
             </div>
@@ -110,7 +108,7 @@ const ForgotPasswordForm = ({
           {error && (
             <div
               role="alert"
-              className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-center text-sm text-red-600"
+              className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-center text-sm text-red-600"
             >
               {error}
             </div>
@@ -120,7 +118,7 @@ const ForgotPasswordForm = ({
           <button
             type="submit"
             disabled={isDisabled}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-violet-700 py-3 text-sm font-semibold text-white shadow-lg shadow-violet-500/20 transition-all duration-200 hover:scale-[1.01] hover:shadow-xl hover:shadow-violet-500/25 focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 focus:outline-none disabled:opacity-50 disabled:hover:scale-100"
+            className="flex w-full items-center justify-center gap-2 rounded-[10px] bg-primary-500 py-3 text-sm font-semibold text-white shadow-[0px_4px_12px_rgba(26,115,232,0.25)] transition-all duration-200 hover:bg-primary-600 hover:shadow-[0px_8px_24px_rgba(26,115,232,0.3)] hover:-translate-y-0.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:opacity-50 disabled:hover:translate-y-0 disabled:hover:shadow-none"
           >
             {isProcessing ? (
               <>

@@ -118,11 +118,19 @@ const NavBar = () => {
                 />
               </div>
             ) : (
-              <Button
-                text="Get Started"
-                onClick={() => openAuthModal("signup")}
-                size="sm"
-              />
+              <div className="flex items-center gap-3">
+                <Link
+                  href="/signin"
+                  className="text-sm font-semibold text-slate-600 transition-colors duration-200 hover:text-slate-900"
+                >
+                  Sign In
+                </Link>
+                <Button
+                  text="Get Started"
+                  onClick={() => openAuthModal("signup")}
+                  size="sm"
+                />
+              </div>
             )}
           </div>
 
@@ -170,14 +178,23 @@ const NavBar = () => {
                   />
                 </>
               ) : (
-                <Button
-                  text="Get Started"
-                  onClick={() => {
-                    setMobileOpen(false);
-                    openAuthModal("signup");
-                  }}
-                  size="sm"
-                />
+                <>
+                  <Link
+                    href="/signin"
+                    className="text-sm font-semibold text-slate-600 transition-colors hover:text-slate-900"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    Sign In
+                  </Link>
+                  <Button
+                    text="Get Started"
+                    onClick={() => {
+                      setMobileOpen(false);
+                      openAuthModal("signup");
+                    }}
+                    size="sm"
+                  />
+                </>
               )}
             </div>
           </nav>

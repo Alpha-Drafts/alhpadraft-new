@@ -12,13 +12,13 @@ const PaymentCancelPage = () => {
   const router = useRouter();
 
   const goToDashboard = () => router.push(userRoutes.dashboard);
-  const retry = () => router.push("/?auth=login");
+  const retry = () => router.push("/signin");
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-slate-50 px-4">
-      <div className="w-full max-w-md rounded-2xl bg-white p-8 text-center shadow-lg">
+      <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-[0px_4px_12px_rgba(15,23,42,0.06)]">
         <XCircle className="mx-auto mb-4 h-14 w-14 text-amber-500" />
-        <h1 className="font-['Space_Grotesk'] text-2xl font-semibold text-slate-900">
+        <h1 className="text-2xl font-semibold text-slate-900" style={{ fontFamily: "Inter, sans-serif" }}>
           Payment Cancelled
         </h1>
         <p className="mt-2 text-sm text-slate-500">
