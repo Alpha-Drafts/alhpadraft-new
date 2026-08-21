@@ -49,6 +49,7 @@ const TOUR_STEPS: Step[] = [
 ];
 
 const TOUR_STORAGE_PREFIX = "docauditor_tour_completed_";
+const TOUR_GLOBAL_FLAG = "docauditor_tour_shown_once";
 
 function getTourStorageKey(userId: string) {
   return `${TOUR_STORAGE_PREFIX}${userId}`;
@@ -74,11 +75,11 @@ const ProductTour: React.FC = () => {
     if (typeof window !== "undefined" && window.innerWidth < 1024) return;
 
     const storageKey = getTourStorageKey(userId);
-    const completed = localStorage.getItem(storageKey);
 
     if (isReplay) {
-      // Replay requested — clear flag and start
+      // Replay requested — clear both flags and start
       localStorage.removeItem(storageKey);
+      localStorage.removeItem(TOUR_GLOBAL_FLAG);
       setStepIndex(0);
       setRun(true);
       // Clean up query param without reload
@@ -86,14 +87,15 @@ const ProductTour: React.FC = () => {
       return;
     }
 
-    if (!completed) {
-      // First-time user — start tour after a brief delay for content to render
-      const timer = setTimeout(() => {
-        setStepIndex(0);
-        setRun(true);
-      }, 800);
-      return () => clearTimeout(timer);
-    }
+    // If either flag exists, tour was already shown — skip
+    if (localStorage.getItem(storageKey) || localStorage.getItem(TOUR_GLOBAL_FLAG)) return;
+
+    // First-time user — start tour after a brief delay for content to render
+    const timer = setTimeout(() => {
+      setStepIndex(0);
+      setRun(true);
+    }, 800);
+    return () => clearTimeout(timer);
   }, [userId, hasPlan, isOnDashboard, isReplay, router]);
 
   const handleCallback = useCallback(
@@ -108,12 +110,13 @@ const ProductTour: React.FC = () => {
         }
       }
 
-      // Tour finished or skipped
+      // Tour finished or skipped — mark as shown
       if (status === STATUS.FINISHED || status === STATUS.SKIPPED) {
         setRun(false);
         if (userId) {
           localStorage.setItem(getTourStorageKey(userId), "true");
         }
+        localStorage.setItem(TOUR_GLOBAL_FLAG, "true");
       }
     },
     [userId],

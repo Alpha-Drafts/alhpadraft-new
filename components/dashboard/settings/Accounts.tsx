@@ -269,6 +269,7 @@ const ReplayTourCard: React.FC = () => {
               localStorage.removeItem(key);
             }
           });
+          localStorage.removeItem("docauditor_tour_shown_once");
           router.push("/dashboard?tour=1");
         }}
       />

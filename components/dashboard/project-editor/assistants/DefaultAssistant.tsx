@@ -800,18 +800,18 @@ const DefaultAssistant = ({
   > = {
     ai: {
       label: "AI Detection",
-      color: "text-indigo-700",
-      bgColor: "bg-indigo-50",
+      color: "text-[var(--color-on-primary-container)]",
+      bgColor: "bg-[var(--color-primary-container)]",
     },
     plagiarism: {
       label: "Plagiarism",
-      color: "text-rose-700",
-      bgColor: "bg-rose-50",
+      color: "text-[var(--color-on-error-container)]",
+      bgColor: "bg-[var(--color-error-container)]",
     },
     alignment: {
       label: "Alignment",
-      color: "text-amber-700",
-      bgColor: "bg-amber-50",
+      color: "text-[var(--color-on-warning-container)]",
+      bgColor: "bg-[var(--color-warning-container)]",
     },
   };
 
@@ -820,20 +820,20 @@ const DefaultAssistant = ({
   const renderStatusBadge = (id: CheckId) => {
     const status = checkStatuses[id];
     if (status.checking) {
-      return <Loader2 className="h-3.5 w-3.5 animate-spin text-blue-500" />;
+      return <Loader2 className="h-3.5 w-3.5 animate-spin text-[var(--color-primary)]" />;
     }
     if (status.ran) {
       const count = issueCountFor(id);
       if (count === 0) {
-        return <CheckCircle2 className="h-3.5 w-3.5 text-green-500" />;
+        return <CheckCircle2 className="h-3.5 w-3.5 text-[var(--color-success)]" />;
       }
       return (
-        <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-red-100 px-1 text-[10px] font-bold text-red-600">
+        <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-[var(--color-error-container)] px-1 text-[10px] font-bold text-[var(--color-error)]">
           {count}
         </span>
       );
     }
-    return <Circle className="h-3.5 w-3.5 text-gray-300" />;
+    return <Circle className="h-3.5 w-3.5 text-[var(--color-text-tertiary)]" />;
   };
 
   const renderRiskBadge = () => {
@@ -842,22 +842,22 @@ const DefaultAssistant = ({
       low: {
         icon: ShieldCheck,
         label: "Low Risk",
-        className: "bg-green-50 text-green-700 border-green-200",
+        className: "bg-[var(--color-success-container)] text-[var(--color-on-success-container)] border-[var(--color-success)]",
       },
       medium: {
         icon: ShieldAlert,
         label: "Medium Risk",
-        className: "bg-amber-50 text-amber-700 border-amber-200",
+        className: "bg-[var(--color-warning-container)] text-[var(--color-on-warning-container)] border-[var(--color-warning)]",
       },
       high: {
         icon: ShieldOff,
         label: "High Risk",
-        className: "bg-red-50 text-red-700 border-red-200",
+        className: "bg-[var(--color-error-container)] text-[var(--color-on-error-container)] border-[var(--color-error)]",
       },
       veryHigh: {
         icon: ShieldOff,
         label: "Very High Risk",
-        className: "bg-red-50 text-red-700 border-red-200",
+        className: "bg-[var(--color-error-container)] text-[var(--color-on-error-container)] border-[var(--color-error)]",
       },
     }[riskLevel];
 
@@ -886,7 +886,7 @@ const DefaultAssistant = ({
       <div
         key={id}
         className={cn(
-          "rounded-lg border border-gray-200 bg-white transition-opacity",
+          "rounded-[var(--radius-card)] border border-[var(--color-border-subtle)] bg-[var(--color-surface-container)] transition-opacity",
           !status.ran && !status.checking && "opacity-50",
         )}
       >
@@ -911,14 +911,14 @@ const DefaultAssistant = ({
             }
           }}
           className={cn(
-            "flex w-full items-center gap-2 px-3 py-2.5 text-left transition-colors hover:bg-gray-50",
+            "flex w-full items-center gap-2 px-3 py-2.5 text-left transition-colors hover:bg-[var(--color-surface-background)]",
             meta.label === "Alignment" &&
               !currentProject?.instructionText &&
               "cursor-not-allowed opacity-50",
           )}
         >
           {renderStatusBadge(id)}
-          <span className="flex-1 text-xs font-semibold text-gray-800">
+          <span className="flex-1 text-xs font-semibold text-[var(--color-text-primary)]">
             {meta.label}
           </span>
           {status.ran && (
@@ -941,37 +941,37 @@ const DefaultAssistant = ({
               e.stopPropagation();
               runSingleCheck(id);
             }}
-            className="rounded p-0.5 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+            className="rounded p-0.5 text-[var(--color-text-tertiary)] transition-colors hover:bg-[var(--color-surface-background)] hover:text-[var(--color-text-secondary)]"
           >
             <RefreshCcw className="h-3 w-3" />
           </button>
           {isExpanded ? (
-            <ChevronDown className="h-3.5 w-3.5 text-gray-400" />
+            <ChevronDown className="h-3.5 w-3.5 text-[var(--color-text-tertiary)]" />
           ) : (
-            <ChevronRight className="h-3.5 w-3.5 text-gray-400" />
+            <ChevronRight className="h-3.5 w-3.5 text-[var(--color-text-tertiary)]" />
           )}
         </div>
 
         {/* Accordion body */}
         {isExpanded && (
-          <div className="border-t border-gray-100 px-3 py-2.5">
+          <div className="border-t border-[var(--color-border-subtle)] px-3 py-2.5">
             {status.checking ? (
-              <div className="flex items-center gap-2 py-2 text-xs text-gray-500">
+              <div className="flex items-center gap-2 py-2 text-xs text-[var(--color-text-tertiary)]">
                 <Loader2 className="h-3 w-3 animate-spin" />
                 Running {meta.label.toLowerCase()}...
               </div>
             ) : !status.ran ? (
-              <p className="py-2 text-xs text-gray-400">
+              <p className="py-2 text-xs text-[var(--color-text-tertiary)]">
                 Not yet run.{" "}
                 <button
                   onClick={() => runSingleCheck(id)}
-                  className="text-blue-600 hover:underline"
+                  className="text-[var(--color-primary)] hover:underline"
                 >
                   Run now
                 </button>
               </p>
             ) : count === 0 ? (
-              <div className="flex items-center gap-2 rounded-md bg-green-50 px-2.5 py-2 text-xs text-green-700">
+              <div className="flex items-center gap-2 rounded-[var(--radius-card)] bg-[var(--color-success-container)] px-2.5 py-2 text-xs text-[var(--color-on-success-container)]">
                 <CheckCircle2 className="h-3.5 w-3.5" />
                 No issues detected
               </div>
@@ -992,9 +992,9 @@ const DefaultAssistant = ({
     <>
       {/* Overall score */}
       {aiScore && (
-        <div className="mb-2 flex items-center justify-between rounded-md bg-indigo-50 px-2.5 py-1.5 text-xs">
-          <span className="text-indigo-600">Overall AI probability</span>
-          <span className="font-bold text-indigo-700">
+        <div className="mb-2 flex items-center justify-between rounded-[var(--radius-card)] bg-[var(--color-primary-container)] px-2.5 py-1.5 text-xs">
+          <span className="text-[var(--color-primary)]">Overall AI probability</span>
+          <span className="font-bold text-[var(--color-on-primary-container)]">
             {Math.round(aiScore.score)}%
           </span>
         </div>
@@ -1004,14 +1004,14 @@ const DefaultAssistant = ({
         <button
           key={i}
           onClick={() => scrollToText(s.sentence)}
-          className="block w-full rounded-md border border-indigo-100 bg-indigo-50/50 px-2.5 py-2 text-left transition-colors hover:bg-indigo-100"
+          className="block w-full rounded-[var(--radius-card)] border border-[var(--color-primary)]/10 bg-[var(--color-primary-container)]/50 px-2.5 py-2 text-left transition-colors hover:bg-[var(--color-primary-container)]"
         >
           <div className="mb-1 flex items-center justify-between">
-            <span className="text-[10px] font-semibold text-indigo-600">
+            <span className="text-[10px] font-semibold text-[var(--color-primary)]">
               {Math.round(s.score)}% AI
             </span>
           </div>
-          <p className="line-clamp-2 text-[11px] leading-relaxed text-gray-700">
+          <p className="line-clamp-2 text-[11px] leading-relaxed text-[var(--color-text-secondary)]">
             {s.sentence}
           </p>
         </button>
@@ -1024,19 +1024,19 @@ const DefaultAssistant = ({
       <button
         key={i}
         onClick={() => scrollToText(issue.sequence)}
-        className="block w-full rounded-md border border-rose-100 bg-rose-50/50 px-2.5 py-2 text-left transition-colors hover:bg-rose-100"
+        className="block w-full rounded-[var(--radius-card)] border border-[var(--color-error)]/10 bg-[var(--color-error-container)]/50 px-2.5 py-2 text-left transition-colors hover:bg-[var(--color-error-container)]"
       >
         <div className="mb-1 flex flex-wrap items-center gap-1.5">
-          <span className="rounded bg-rose-100 px-1 py-0.5 text-[10px] font-semibold text-rose-600">
+          <span className="rounded bg-[var(--color-error-container)] px-1 py-0.5 text-[10px] font-semibold text-[var(--color-error)]">
             {Math.round(issue.score)}% match
           </span>
           {issue.sourceTitle && (
-            <span className="line-clamp-1 text-[10px] text-gray-500">
+            <span className="line-clamp-1 text-[10px] text-[var(--color-text-tertiary)]">
               {issue.sourceTitle}
             </span>
           )}
         </div>
-        <p className="line-clamp-2 text-[11px] leading-relaxed text-gray-700">
+        <p className="line-clamp-2 text-[11px] leading-relaxed text-[var(--color-text-secondary)]">
           {issue.sequence || "Flagged passage"}
         </p>
         {issue.sourceUrl && (
@@ -1044,7 +1044,7 @@ const DefaultAssistant = ({
             href={issue.sourceUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="mt-1 block truncate text-[10px] text-rose-600 underline"
+            className="mt-1 block truncate text-[10px] text-[var(--color-error)] underline"
             onClick={e => e.stopPropagation()}
           >
             View source
@@ -1056,18 +1056,18 @@ const DefaultAssistant = ({
 
   const renderAlignmentFindings = () => {
     const colors = {
-      border: "border-amber-100",
-      bg: "bg-amber-50/50",
-      hoverBg: "hover:bg-amber-100",
-      badge: "text-amber-600",
-      badgeBg: "bg-amber-100",
+      border: "border-[var(--color-warning)]/10",
+      bg: "bg-[var(--color-warning-container)]/50",
+      hoverBg: "hover:bg-[var(--color-warning-container)]",
+      badge: "text-[var(--color-warning)]",
+      badgeBg: "bg-[var(--color-warning-container)]",
     };
     return (
       <>
         {evaluationResult && (
-          <div className="mb-2 flex items-center justify-between rounded-md bg-amber-50/50 px-2.5 py-1.5 text-xs hover:bg-gray-50">
-            <span className="text-indigo-600">Overall alignment score</span>
-            <span className="font-bold text-indigo-700">
+          <div className="mb-2 flex items-center justify-between rounded-[var(--radius-card)] bg-[var(--color-warning-container)]/50 px-2.5 py-1.5 text-xs hover:bg-[var(--color-surface-background)]">
+            <span className="text-[var(--color-primary)]">Overall alignment score</span>
+            <span className="font-bold text-[var(--color-on-primary-container)]">
               {Math.round(evaluationResult.overallScore)}%
             </span>
           </div>
@@ -1094,13 +1094,13 @@ const DefaultAssistant = ({
                 >
                   {issue.severity}
                 </span>
-                <span className="text-[10px] text-gray-500">
+                <span className="text-[10px] text-[var(--color-text-tertiary)]">
                   {Math.round(parseFloat(issue.confidenceScore) * 100)}% Align
                 </span>
               </div>
-              <p className="line-clamp-2 text-[11px] leading-relaxed text-gray-700">
+              <span className="line-clamp-2 text-[11px] leading-relaxed text-[var(--color-text-secondary)]">
                 {issue.text || "Flagged passage"}
-              </p>
+              </span>
             </button>
           ))}
       </>
@@ -1115,17 +1115,17 @@ const DefaultAssistant = ({
         onCancel={() => setShowInstructions(false)}
         wrapperClassName="max-w-2xl"
       >
-        <div className="rounded-xl bg-white p-6 shadow-lg">
+        <div className="rounded-[var(--radius-card)] bg-[var(--color-surface-container)] p-6 shadow-lg">
           <div className="space-y-4">
             <div>
-              <p className="text-xs font-semibold tracking-[0.2em] text-gray-400 uppercase">
+              <p className="text-xs font-semibold tracking-[0.2em] text-[var(--color-text-tertiary)] uppercase">
                 Uploaded Instructions
               </p>
-              <h3 className="mt-2 text-lg font-semibold text-gray-900">
+              <h3 className="mt-2 text-lg font-semibold text-[var(--color-text-primary)]">
                 Assignment Objectives
               </h3>
             </div>
-            <div className="max-h-[60vh] overflow-y-auto rounded-lg border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700">
+            <div className="max-h-[60vh] overflow-y-auto rounded-[var(--radius-card)] border border-[var(--color-border-subtle)] bg-[var(--color-surface-background)] p-4 text-sm text-[var(--color-text-secondary)]">
               {currentProject?.instructionText || "No instructions available."}
             </div>
           </div>
@@ -1144,25 +1144,25 @@ const DefaultAssistant = ({
       <div
         data-tour="integrity-sidebar"
         className={cn(
-          "top-[var(--navbar-height)] left-0 z-30 h-[calc(100vh-var(--navbar-height))] w-80 max-w-[85vw] transform overflow-y-auto rounded-lg border border-gray-200 bg-white transition-transform duration-300 ease-in-out lg:static lg:block lg:h-auto lg:max-h-none lg:max-w-80 lg:translate-x-0 lg:overflow-visible",
+          "top-[var(--navbar-height)] left-0 z-30 h-[calc(100vh-var(--navbar-height))] w-80 max-w-[85vw] transform overflow-y-auto rounded-[var(--radius-card)] border border-[var(--color-border-subtle)] bg-[var(--color-surface-container)] transition-transform duration-300 ease-in-out lg:static lg:block lg:h-auto lg:max-h-none lg:max-w-80 lg:translate-x-0 lg:overflow-visible",
           isOpen ? "fixed translate-x-0" : "fixed -translate-x-full",
         )}
       >
         <div className="flex h-full flex-col lg:h-auto">
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-gray-200 p-4">
+          <div className="flex items-center justify-between border-b border-[var(--color-border-subtle)] p-4">
             <div>
-              <h2 className="text-base font-semibold text-gray-900">
+              <h2 className="text-base font-semibold text-[var(--color-text-primary)]">
                 Integrity Checks
               </h2>
-              <p className="mt-0.5 text-[11px] text-gray-500">
+              <p className="mt-0.5 text-[11px] text-[var(--color-text-tertiary)]">
                 Results of checks run on your work.
               </p>
             </div>
             <button
               title="Close"
               onClick={() => setIsOpen(false)}
-              className="text-gray-500 hover:text-gray-700 lg:hidden"
+              className="text-[var(--color-text-tertiary)] hover:text-[var(--color-text-secondary)] lg:hidden"
             >
               <X className="h-5 w-5" />
             </button>
@@ -1179,17 +1179,17 @@ const DefaultAssistant = ({
               <>
                 {/* Risk Summary */}
                 <div
-                  className="rounded-lg border border-gray-200 bg-white p-3"
+                  className="rounded-[var(--radius-card)] border border-[var(--color-border-subtle)] bg-[var(--color-surface-container)] p-3"
                   data-tour="risk-summary"
                 >
                   <div className="flex items-center justify-between">
-                    <p className="text-[11px] font-medium text-gray-500">
+                    <p className="text-[11px] font-medium text-[var(--color-text-tertiary)]">
                       Summary
                     </p>
                     {renderRiskBadge()}
                   </div>
                   <div className="mt-2.5 grid grid-cols-3 gap-2 text-center text-xs">
-                    <div className="rounded-lg bg-indigo-50 px-2 py-2 text-indigo-700">
+                    <div className="rounded-[var(--radius-card)] bg-[var(--color-primary-container)] px-2 py-2 text-[var(--color-on-primary-container)]">
                       <p className="font-semibold">
                         {aiScore !== null
                           ? `${Math.round(aiScore.score)}%`
@@ -1197,7 +1197,7 @@ const DefaultAssistant = ({
                       </p>
                       <p className="text-[10px]">AI Prob.</p>
                     </div>
-                    <div className="rounded-lg bg-rose-50 px-2 py-2 text-rose-700">
+                    <div className="rounded-[var(--radius-card)] bg-[var(--color-error-container)] px-2 py-2 text-[var(--color-on-error-container)]">
                       <p className="font-semibold">
                         {checkStatuses.plagiarism.ran
                           ? plagiarismIssues.length
@@ -1205,7 +1205,7 @@ const DefaultAssistant = ({
                       </p>
                       <p className="text-[10px]">Matches</p>
                     </div>
-                    <div className="rounded-lg bg-amber-50 px-2 py-2 text-amber-700">
+                    <div className="rounded-[var(--radius-card)] bg-[var(--color-warning-container)] px-2 py-2 text-[var(--color-on-warning-container)]">
                       <p className="font-semibold">
                         {checkStatuses.alignment.ran
                           ? alignmentIssues.length
@@ -1225,7 +1225,7 @@ const DefaultAssistant = ({
                 {currentProject?.instructionText && (
                   <Button
                     variant="plain"
-                    className="w-full border border-gray-200 text-xs text-gray-700"
+                    className="w-full border border-[var(--color-border-subtle)] text-xs text-[var(--color-text-secondary)]"
                     onClick={() => setShowInstructions(true)}
                   >
                     View uploaded instructions
@@ -1242,7 +1242,7 @@ const DefaultAssistant = ({
         title="Open integrity checks"
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          "fixed top-[120px] left-0 z-40 flex -translate-y-1/2 transform items-center gap-1.5 rounded-r-xl bg-white px-2 py-2.5 shadow-lg ring-1 ring-gray-200 transition-all duration-300 ease-in-out hover:shadow-xl lg:hidden",
+          "fixed top-[120px] left-0 z-40 flex -translate-y-1/2 transform items-center gap-1.5 rounded-r-[var(--radius-card)] bg-[var(--color-surface-container)] px-2 py-2.5 shadow-lg ring-1 ring-[var(--color-border-subtle)] transition-all duration-300 ease-in-out hover:shadow-xl lg:hidden",
           isOpen ? "translate-x-[min(20rem,85vw)]" : "translate-x-0",
         )}
         style={
@@ -1252,12 +1252,12 @@ const DefaultAssistant = ({
         }
       >
         {isOpen ? (
-          <ChevronLeft className="h-4 w-4 text-gray-600" />
+          <ChevronLeft className="h-4 w-4 text-[var(--color-text-secondary)]" />
         ) : (
           <>
-            <ShieldCheck className="h-4 w-4 text-gray-600" />
+            <ShieldCheck className="h-4 w-4 text-[var(--color-text-secondary)]" />
             {totalIssues > 0 && (
-              <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white">
+              <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-[var(--color-error)] px-1 text-[10px] font-bold text-[var(--color-on-error)]">
                 {totalIssues}
               </span>
             )}
@@ -1271,8 +1271,8 @@ const DefaultAssistant = ({
         message={errorModal.message}
         submitText="Close"
         onSubmit={() => setErrorModal({ ...errorModal, open: false })}
-        icon={<AlertTriangle className="h-8 w-8 text-red-500" />}
-        iconStyle="bg-red-100 border-red-50"
+        icon={<AlertTriangle className="h-8 w-8 text-[var(--color-error)]" />}
+        iconStyle="bg-[var(--color-error-container)] border-[var(--color-error)]"
       />
 
       {/* Insufficient Credits Modal */}

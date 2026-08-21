@@ -132,7 +132,7 @@ const NavBar = ({
       />
 
       <header className="nav-header" ref={navRef}>
-        <nav className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-3">
+        <nav className="mx-auto flex max-w-[1280px] items-center justify-between gap-4 px-6 py-3">
           {/* Logo / Back Button */}
           <div className="flex items-center gap-4">
             {isCitationPage ? (
@@ -200,10 +200,10 @@ const NavBar = ({
                     <div
                       className="flex items-center gap-1.5 rounded-[var(--radius-pill)] px-3 py-1.5"
                       style={{
-                        background: "rgba(224, 242, 254, 0.7)",
+                        background: "var(--color-primary-container)",
                         backdropFilter: "blur(8px)",
                         WebkitBackdropFilter: "blur(8px)",
-                        border: "1px solid rgba(224, 242, 254, 0.6)",
+                        border: "1px solid var(--color-primary)",
                         color: "var(--color-on-primary-container)",
                       }}
                       data-tour="credit-balance"
@@ -390,8 +390,8 @@ const NavBar = ({
                       <div
                         className="flex items-center justify-between rounded-[var(--radius-card)] px-4 py-3"
                         style={{
-                          border: "1px solid rgba(224, 242, 254, 0.6)",
-                          background: "rgba(224, 242, 254, 0.5)",
+                          border: "1px solid var(--color-primary)",
+                          background: "var(--color-primary-container)",
                           backdropFilter: "blur(8px)",
                           WebkitBackdropFilter: "blur(8px)",
                         }}

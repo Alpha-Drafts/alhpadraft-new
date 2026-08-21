@@ -179,7 +179,7 @@ const GatePricing = ({ onPlanAssigned, currentPlan }: GatePricingProps) => {
   if (isLoadingPlans) {
     return (
       <section className="px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-[1280px]">
           <div className="text-center">
             <div className="mx-auto mb-3 h-4 w-16 animate-pulse rounded bg-[var(--color-surface-background)]" />
             <div className="mx-auto mb-3 h-9 w-80 animate-pulse rounded bg-[var(--color-surface-background)]" />
@@ -235,7 +235,7 @@ const GatePricing = ({ onPlanAssigned, currentPlan }: GatePricingProps) => {
       />
 
       <section className="px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-6xl lg:max-h-[80vh] lg:overflow-auto">
+        <div className="mx-auto max-w-[1280px] lg:max-h-[80vh] lg:overflow-auto">
           {/* Header */}
           <div className="text-center">
             <p

@@ -56,7 +56,7 @@ const UserLayout = ({
           subtitle={subtitle}
           onBackClick={onBackClick}
         />
-        <div className="relative mx-auto w-full max-w-6xl overflow-hidden">
+        <div className="relative mx-auto w-full max-w-[1280px] overflow-hidden px-6">
           <GatePricing
             currentPlan={subscription?.currentPlan}
             onPlanAssigned={() => {
@@ -90,7 +90,7 @@ const UserLayout = ({
 
         {/* Main content area — elevated surface with depth */}
         <div
-          className="relative z-10 mx-auto w-full max-w-6xl overflow-hidden p-4 sm:p-7"
+          className="relative z-10 mx-auto w-full max-w-[1280px] overflow-hidden px-6 py-7"
           id="content-area"
         >
           <EmailVerificationBanner />
