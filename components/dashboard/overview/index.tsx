@@ -7,21 +7,14 @@ const DashboardContent = () => {
   const { currentUser } = useCurrentUser();
 
   return (
-    <div className="dashboard-content perspective-container">
-      {/* Hero Welcome Banner — Glass + Gradient + 3D */}
-      <div className="relative mt-2 overflow-hidden" style={{ borderRadius: "var(--radius-card-elevated)" }}>
-        {/* Background gradient mesh */}
-        <div className="absolute inset-0" style={{ background: "var(--gradient-hero-subtle)" }} />
-        <div className="absolute inset-0 animate-gradient-shift" style={{ background: "var(--gradient-primary-mesh)", backgroundSize: "200% 200%" }} />
-
-        {/* Glass overlay */}
-        <div className="glass-hero relative z-10 p-6 sm:p-8">
+    <div className="dashboard-content">
+      {/* Hero Welcome Banner */}
+      <div className="relative mt-2 overflow-hidden rounded-[var(--radius-card)] bg-[var(--color-primary-container)]">
+        <div className="relative z-10 p-6 sm:p-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <span className="animate-float-in">
-                  <Sparkles className="h-5 w-5 text-[var(--color-primary)]" />
-                </span>
+                <Sparkles className="h-5 w-5 text-[var(--color-primary)]" />
                 <span
                   className="uppercase tracking-[0.08em] text-[var(--color-primary)]"
                   style={{ fontSize: "0.7rem", fontWeight: 700 }}
@@ -30,7 +23,7 @@ const DashboardContent = () => {
                 </span>
               </div>
               <h1
-                className="text-gradient-blue font-bold tracking-[-0.02em]"
+                className="text-[var(--color-text-primary)] font-bold tracking-[-0.02em]"
                 style={{ fontSize: "1.5rem", lineHeight: "32px" }}
               >
                 Welcome back, {currentUser?.displayName || "User"}
@@ -40,9 +33,9 @@ const DashboardContent = () => {
               </p>
             </div>
             <div className="hidden sm:block">
-              <div className="glass-light flex items-center gap-3 rounded-[var(--radius-card)] px-5 py-4" style={{ boxShadow: "var(--elevation-1)" }}>
-                <div className="flex h-11 w-11 items-center justify-center rounded-[var(--radius-button)]" style={{ background: "var(--gradient-hero)" }}>
-                  <ShieldCheck className="h-5 w-5 text-white" />
+              <div className="flex items-center gap-3 rounded-[var(--radius-card)] bg-[var(--color-surface-container)] px-5 py-4" style={{ boxShadow: "var(--elevation-1)" }}>
+                <div className="flex h-11 w-11 items-center justify-center rounded-[var(--radius-button)] bg-[var(--color-primary)]">
+                  <ShieldCheck className="h-5 w-5 text-[var(--color-on-primary)]" />
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-[var(--color-text-primary)]">Start Verification</p>

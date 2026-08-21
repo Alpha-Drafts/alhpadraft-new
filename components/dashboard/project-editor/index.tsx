@@ -94,9 +94,14 @@ const ProjectEditorWrapper = () => {
   if (isLoadingProject) {
     return (
       <div className="flex h-screen items-center justify-center">
-        <div className="text-center">
-          <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-violet-500"></div>
-          <p className="text-sm text-gray-600">Loading project...</p>
+        <div className="w-full max-w-2xl space-y-4 px-6">
+          <div className="h-8 w-48 animate-pulse rounded-[var(--radius-card)] bg-[var(--color-surface-background)]" />
+          <div className="h-4 w-32 animate-pulse rounded-[var(--radius-card)] bg-[var(--color-surface-background)]" />
+          <div className="mt-6 space-y-3">
+            <div className="h-4 w-full animate-pulse rounded bg-[var(--color-surface-background)]" />
+            <div className="h-4 w-5/6 animate-pulse rounded bg-[var(--color-surface-background)]" />
+            <div className="h-4 w-4/6 animate-pulse rounded bg-[var(--color-surface-background)]" />
+          </div>
         </div>
       </div>
     );
@@ -150,7 +155,7 @@ const ProjectEditorWrapper = () => {
       />
       <div className="relative">
         <div className="mt-2">
-          <div className="relative flex flex-col gap-7 bg-white lg:flex-row">
+          <div className="relative flex flex-col gap-7 bg-[var(--color-surface-background)] lg:flex-row">
             {!focusMode && (
               <DefaultAssistant
                 projectId={id as string}
@@ -179,21 +184,21 @@ const ProjectEditorWrapper = () => {
                         e.currentTarget.blur();
                       }
                     }}
-                    className="w-full rounded-md border border-slate-200 bg-white px-3 py-2 pr-10 text-sm text-slate-900 shadow-sm focus:border-violet-400 focus:ring-4 focus:ring-violet-200/60 focus:outline-none"
+                    className="w-full rounded-[var(--radius-card)] border border-[var(--color-border-subtle)] bg-[var(--color-surface-container)] px-3 py-2 pr-10 text-sm text-[var(--color-text-primary)] shadow-sm focus:border-[var(--color-primary)] focus:ring-4 focus:ring-[var(--color-primary)]/20 focus:outline-none"
                     aria-label="Project name"
                   />
                   <button
                     type="button"
                     onClick={saveProjectName}
                     disabled={isSavingName || !isNameDirty}
-                    className="absolute top-1/2 right-2 -translate-y-1/2 text-slate-400 transition hover:text-slate-600 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="absolute top-1/2 right-2 -translate-y-1/2 text-[var(--color-text-tertiary)] transition hover:text-[var(--color-text-secondary)] disabled:cursor-not-allowed disabled:opacity-50"
                     aria-label="Save project name"
                   >
                     <Pencil className="h-4 w-4" />
                   </button>
                 </div>
                 <span
-                  className={`text-xs text-slate-400 transition-opacity duration-300 ${isSavingName ? "opacity-100" : "opacity-0"}`}
+                  className={`text-xs text-[var(--color-text-tertiary)] transition-opacity duration-300 ${isSavingName ? "opacity-100" : "opacity-0"}`}
                 >
                   Saving...
                 </span>
@@ -205,7 +210,7 @@ const ProjectEditorWrapper = () => {
                     <button
                       type="button"
                       onClick={() => setShowDeleteModal(true)}
-                      className="rounded p-1.5 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-500"
+                      className="rounded p-1.5 text-[var(--color-text-tertiary)] transition-colors hover:bg-[var(--color-error-container)] hover:text-[var(--color-error)]"
                       aria-label="Delete project"
                     >
                       <Trash2 className="h-4 w-4" />
@@ -215,7 +220,7 @@ const ProjectEditorWrapper = () => {
                     <button
                       type="button"
                       onClick={() => setShowSearch(prev => !prev)}
-                      className={`rounded p-1.5 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600 ${showSearch ? "bg-gray-100 text-gray-600" : ""}`}
+                      className={`rounded p-1.5 text-[var(--color-text-tertiary)] transition-colors hover:bg-[var(--color-surface-background)] hover:text-[var(--color-text-secondary)] ${showSearch ? "bg-[var(--color-surface-background)] text-[var(--color-text-secondary)]" : ""}`}
                       aria-label="Toggle search"
                     >
                       <Search className="h-4 w-4" />
@@ -225,7 +230,7 @@ const ProjectEditorWrapper = () => {
                     <button
                       type="button"
                       onClick={() => setFocusMode(prev => !prev)}
-                      className={`rounded p-1.5 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600 ${focusMode ? "bg-gray-100 text-gray-600" : ""}`}
+                      className={`rounded p-1.5 text-[var(--color-text-tertiary)] transition-colors hover:bg-[var(--color-surface-background)] hover:text-[var(--color-text-secondary)] ${focusMode ? "bg-[var(--color-surface-background)] text-[var(--color-text-secondary)]" : ""}`}
                       aria-label="Toggle focus mode"
                     >
                       {focusMode ? (

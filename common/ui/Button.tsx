@@ -17,20 +17,20 @@ const roundedClasses: Record<NonNullable<ButtonProps["rounded"]>, string> = {
 };
 
 const baseClasses =
-  "inline-flex items-center gap-x-2 font-medium transition-all disabled:opacity-50 disabled:pointer-events-none group";
+  "inline-flex items-center gap-x-2 font-medium transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] disabled:opacity-50 disabled:pointer-events-none group";
 
 const variantClasses: Record<NonNullable<ButtonProps["variant"]>, string> = {
   primary:
-    "border-none text-white bg-[linear-gradient(109.37deg,var(--color-primary)_0%,var(--color-primary-hover)_50%,var(--color-primary-active)_100%)] hover:bg-[linear-gradient(109.37deg,var(--color-primary-hover)_0%,var(--color-primary-active)_50%,var(--color-primary-active)_100%)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2 shadow-[0px_4px_6px_-4px_rgba(0,0,0,0.1),0px_10px_15px_-3px_rgba(0,0,0,0.1)]",
+    "border-none text-[var(--color-on-primary)] bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] hover:-translate-y-px hover:shadow-[var(--elevation-1)] active:bg-[var(--color-primary-active)] active:translate-y-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2 shadow-[var(--elevation-0)]",
   secondary:
-    "border border-[var(--color-border-medium)] bg-[var(--color-surface-container)] text-[var(--color-text-primary)] hover:bg-[var(--color-primary-container)] hover:border-[var(--color-primary)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2",
+    "border-[1.5px] border-[var(--color-border-medium)] bg-transparent text-[var(--color-text-primary)] hover:bg-[var(--color-primary-container)] hover:border-[var(--color-primary)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2 shadow-none",
   outline:
-    "border border-[var(--color-primary)] bg-transparent text-[var(--color-primary)] hover:bg-[var(--color-primary-container)] hover:border-[var(--color-primary-hover)] hover:text-[var(--color-primary-hover)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2",
+    "border border-[var(--color-primary)] bg-transparent text-[var(--color-primary)] hover:bg-[var(--color-primary-container)] hover:border-[var(--color-primary-hover)] hover:text-[var(--color-primary-hover)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2 shadow-none",
   plain:
-    "border border-transparent bg-transparent text-[var(--color-text-primary)] hover:bg-[rgba(26,115,232,0.06)] hover:text-[var(--color-primary-hover)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2",
+    "border border-transparent bg-transparent text-[var(--color-primary)] hover:bg-[rgba(26,115,232,0.08)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] focus-visible:ring-offset-2 shadow-none",
   danger:
-    "border border-transparent bg-[var(--color-error)] text-[var(--color-on-primary)] hover:bg-[#B91C1C] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-error)] focus-visible:ring-offset-2",
-  link: "border border-transparent bg-transparent text-[var(--color-primary)] !p-0 hover:text-[var(--color-primary-hover)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)]",
+    "border border-transparent bg-[var(--color-error)] text-[var(--color-on-primary)] hover:bg-[var(--color-on-error-container)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-error)] focus-visible:ring-offset-2 shadow-none",
+  link: "border border-transparent bg-transparent text-[var(--color-primary)] !p-0 hover:text-[var(--color-primary-hover)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-border-focus)] shadow-none",
 };
 
 export function Button({
