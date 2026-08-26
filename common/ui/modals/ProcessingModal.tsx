@@ -70,10 +70,10 @@ export const ProcessingModal = ({
           {/* Progress bar and message */}
           {typeof progress === "number" && (
             <div className="mt-10">
-              {/* <div className="mb-2 flex items-center justify-between">
+              <div className="mb-2 flex items-center justify-between">
                 <span className="text-xs text-gray-500">Progress</span>
                 <span className="text-xs text-gray-500">{progress}%</span>
-              </div> */}
+              </div>
               <div className="h-4 w-full overflow-hidden rounded-full bg-gray-200">
                 <div
                   className="h-4 rounded-full bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 transition-all duration-500"

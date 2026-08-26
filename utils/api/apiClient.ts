@@ -68,7 +68,13 @@ apiClient.interceptors.request.use(
 
     if (UNSAFE_METHODS.has((config.method ?? "get").toUpperCase())) {
       const csrf = getCsrfToken();
-      if (csrf && !config.headers["X-CSRF-Token"]) {
+      if (!csrf) {
+        return Promise.reject({
+          message: "Session error — please refresh the page.",
+          name: "CsrfError",
+        });
+      }
+      if (!config.headers["X-CSRF-Token"]) {
         config.headers["X-CSRF-Token"] = csrf;
       }
     }
@@ -92,7 +98,9 @@ apiClient.interceptors.response.use(
       status: error?.response?.status,
     });
 
-    // Session expired: refresh once and retry the original request
+    // Session expired: refresh once and retry the original request.
+    // Wrapped in try/catch so no intermediate error leaks to callers
+    // while the refresh attempt is in flight.
     if (
       error?.response?.status === 401 &&
       originalRequest &&
@@ -101,9 +109,13 @@ apiClient.interceptors.response.use(
     ) {
       originalRequest._retry = true;
 
-      const refreshed = await refreshSession();
-      if (refreshed) {
-        return apiClient(originalRequest);
+      try {
+        const refreshed = await refreshSession();
+        if (refreshed) {
+          return apiClient(originalRequest);
+        }
+      } catch {
+        // Refresh itself failed — fall through to reject below
       }
 
       // Refresh failed → session is gone. Route guards (useAuthGuard) and the
