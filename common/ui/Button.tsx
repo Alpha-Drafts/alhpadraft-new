@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import clsx from "clsx";
+import { Loader2 } from "lucide-react";
 import { ButtonProps } from "@/types";
 
 const sizeClasses: Record<NonNullable<ButtonProps["size"]>, string> = {
@@ -40,6 +41,7 @@ export function Button({
   className = "",
   onClick,
   disabled = false,
+  loading = false,
   hidden = false,
   children,
   link,
@@ -57,11 +59,12 @@ export function Button({
     <span
       className={`mx-auto ${icon ? "inline-flex items-center justify-center gap-1 whitespace-nowrap transition-all" : ""}`}
     >
-      {icon && iconPosition === "left" && (
+      {loading && <Loader2 className="h-4 w-4 animate-spin" />}
+      {!loading && icon && iconPosition === "left" && (
         <span className={children ? "mr-2" : ""}>{icon}</span>
       )}
       {text ?? children}
-      {icon && iconPosition === "right" && (
+      {!loading && icon && iconPosition === "right" && (
         <span className={children ? "ml-2" : ""}>{icon}</span>
       )}
     </span>
@@ -76,6 +79,7 @@ export function Button({
   );
 
   const { style: externalStyle, ...restProps } = props;
+  const isDisabled = disabled || loading;
 
   if (link) {
     return (
@@ -97,7 +101,7 @@ export function Button({
       id={id}
       type={type}
       onClick={onClick}
-      disabled={disabled}
+      disabled={isDisabled}
       className={buttonClass}
       style={externalStyle as React.CSSProperties}
       title={title}

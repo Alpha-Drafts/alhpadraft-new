@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useCallback } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useRouter } from "next/router";
 import { PositionType, TabProps } from "@/types";
@@ -59,6 +59,47 @@ export const Tab = ({ tabs, className = "", queryParam }: TabProps) => {
     }
   };
 
+  const handleTabKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      const tabButtons = tabsRef.current?.querySelectorAll<HTMLElement>(
+        '[role="tab"]',
+      );
+      if (!tabButtons) return;
+
+      const currentIndex = Array.from(tabButtons).findIndex(
+        tab => tab === document.activeElement,
+      );
+      if (currentIndex === -1) return;
+
+      let nextIndex = currentIndex;
+
+      switch (e.key) {
+        case "ArrowRight":
+          nextIndex = (currentIndex + 1) % tabButtons.length;
+          break;
+        case "ArrowLeft":
+          nextIndex =
+            (currentIndex - 1 + tabButtons.length) % tabButtons.length;
+          break;
+        case "Home":
+          nextIndex = 0;
+          break;
+        case "End":
+          nextIndex = tabButtons.length - 1;
+          break;
+        default:
+          return;
+      }
+
+      e.preventDefault();
+      const nextTab = tabButtons[nextIndex];
+      const tabKey = nextTab.getAttribute("data-key") || "";
+      setActiveTab(tabKey);
+      nextTab.focus();
+    },
+    [],
+  );
+
   return (
     <div className="flex w-full flex-col gap-9 overflow-x-auto">
       <nav className={`relative w-full ${className}`}>
@@ -79,6 +120,7 @@ export const Tab = ({ tabs, className = "", queryParam }: TabProps) => {
           role="tablist"
           className="scrollbar-hide flex justify-start gap-6 overflow-x-auto"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          onKeyDown={handleTabKeyDown}
         >
           {/* Individual tab buttons */}
           {tabs.map(tab => (
@@ -87,6 +129,7 @@ export const Tab = ({ tabs, className = "", queryParam }: TabProps) => {
               type="button"
               role="tab"
               id={`tab-${tab.key}`}
+              data-key={tab.key}
               aria-selected={activeTab === tab.key}
               aria-controls={`tabpanel-${tab.key}`}
               tabIndex={activeTab === tab.key ? 0 : -1}

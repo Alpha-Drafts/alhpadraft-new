@@ -6,7 +6,7 @@
 /* Base Form Styles */
 @layer base {
   label {
-    @apply text-body-medium-14 mb-1 block text-sm text-[#101928];
+    @apply text-body-medium-14 mb-1 block text-sm text-[var(--color-text-primary)];
   }
 
   input:not([type="checkbox"], [type="radio"]),
@@ -15,7 +15,7 @@
   select,
   .formMultiSelectInput > div,
   .formDivAsInput {
-    @apply focus:border-primary-500 focus:ring-primary-500 block w-full !rounded-md !border-[#D0D5DD] px-3 py-2 disabled:pointer-events-none disabled:opacity-50 sm:!text-sm;
+    @apply focus:border-primary-500 focus:ring-primary-500 block w-full !rounded-md !border-[var(--color-border-medium)] px-3 py-2 disabled:pointer-events-none disabled:opacity-50 sm:!text-sm;
   }
 
   input[type="date"] {
@@ -31,7 +31,7 @@
   select::placeholder,
   .formMultiSelectInput > div::placeholder,
   .formDivAsInput::placeholder {
-    @apply !text-sm !text-[#98A2B3];
+    @apply !text-sm !text-[var(--color-text-tertiary)];
   }
 
   input[type="checkbox"],

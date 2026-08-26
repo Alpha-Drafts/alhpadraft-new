@@ -23,6 +23,14 @@
   --color-primary-900: #071E44;
   --color-primary-950: #031028;
 
+  /* ──────────────────────────────────────────────────────────────
+     Brand color namespace overrides
+     All accent namespaces map to #1A73E8 to ensure consistent
+     brand blue across the UI. violet/purple/indigo are used as
+     decorative accent classes (not semantic color names).
+     sky/teal are kept as the secondary accent (#3B82F6).
+     ────────────────────────────────────────────────────────────── */
+
   /* Override violet to match brand primary #1A73E8 */
   --color-violet-50: #EBF3FE;
   --color-violet-100: #D3E4FC;
@@ -48,6 +56,14 @@
   --color-blue-800: #0B3068;
   --color-blue-900: #071E44;
   --color-blue-950: #031028;
+
+  /* ──────────────────────────────────────────────────────────────
+     Neutral namespace overrides
+     slate/gray/neutral all map to the same cool-gray scale to
+     ensure consistency across the UI. slate is the canonical
+     namespace; gray/neutral overrides prevent Tailwind's warmer
+     defaults from leaking in.
+     ────────────────────────────────────────────────────────────── */
 
   /* Override slate to match design guide neutrals */
   --color-slate-50: #F8FAFC;
