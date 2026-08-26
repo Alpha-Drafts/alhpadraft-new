@@ -3,7 +3,7 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { ReactElement, ReactNode, useEffect } from "react";
 import * as CookieConsent from "vanilla-cookieconsent";
-import { cookieconsentConfig } from "@/utils";
+import { cookieconsentConfig, initTheme } from "@/utils";
 import { NextPage } from "next";
 import { ToastContainer } from "react-toastify";
 import { ErrorBoundary } from "react-error-boundary";
@@ -30,6 +30,8 @@ type AppPropsWithLayout = AppProps & {
 
 export default function App({ Component, pageProps }: AppPropsWithLayout) {
   useEffect(() => {
+    initTheme();
+
     if (!isProduction) return;
 
     CookieConsent.run(cookieconsentConfig);

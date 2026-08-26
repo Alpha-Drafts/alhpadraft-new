@@ -110,6 +110,41 @@
   --gradient-primary-mesh: radial-gradient(at 20% 80%, rgba(26, 115, 232, 0.15) 0%, transparent 50%), radial-gradient(at 80% 20%, rgba(74, 142, 240, 0.1) 0%, transparent 50%), radial-gradient(at 50% 50%, rgba(96, 165, 250, 0.05) 0%, transparent 50%);
 }
 
+.dark {
+  /* ── M3 Tonal Surface Hierarchy ── */
+  --color-surface-background: #0F172A;
+  --color-surface-container: #1E293B;
+  --color-surface-container-elevated: #334155;
+
+  /* ── Brand Primary ── */
+  --color-primary-container: #1E3A5F;
+  --color-on-primary-container: #93C5FD;
+
+  /* ── Typography Colors ── */
+  --color-text-primary: #F1F5F9;
+  --color-text-secondary: #94A3B8;
+  --color-text-tertiary: #64748B;
+
+  /* ── Borders & Dividers ── */
+  --color-border-subtle: #334155;
+  --color-border-medium: #475569;
+  --color-border-focus: #4A8EF0;
+
+  /* ── Semantic Feedback ── */
+  --color-success-container: #14532D;
+  --color-on-success-container: #BBF7D0;
+  --color-warning-container: #78350F;
+  --color-on-warning-container: #FDE68A;
+  --color-error-container: #7F1D1D;
+  --color-on-error-container: #FECACA;
+
+  /* ── Glassmorphism Tokens ── */
+  --glass-bg: rgba(15, 23, 42, 0.72);
+  --glass-bg-heavy: rgba(15, 23, 42, 0.85);
+  --glass-bg-light: rgba(15, 23, 42, 0.45);
+  --glass-border: rgba(51, 65, 85, 0.5);
+}
+
 /* ============================================
    M3 GLOBAL FOCUS-VISIBLE RING
    ============================================ */
@@ -627,33 +662,6 @@
 }
 
 /* ============================================
-   M3 BUTTON PREMIUM ENHANCEMENTS
-   ============================================ */
-
-.btn-primary-premium {
-  background: var(--gradient-hero);
-  color: var(--color-on-primary);
-  border: none;
-  border-radius: var(--radius-button);
-  box-shadow:
-    0 1px 3px rgba(26, 115, 232, 0.3),
-    0 4px 12px rgba(26, 115, 232, 0.15);
-  transition: var(--transition-premium);
-}
-
-.btn-primary-premium:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 2px 8px rgba(26, 115, 232, 0.4),
-    0 8px 24px rgba(26, 115, 232, 0.2);
-}
-
-.btn-primary-premium:active {
-  transform: translateY(0);
-  box-shadow: 0 1px 3px rgba(26, 115, 232, 0.2);
-}
-
-/* ============================================
    M3 BADGE / CHIP ENHANCEMENTS
    ============================================ */
 
@@ -778,4 +786,17 @@
 
 .ambient-glow-strong::after {
   background: radial-gradient(circle, rgba(26, 115, 232, 0.1) 0%, transparent 60%);
+}
+
+/* ============================================
+   WCAG 2.1 SC 2.3.3 — PREFERS REDUCED MOTION
+   ============================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

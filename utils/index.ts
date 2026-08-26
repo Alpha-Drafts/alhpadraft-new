@@ -8,3 +8,4 @@ export * from "./api";
 export * from "./sapling-utils";
 export * from "./sapling-browser";
 export * from "./credits";
+export * from "./theme";

@@ -56,7 +56,7 @@ export const ProcessingModal = ({
                 width: 56,
                 height: 56,
                 background:
-                  "linear-gradient(135deg, #3B82F6 0%, #1D4ED8 50%, #1E40AF 100%)",
+                  "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-hover) 50%, var(--color-primary-active) 100%)",
               }}
             >
               {icon}
@@ -76,8 +76,11 @@ export const ProcessingModal = ({
               </div>
               <div className="h-4 w-full overflow-hidden rounded-full bg-gray-200">
                 <div
-                  className="h-4 rounded-full bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 transition-all duration-500"
-                  style={{ width: `${progress}%` }}
+                  className="h-4 rounded-full transition-all duration-500"
+                  style={{
+                    width: `${progress}%`,
+                    background: "linear-gradient(90deg, var(--color-primary), var(--color-primary-hover))",
+                  }}
                 />
               </div>
               {progressMessage && (

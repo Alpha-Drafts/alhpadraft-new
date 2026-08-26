@@ -9,6 +9,8 @@ import {
   ChevronDown,
   User,
   Coins,
+  Sun,
+  Moon,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,7 +23,7 @@ import {
   useSignOutUser,
 } from "@/hooks";
 import { useCredits } from "@/context";
-import { formatCredits, isFreePlan as checkIsFreePlan } from "@/utils";
+import { formatCredits, isFreePlan as checkIsFreePlan, toggleDarkMode } from "@/utils";
 import CreateProjectModal from "@/components/dashboard/overview/CreateProjectModal";
 import site from "@/site.metadata";
 import { Button } from "@/common";
@@ -50,6 +52,7 @@ const NavBar = ({
     useCurrentSubscription();
   const { balance } = useCredits();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDark, setIsDark] = useState(false);
   const router = useRouter();
   const splittedPathName = router.pathname.split("/");
   const shouldUseDashboardNav =
@@ -91,6 +94,10 @@ const NavBar = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+  }, []);
+
+  useEffect(() => {
+    setIsDark(document.documentElement.classList.contains("dark"));
   }, []);
 
   const dashboardLinks = [
@@ -195,6 +202,30 @@ const NavBar = ({
                         </Link>
                       ))}
                     </nav>
+
+                    {/* Dark Mode Toggle */}
+                    <button
+                      onClick={() => {
+                        toggleDarkMode();
+                        setIsDark(prev => !prev);
+                      }}
+                      className="flex h-9 w-9 items-center justify-center rounded-[var(--radius-button)] transition-[var(--transition-fast)]"
+                      style={{
+                        color: "var(--color-text-secondary)",
+                        background: "transparent",
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.background = "var(--color-primary-container)";
+                        e.currentTarget.style.color = "var(--color-primary)";
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.background = "transparent";
+                        e.currentTarget.style.color = "var(--color-text-secondary)";
+                      }}
+                      aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+                    >
+                      {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                    </button>
 
                     {/* Credit Balance Badge — Glass pill */}
                     <div
@@ -441,6 +472,23 @@ const NavBar = ({
                           {item.label}
                         </Link>
                       ))}
+
+                      {/* Dark Mode Toggle */}
+                      <button
+                        className="nav-link w-full"
+                        onClick={() => {
+                          toggleDarkMode();
+                          setIsDark(prev => !prev);
+                        }}
+                      >
+                        <span
+                          className="flex h-9 w-9 items-center justify-center rounded-[var(--radius-button)]"
+                          style={{ backgroundColor: "var(--color-primary-container)", color: "var(--color-primary)" }}
+                        >
+                          {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                        </span>
+                        {isDark ? "Light Mode" : "Dark Mode"}
+                      </button>
 
                       {/* Sign Out */}
                       <button
