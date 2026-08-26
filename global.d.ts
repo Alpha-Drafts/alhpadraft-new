@@ -1,3 +1,6 @@
+/// <reference types="next" />
+/// <reference types="next/image-types/global" />
+
 export {};
 
 // Module declarations for libraries without types

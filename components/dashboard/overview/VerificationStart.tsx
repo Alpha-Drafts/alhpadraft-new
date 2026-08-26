@@ -20,6 +20,7 @@ import {
   validateCredits,
   deductCredits,
 } from "@/utils";
+import { getCsrfToken } from "@/utils/auth/csrf";
 import { extractTextFromFile, extractHtmlFromFile } from "@/utils/file-extract";
 import { CheckTypeId } from "@/types";
 import { useRouter } from "next/router";
@@ -208,7 +209,7 @@ const VerificationStart = () => {
     const interval = setInterval(() => {
       current += 8;
       setProgress(current);
-      if (current >= 88) {
+      if (current >= 95) {
         clearInterval(interval);
       }
     }, 250);
@@ -270,6 +271,12 @@ const VerificationStart = () => {
 
       // Session is cookie-based now (httpOnly cookies) — no Authorization header
       xhr.withCredentials = true;
+
+      // Attach CSRF token for backend CsrfGuard
+      const csrf = getCsrfToken();
+      if (csrf) {
+        xhr.setRequestHeader("X-CSRF-Token", csrf);
+      }
 
       xhr.upload.onprogress = event => {
         if (event.lengthComputable) {
@@ -347,6 +354,12 @@ const VerificationStart = () => {
 
       // Session is cookie-based now (httpOnly cookies) — no Authorization header
       xhr.withCredentials = true;
+
+      // Attach CSRF token for backend CsrfGuard
+      const csrf = getCsrfToken();
+      if (csrf) {
+        xhr.setRequestHeader("X-CSRF-Token", csrf);
+      }
 
       xhr.upload.onprogress = event => {
         if (event.lengthComputable) {
@@ -553,7 +566,6 @@ const VerificationStart = () => {
               },
               wordCount,
             });
-            refetchBalance();
           } catch (deductError) {
             console.error(
               "Failed to deduct credits for evaluation:",
@@ -577,6 +589,10 @@ const VerificationStart = () => {
         } else {
           router.push(`${userRoutes.project_draft}/${data.id}`);
         }
+
+        // Refresh credit balance — server deducts credits for all check types
+        // inside POST /v2/projects/save, so refetch unconditionally.
+        refetchBalance();
       } else {
         toast.warn(
           "No data returned from server. Please check your submission.",
