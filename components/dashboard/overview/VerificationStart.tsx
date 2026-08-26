@@ -7,7 +7,7 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { Button, MessageModal, ProcessingModal } from "@/common";
-import { useClaims, useCredits } from "@/context";
+import { useClaims, useCredits, useAuth } from "@/context";
 import { useCurrentSubscription } from "@/hooks";
 import InsufficientCreditsModal from "@/components/dashboard/modals/InsufficientCreditsModal";
 import BuyCreditsModal from "@/components/dashboard/modals/BuyCreditsModal";
@@ -37,7 +37,8 @@ type InputMode = "upload" | "paste";
 const VerificationStart = () => {
   const router = useRouter();
   const { token } = useClaims();
-  const { balance } = useCredits();
+  const { user } = useAuth();
+  const { balance, refetchBalance } = useCredits();
   const { data: subscription } = useCurrentSubscription();
   const isFreePlan = checkIsFreePlan(subscription?.currentPlan);
 
@@ -385,6 +386,13 @@ const VerificationStart = () => {
   const handleSubmit = async () => {
     if (!token) return;
 
+    if (user && !user.emailVerified) {
+      toast.info(
+        "Please verify your email before running verification. Check your inbox for the verification link.",
+      );
+      return;
+    }
+
     const hasWork =
       (workMode === "upload" && !!workFile) ||
       (workMode === "paste" && !!workText.trim());
@@ -545,6 +553,7 @@ const VerificationStart = () => {
               },
               wordCount,
             });
+            refetchBalance();
           } catch (deductError) {
             console.error(
               "Failed to deduct credits for evaluation:",

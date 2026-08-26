@@ -42,9 +42,10 @@ export const useAuthGuard = (
       return;
     }
 
-    // If claims are still loading, allow access temporarily
+    // If claims are still loading, keep authorised false — consuming
+    // components should gate on `isLoading` before rendering protected UI.
     if (claimsLoading) {
-      setIsAuthorised(true);
+      setIsAuthorised(false);
       setIsLoading(false);
       return;
     }
@@ -86,7 +87,6 @@ export const useAuthGuard = (
     router.asPath,
     requiredRoles,
     redirectOnDenied,
-    router,
     setUserRoles,
     setActiveDashboard,
     currentUserRoles,
