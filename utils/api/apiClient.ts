@@ -19,7 +19,6 @@ import axios, {
 } from "axios";
 import { API_BASE_URL } from "@/constants";
 import { getCsrfToken } from "@/utils/auth/csrf";
-import { formatError } from "@/utils";
 import { isMockMode, mockRequest } from "@/utils/mock";
 import { toast } from "react-toastify";
 

@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import axios from "axios";
+import { verifyAccessCookie } from "@/utils/auth/serverSession";
 
 const SAPLING_API_URL = "https://api.sapling.ai";
 
@@ -12,9 +13,16 @@ export default async function handler(
     return res.status(405).json({ error: "Method not allowed" });
   }
 
+  // Require a valid session (httpOnly access_token cookie)
+  if (!verifyAccessCookie(req)) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
   try {
     // Get the API key from server-side environment variable
-    const isProduction = process.env.NEXT_PUBLIC_NODE_ENV === "production";
+    const isProduction =
+      process.env.NODE_ENV === "production" ||
+      process.env.NEXT_PUBLIC_NODE_ENV === "production";
     const apiKey = isProduction
       ? process.env.SAPLING_API_KEY_PROD
       : process.env.SAPLING_API_KEY_DEV;

@@ -1,7 +1,5 @@
 export const isProduction = process.env.NODE_ENV === "production";
 
-const PROD_API_URL =
-  "https://alpha-drafts-backend-635966690380.us-east1.run.app";
 const DEV_API_URL =
   "https://alpha-drafts-backend-dev-635966690380.us-east1.run.app";
 

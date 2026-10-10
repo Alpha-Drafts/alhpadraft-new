@@ -107,7 +107,7 @@ export const useProjects = (options: UseProjectsOptions = {}) => {
     } finally {
       setIsDeleting(false);
     }
-  }, [deleteTarget]);
+  }, [deleteTarget, refetch]);
 
   // Refetch projects with fresh data
   const handleRefetch = useCallback(async () => {
